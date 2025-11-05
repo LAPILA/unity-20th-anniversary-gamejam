@@ -1,0 +1,195 @@
+fileFormatVersion: 2
+guid: 1c5526ec4d2844eb5ab92e4c35820fce
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63
+  packageName: 'Shanty Town: Power Lines'
+  packageVersion: 1.0
+  assetPath: Assets/PowerLines/powerlinepole2.FBX
+  uploadId: 24403
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      28: 2800000
+    second: __AssetImporterPreview
+  - first:
+      43: 4300000
+    second: polySurface3
+  - first:
+      43: 4300002
+    second: polySurface4
+  - first:
+      43: 4300004
+    second: polySurface5
+  - first:
+      43: 4300006
+    second: polySurface6
+  - first:
+      43: 4300008
+    second: polySurface7
+  - first:
+      43: 4300010
+    second: polySurface8
+  - first:
+      43: 4300012
+    second: polySurface12
+  - first:
+      43: 4300014
+    second: polySurface13
+  - first:
+      43: 4300016
+    second: polySurface14
+  - first:
+      43: 4300018
+    second: polySurface17
+  - first:
+      43: 4300020
+    second: polySurface18
+  - first:
+      43: 4300022
+    second: polySurface19
+  - first:
+      43: 4300024
+    second: polySurface20
+  - first:
+      43: 4300026
+    second: polySurface23
+  - first:
+      43: 4300028
+    second: polySurface29
+  - first:
+      43: 4300030
+    second: polySurface30
+  - first:
+      43: 4300032
+    second: polySurface31
+  - first:
+      43: 4300034
+    second: polySurface42
+  - first:
+      43: 4300036
+    second: polySurface43
+  - first:
+      43: 4300038
+    second: polySurface44
+  - first:
+      43: 4300040
+    second: polySurface45
+  - first:
+      43: 4300042
+    second: polySurface48
+  - first:
+      43: 4300044
+    second: pCylinder1
+  - first:
+      43: 4300046
+    second: polySurface50
+  - first:
+      43: 4300048
+    second: powerlinepole2
+  - first:
+      1001: 100100000
+    second: DataTemplate __Singleton__
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 3
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 1
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 1
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

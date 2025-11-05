@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 06e0f6fd48829cd418fdd2be3581f8b6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_vent_mat.mat
+  uploadId: 1415

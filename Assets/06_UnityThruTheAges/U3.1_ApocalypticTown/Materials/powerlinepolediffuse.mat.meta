@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 12d84b2c5fac24ef890c64592f41e8d2
+labels:
+- Africa
+- Pylon
+- Electric
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 63
+  packageName: 'Shanty Town: Power Lines'
+  packageVersion: 1.0
+  assetPath: Assets/PowerLines/Materials/powerlinepolediffuse.mat
+  uploadId: 24403

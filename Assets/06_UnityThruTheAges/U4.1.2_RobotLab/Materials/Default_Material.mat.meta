@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 25b8cd122f4c39645b32750f8df2c4e6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/Default_Material.mat
+  uploadId: 1415

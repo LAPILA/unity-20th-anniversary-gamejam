@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a0fd5ff42768bd246bc1dc68f22d9f85
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/prop_battleBus_blackMetal_mat.mat
+  uploadId: 1414

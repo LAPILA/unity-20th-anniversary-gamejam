@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3a076212e33671e45b37cb8acb0cf967
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/tile_paint_orange_mat.mat
+  uploadId: 1415

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0e14a9120306d4343ba94763988820c2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/prop_battleBus_wheels_mat.mat
+  uploadId: 1414

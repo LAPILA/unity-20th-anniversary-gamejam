@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c36695da2470de24bb92b14f1cc8dfe5
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Prefabs/prop_fan_large.prefab
+  uploadId: 1415

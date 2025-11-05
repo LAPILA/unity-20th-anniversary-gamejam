@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a356df34fc9f2d84fb582c50a5bf655e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/char_astrella_glass_mat.mat
+  uploadId: 1415

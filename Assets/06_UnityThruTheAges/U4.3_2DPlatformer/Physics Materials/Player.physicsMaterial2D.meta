@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 24ac79603fb61400588e37d9f6fe952a
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 11228
+  packageName: 2D Platformer
+  packageVersion: 3.1a
+  assetPath: Assets/Physics Materials/Player.physicsMaterial2D
+  uploadId: 156911

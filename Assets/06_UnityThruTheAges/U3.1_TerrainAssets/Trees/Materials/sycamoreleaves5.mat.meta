@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 63c70e06bd11576611002d1a44295342
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6
+  packageName: Terrain Assets
+  packageVersion: 1.04
+  assetPath: Assets/Terrain Assets/Trees Ambient-Occlusion/Materials/sycamoreleaves5.mat
+  uploadId: 24378

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2c05a6c9d0c6f4e4a90f835de5bdad76
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Prefabs/prop_batteringRam.prefab
+  uploadId: 1415

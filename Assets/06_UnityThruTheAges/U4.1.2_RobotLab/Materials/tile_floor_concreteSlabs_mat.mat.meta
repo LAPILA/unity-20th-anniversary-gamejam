@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 06f837710181db347aeb6c949e0af6e8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/tile_floor_concreteSlabs_mat.mat
+  uploadId: 1415

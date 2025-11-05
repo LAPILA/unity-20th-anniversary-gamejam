@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9fe3dab5bf0294cb6ab873966081063e
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Scenes/RobotLab.unity
+  uploadId: 1415

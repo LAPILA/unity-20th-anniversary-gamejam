@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d0fd084ead5664f78bfdbba2f329fe5c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41
+  packageName: 'Shanty Town: Brush'
+  packageVersion: 1.0
+  assetPath: Assets/AfricanBrush/Materials/bush5.mat
+  uploadId: 24384

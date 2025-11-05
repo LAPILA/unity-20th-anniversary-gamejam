@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c25f5ed33db39b04aafb2b37c757a0e1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Prefabs/env_stealth_static.prefab
+  uploadId: 1414

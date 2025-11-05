@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 56af1fd3aa350bf4a892638ce3fa968a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/tile_pipe_grey_mat.mat
+  uploadId: 1415

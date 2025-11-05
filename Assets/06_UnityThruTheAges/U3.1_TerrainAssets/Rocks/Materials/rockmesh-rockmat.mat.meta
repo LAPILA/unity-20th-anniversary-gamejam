@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8af33a4120ac4486ba927ecb5d9bb635
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6
+  packageName: Terrain Assets
+  packageVersion: 1.04
+  assetPath: Assets/Terrain Assets/Rocks/Materials/rockmesh-rockmat.mat
+  uploadId: 24378

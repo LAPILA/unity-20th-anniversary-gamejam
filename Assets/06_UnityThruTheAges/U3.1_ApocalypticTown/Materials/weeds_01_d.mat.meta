@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 10d0b65682c8e4a88ae844ab70bf5e38
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41
+  packageName: 'Shanty Town: Brush'
+  packageVersion: 1.0
+  assetPath: Assets/AfricanBrush/Materials/weeds_01_d.mat
+  uploadId: 24384

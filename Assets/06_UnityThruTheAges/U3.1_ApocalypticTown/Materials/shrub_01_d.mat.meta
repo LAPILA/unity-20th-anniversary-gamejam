@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bc02f4c7946304c1da5ce83e1fb0d0ef
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 41
+  packageName: 'Shanty Town: Brush'
+  packageVersion: 1.0
+  assetPath: Assets/AfricanBrush/Materials/shrub_01_d.mat
+  uploadId: 24384

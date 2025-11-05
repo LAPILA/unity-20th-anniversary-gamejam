@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 40862847bca16ef448fa8c922acbf3c3
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/tile_floor_concreteSlabs_yellowPaint_mat.mat
+  uploadId: 1415

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d31e38ed025b814bb0cecf3232c1345
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/tile_pipe_red_mat.mat
+  uploadId: 1415

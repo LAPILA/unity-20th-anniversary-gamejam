@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c8feac4b94aa6d741a4cb6b18a14dcd4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/vehicle_rcLand_clean_metal_mat.mat
+  uploadId: 1415

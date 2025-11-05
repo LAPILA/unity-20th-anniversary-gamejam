@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f6ae87e1501b419428612d78248fd0b2
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Shaders/ReflectiveDiffuseSpecTransp.shader
+  uploadId: 1414

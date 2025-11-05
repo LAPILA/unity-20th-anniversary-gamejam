@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b76d693bf145a414f9ea7ca858858911
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_floorBot_mat.mat
+  uploadId: 1415

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 49f38bc6ebb46c8478fc3f28ec0edf84
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_computerStation_C_fx.mat
+  uploadId: 1415

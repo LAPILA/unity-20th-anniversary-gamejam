@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 14debdd75be5d4d64bcc3f97165b5bff
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 71
+  packageName: 'Shanty Town: Town Fence'
+  packageVersion: 1.0
+  assetPath: Assets/TownFence/Materials/woodrough.mat
+  uploadId: 24411

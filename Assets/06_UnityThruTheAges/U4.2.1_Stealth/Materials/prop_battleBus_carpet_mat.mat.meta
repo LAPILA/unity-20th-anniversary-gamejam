@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bc404dc4b9d1e9c46b1bea42cd65522a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/prop_battleBus_carpet_mat.mat
+  uploadId: 1414

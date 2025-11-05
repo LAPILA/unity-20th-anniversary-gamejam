@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6bc6734abd11e9f9a0003c6b8f962b59
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6
+  packageName: Terrain Assets
+  packageVersion: 1.04
+  assetPath: Assets/Terrain Assets/Trees Ambient-Occlusion/Materials/japanesemaplebranch.mat
+  uploadId: 24378

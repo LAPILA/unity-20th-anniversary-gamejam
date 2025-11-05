@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 764bddd3049ca6443852ea446b3e015b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/tile_handrail_yellow_mat.mat
+  uploadId: 1415

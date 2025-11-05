@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: df25017be2c0b3a40a8c453bc3350cd5
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 59
+  packageName: 'Shanty Town: Lean-to two'
+  packageVersion: 1.0
+  assetPath: Assets/LeanTo_02/Materials/fabric_01_d.mat
+  uploadId: 24399

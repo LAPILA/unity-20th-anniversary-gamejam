@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e5f4c8b53fbf7c64cb14047eea9676ba
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Prefabs/prop_robotArm.prefab
+  uploadId: 1415

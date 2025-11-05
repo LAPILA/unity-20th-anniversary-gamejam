@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c5a1d90786dfcd544afe8af1d56e4180
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/prop_megaphone_mat.mat
+  uploadId: 1414

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 628acb7f048d3594fa40568f2a69c3e2
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 11228
+  packageName: 2D Platformer
+  packageVersion: 3.1a
+  assetPath: Assets/Materials/part_ray.mat
+  uploadId: 156911

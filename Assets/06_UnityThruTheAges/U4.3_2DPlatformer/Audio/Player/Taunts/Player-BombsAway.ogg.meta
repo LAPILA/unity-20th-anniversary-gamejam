@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 2d487c0108565443ba2dea29b521e120
+AudioImporter:
+  serializedVersion: 6
+  defaultSettings:
+    loadType: 1
+    sampleRateSetting: 0
+    sampleRateOverride: 0
+    compressionFormat: 1
+    quality: 0.5
+    conversionMode: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  preloadAudioData: 1
+  loadInBackground: 0
+  3D: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 11228
+  packageName: 2D Platformer
+  packageVersion: 3.1a
+  assetPath: Assets/Audio/Player/Taunts/Player-BombsAway.ogg
+  uploadId: 156911

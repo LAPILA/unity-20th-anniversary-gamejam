@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 72b117ef5da9f264590bcad516c8f21a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/tile_strip_metal_dark_mat.mat
+  uploadId: 1415

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 571e9825c52e03e46bb06b86b65c1af0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Prefabs/prop_floorBot_female.prefab
+  uploadId: 1415

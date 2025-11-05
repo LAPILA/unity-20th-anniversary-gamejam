@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ea3f9b86f7cf8452cb14801837eaec37
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 64
+  packageName: 'Shanty Town: Refrigerator'
+  packageVersion: 1.0
+  assetPath: Assets/Refridgerator/Materials/refridgerator_d.mat
+  uploadId: 24404

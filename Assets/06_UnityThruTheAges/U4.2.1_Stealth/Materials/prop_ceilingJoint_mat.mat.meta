@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2528ac94c859ca5498acdc7940815b14
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/prop_ceilingJoint_mat.mat
+  uploadId: 1414

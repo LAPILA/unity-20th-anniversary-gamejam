@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7a203c71876230e46aaf68cd36c17633
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_weight_ton_mat.mat
+  uploadId: 1415

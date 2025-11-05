@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 558d7edfd8bd2df4eae112f9bf91210e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/prop_wallPanel_A02_mat.mat
+  uploadId: 1414

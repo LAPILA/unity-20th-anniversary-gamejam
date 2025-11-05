@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e152124b703bfca458ddf907712a0da0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Prefabs/prop_blastDoor.prefab
+  uploadId: 1415

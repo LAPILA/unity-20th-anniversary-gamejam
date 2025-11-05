@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3add4a027bd77a24b8563b023beaa813
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/part_bokeh_mat.mat
+  uploadId: 1415

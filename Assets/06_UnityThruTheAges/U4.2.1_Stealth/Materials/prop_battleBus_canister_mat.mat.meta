@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0428f7908ddf7b04ea8a7950e6640487
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/prop_battleBus_canister_mat.mat
+  uploadId: 1414

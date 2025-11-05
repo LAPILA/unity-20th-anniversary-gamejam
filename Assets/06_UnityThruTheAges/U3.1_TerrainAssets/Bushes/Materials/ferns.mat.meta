@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4eeba593cd11cd72a00009188f962b59
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 6
+  packageName: Terrain Assets
+  packageVersion: 1.04
+  assetPath: Assets/Terrain Assets/Bushes/Materials/ferns.mat
+  uploadId: 24378

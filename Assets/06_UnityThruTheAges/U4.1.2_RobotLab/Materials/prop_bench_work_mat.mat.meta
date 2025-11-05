@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c083291bdd49acd4b9a2f2426529439f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_bench_work_mat.mat
+  uploadId: 1415

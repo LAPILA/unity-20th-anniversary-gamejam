@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8a2cdad74228711478ebd2af285b3d1b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/vehicle_rcLand_clean_tyres_mat.mat
+  uploadId: 1415

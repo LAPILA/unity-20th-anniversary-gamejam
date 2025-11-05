@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ded06cc66ee54c940ab0aa123d273b3f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/tile_support_upright_mat.mat
+  uploadId: 1414

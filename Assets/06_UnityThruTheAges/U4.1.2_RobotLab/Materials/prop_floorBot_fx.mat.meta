@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cad8836a0271fc64ba3cee390f1690e0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_floorBot_fx.mat
+  uploadId: 1415

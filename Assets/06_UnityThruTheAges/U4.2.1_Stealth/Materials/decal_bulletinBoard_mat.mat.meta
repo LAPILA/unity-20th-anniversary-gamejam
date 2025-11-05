@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2c8860c6bc7aea149927a0bcd5a53e03
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/decal_bulletinBoard_mat.mat
+  uploadId: 1414

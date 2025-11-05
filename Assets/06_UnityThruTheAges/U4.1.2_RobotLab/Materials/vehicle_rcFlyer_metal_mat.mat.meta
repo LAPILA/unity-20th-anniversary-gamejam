@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 879f5ab2d2a90614db855e052b3e2f20
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/vehicle_rcFlyer_metal_mat.mat
+  uploadId: 1415

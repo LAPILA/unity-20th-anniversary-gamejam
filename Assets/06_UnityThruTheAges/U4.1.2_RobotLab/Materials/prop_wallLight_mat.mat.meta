@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9b7fab34a3f41da469c0f3228ed23b9c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_wallLight_mat.mat
+  uploadId: 1415

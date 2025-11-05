@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ddd2d03c3c5b67a40b790fdbe7883948
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/door_pneumatic_main_fx.mat
+  uploadId: 1415

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 849bccb971aeda048b32d7496eb289cc
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/prop_support_foot_mat.mat
+  uploadId: 1415

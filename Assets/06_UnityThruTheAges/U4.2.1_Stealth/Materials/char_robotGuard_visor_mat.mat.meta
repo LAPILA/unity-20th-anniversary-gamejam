@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 12514ea272b0c5048a5966081150f192
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/char_robotGuard_visor_mat.mat
+  uploadId: 1414

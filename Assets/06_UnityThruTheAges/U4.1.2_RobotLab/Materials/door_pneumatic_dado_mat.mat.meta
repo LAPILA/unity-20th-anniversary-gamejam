@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 75d2d4efe1a429440b08622d81162b46
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Models/Materials/door_pneumatic_dado_mat.mat
+  uploadId: 1415

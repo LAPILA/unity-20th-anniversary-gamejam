@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 977d17768a61c1d41893e754b0a5b6b0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7006
+  packageName: Robot Lab
+  packageVersion: 1.1
+  assetPath: Assets/Prefabs/prop_weight_ton.prefab
+  uploadId: 1415

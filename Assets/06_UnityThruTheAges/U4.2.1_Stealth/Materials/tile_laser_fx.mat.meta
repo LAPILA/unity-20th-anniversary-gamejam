@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 28645fa72fc4f0148a022c0960b58aa8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/tile_laser_fx.mat
+  uploadId: 1414

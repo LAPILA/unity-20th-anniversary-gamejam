@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fa43e2bcb8953814d8a89e83a2a7a867
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Textures/cube_stealth01_sharp.cubemap
+  uploadId: 1414

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b3e63d4e720c7a144a9f388bc380aa7f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Materials/tile_wall_concrete_A_mat.mat
+  uploadId: 1414
