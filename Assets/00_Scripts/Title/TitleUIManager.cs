@@ -4,6 +4,7 @@ using MoreMountains.Feedbacks;
 using MoreMountains.Tools;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TitleUIManager : MonoBehaviour
@@ -15,6 +16,10 @@ public class TitleUIManager : MonoBehaviour
 
     [BoxGroup("Settings")]
     [SerializeField] private float panelFadeDuration = 0.5f;
+
+    [BoxGroup("Settings"), Required]
+    [Tooltip("New Game 버튼 클릭 시 로드할 게임 씬의 이름")]
+    [SerializeField] private string gameSceneName = "Test";
 
     void Awake()
     {
@@ -33,7 +38,14 @@ public class TitleUIManager : MonoBehaviour
 
     public void OnNewGameClicked()
     {
-        //다음 씬 로드
+        if (string.IsNullOrEmpty(gameSceneName))
+        {
+            Debug.LogError("Game Scene Name이 비어있습니다! 인스펙터에서 설정해주세요.");
+            return;
+        }
+
+        // SceneManager를 사용하여 씬을 로드합니다.
+        SceneManager.LoadScene(gameSceneName);
     }
 
     public void OnQuitClicked()
