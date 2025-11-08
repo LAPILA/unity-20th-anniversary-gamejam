@@ -318,14 +318,25 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
         }
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, playerLayer); // [수정] playerLayer만 검사하도록 최적화
         foreach (var hit in hits)
         {
+            // 1. 플레이어 컨트롤러 찾기 (루트 오브젝트)
             PlayerController pc = hit.GetComponentInParent<PlayerController>();
-            if (pc != null && pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))
+            if (pc == null) continue; // 플레이어가 아니면 무시
+
+            // 2. 물리 피드백 (넉백)
+            if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))
             {
                 playerRb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
-                Debug.Log("플레이어에게 폭발 피드백 적용!", pc.gameObject);
+                Debug.Log("플레이어에게 폭발 넉백 적용!", pc.gameObject);
+            }
+
+            PlayerFeedbacks fx = pc.GetComponent<PlayerFeedbacks>();
+            if (fx != null)
+            {
+                fx.ExplosionHit();
+                Debug.Log("플레이어에게 폭발 Feel 적용!", fx.gameObject);
             }
         }
 

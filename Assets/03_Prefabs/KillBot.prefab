@@ -195,11 +195,11 @@ MonoBehaviour:
   explosionVFX: {fileID: 239127011126755604}
   patrolPoints: []
   explosionSound: {fileID: 8300000, guid: 8b4e61c51941a46d1aac273472c814fd, type: 3}
-  sightRange: 20
+  sightRange: 5
   attackRange: 2
   countdownTime: 1
-  explosionForce: 5
-  explosionRadius: 5
+  explosionForce: 10
+  explosionRadius: 30
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
