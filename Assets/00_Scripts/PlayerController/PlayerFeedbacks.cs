@@ -23,11 +23,16 @@ public class PlayerFeedbacks : MonoBehaviour
     /// <summary>점프 FEEL</summary>
     public void Jump() => _jump?.PlayFeedbacks();
 
+    [Header("Damage / Events")]
+    [Tooltip("폭발 넉백 시 재생될 피드백 (스크린 셰이크, 비네트 등)")]
+    [SerializeField] private MMF_Player _explosionHitFeedback;
+
     /// <summary>월드 좌표에서 재생하고 싶을 때(사운드/카메라 셰이크 등 위치 반영)</summary>
     public void Footstep(Vector3 worldPosition) => _footstep?.PlayFeedbacks(worldPosition);
     public void Land(Vector3 worldPosition) => _land?.PlayFeedbacks(worldPosition);
     public void Jump(Vector3 worldPosition) => _jump?.PlayFeedbacks(worldPosition);
 
+    public void ExplosionHit() => _explosionHitFeedback?.PlayFeedbacks();
     /// <summary>모든 FEEL 즉시 정지</summary>
     public void StopAll()
     {

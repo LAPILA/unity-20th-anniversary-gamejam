@@ -63,9 +63,58 @@ public class TimeGun : MonoBehaviour
             GameObject target = hit.collider.gameObject;
             Debug.Log("TimeGun Hit: " + target.name, target);
             ActivateTimeForObject(target, hit.point);
+
+            // --- [A / B 로직] ---
+            // A: 이 오브젝트가 '특별한' 로직을 가지고 있는지 확인 (ITimeActivatable)
+            // (GetComponentInParent: 하위 콜라이더를 쏴도 부모의 메인 로직을 찾을 수 있게 함)
+            ITimeActivatable timeObject = target.GetComponentInParent<ITimeActivatable>();
+
+            if (timeObject != null)
+            {
+                // A-1: 특별한 로직이 있다면, 그 로직을 실행 (예: Drone_Explosive.cs)
+                timeObject.ToggleTimeState();
+            }
+            else
+            {
+                // B-1: 특별한 로직이 없다면, '기본' 토글 로직 실행 (멍청한 상자, 문 등)
+                ActivateDefaultTimeToggle(target);
+            }
+            // --- [A / B 로직 종료] ---
         }
     }
+    /// <summary>
+    /// ITimeActivatable을 구현하지 않은 '일반' 오브젝트의
+    /// 물리/애니메이션/AI 상태를 강제로 토글(On/Off)합니다.
+    /// </summary>
+    private void ActivateDefaultTimeToggle(GameObject target)
+    {
+        // 1. 물리 토글 (Rigidbody)
+        // (GetComponent: 이 오브젝트의 Rigidbody만 제어)
+        Rigidbody rb = target.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = !rb.isKinematic;
+            rb.useGravity = !rb.isKinematic; // Kinematic이 풀릴 때(false)만 중력 사용(true)
+            Debug.Log(target.name + ": Rigidbody 토글 -> isKinematic: " + rb.isKinematic, target);
+        }
 
+        // 2. 애니메이션 토글 (Animator)
+        Animator animator = target.GetComponent<Animator>();
+        if (animator != null)
+        {
+            float newSpeed = (animator.speed == 0f) ? 1f : 0f;
+            animator.speed = newSpeed;
+            Debug.Log(target.name + ": Animator 토글 -> Speed: " + animator.speed, target);
+        }
+
+        // 3. AI 토글 (NavMeshAgent)
+        NavMeshAgent agent = target.GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.isStopped = !agent.isStopped;
+            Debug.Log(target.name + ": NavMeshAgent 토글 -> isStopped: " + agent.isStopped, target);
+        }
+    }
     private void ActivateTimeForObject(GameObject target, Vector3 hitPoint)
     {
         ActivateAnimation(target);
