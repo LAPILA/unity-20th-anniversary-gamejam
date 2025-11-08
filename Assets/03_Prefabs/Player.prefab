@@ -1713,7 +1713,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 420165738283952864}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b3020e25c61222d4ebf8e77c4fdcfafa, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1820,6 +1820,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   maxGroundAngle: 55
+  wallCheckDistance: 0.6
+  wallRepelForce: 0.12
 --- !u!114 &3108428391301744494
 MonoBehaviour:
   m_ObjectHideFlags: 0
