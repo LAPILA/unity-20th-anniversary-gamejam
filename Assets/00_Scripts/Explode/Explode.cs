@@ -15,7 +15,7 @@ public class Explode : MonoBehaviour
     public float upwardsModifier = 2f;
     public float explosionForce = 500f;
 
-    [Header("Optional Effects")]
+    [Header("Effect")]
     public Animator explosionAnimator;
     public string animatorTrigger = "Explode";
     public ParticleSystem explosionParticles;
@@ -144,7 +144,6 @@ public class Explode : MonoBehaviour
         var rend = GetComponent<Renderer>();
         if (rend != null) rend.enabled = false;
     }
-
 
     // 유틸: 단순 Collider 추가 (Mesh가 있으면 MeshCollider convex, 없으면 BoxCollider)
     private void AddSimpleCollider(GameObject go)
