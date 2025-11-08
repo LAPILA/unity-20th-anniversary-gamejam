@@ -364,7 +364,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4025249254594229409}
   m_Father: {fileID: 8589389025492889666}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &5348114637138835317
@@ -680,7 +681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 6c47fa88b557bfa43b0fbf0c03b17bb0, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -692,7 +693,43 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fc86fbe9-c3c6-469e-acf9-cd3fdea93415
+    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 170a2662-99d6-4851-8ce4-d34b47030ff2
+    m_ActionName: 'Player/Look[/Mouse/delta,/Touchscreen/delta,/Pen/delta]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ef0c83dc-c329-46a9-b473-0d61593eafe7
+    m_ActionName: 'Player/Fire[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9e905fee-d47b-44af-b57d-023a744db4b7
+    m_ActionName: 'Player/Zoom[/Mouse/rightButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1a09a884-833a-46a4-b470-7e0e33a544d7
+    m_ActionName: 'Player/Reload[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3be1452a-af9f-49ee-b84a-a398bf1fe863
+    m_ActionName: 'Player/Interact[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 70d6cd03-ab36-4f12-adb7-22f601b496c8
+    m_ActionName: 'Player/Sprint[/Keyboard/leftShift]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f4f0201-eecc-4fea-a341-034fafbdddce
+    m_ActionName: 'Player/Crouch[/Keyboard/leftCtrl]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7796d45e-87ed-43c9-b9ee-a515a8baf75a
+    m_ActionName: 'Player/Jump[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -772,7 +809,7 @@ MonoBehaviour:
   cam: {fileID: 2211813553435488798}
   baseFOV: 50
   invertY: 0
-  sens: 1
+  sens: 0.1
   maxPitch: 50
   smooth: 0
   smoothT: 10
@@ -839,3 +876,73 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   maxGroundAngle: 55
+--- !u!1001 &5712328127279649348
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7897164069733952240}
+    m_Modifications:
+    - target: {fileID: 4439264166848162511, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 8545491990466714106}
+    - target: {fileID: 4439264166848162511, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 5348114637138835317}
+    - target: {fileID: 8690481582206679749, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_Name
+      value: TimeGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.15616181
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.15909386
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.34312147
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+--- !u!4 &4025249254594229409 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8690481582207100645, guid: 505e82a8ca1311946a5bf57ddf038ab9, type: 3}
+  m_PrefabInstance: {fileID: 5712328127279649348}
+  m_PrefabAsset: {fileID: 0}
