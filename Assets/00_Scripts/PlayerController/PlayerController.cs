@@ -67,6 +67,10 @@ public class PlayerController : SerializedMonoBehaviour
     [BoxGroup("Physics"), Tooltip("바닥 레이어")] public LayerMask groundMask = ~0;
     [BoxGroup("Physics"), Tooltip("허용 경사(도)")] public float maxGroundAngle = 55f;
 
+    // 벽 처리용(추가)
+    [BoxGroup("Physics"), Tooltip("벽 판정을 위한 캐스트 거리")] public float wallCheckDistance = 0.6f;
+    [BoxGroup("Physics"), Tooltip("벽 밀어내기 강도 (작은 값 추천)")] public float wallRepelForce = 0.12f;
+
     private bool _grounded, _wasGrounded;
     private bool _groundedFixed;      // FixedUpdate에서 계산한 값
     private bool _justLandedFixed;    // Fixed에서 착지 감지
@@ -198,7 +202,33 @@ public class PlayerController : SerializedMonoBehaviour
         if (dir.sqrMagnitude > 1f) dir.Normalize();
 
         float speed = _moveSpeed * (_crouched ? crouchSpeedMul : 1f);
-        Vector3 targetVel = transform.TransformDirection(dir) * speed;
+
+        // 방향(월드) 계산
+        Vector3 desiredDir = transform.TransformDirection(dir);
+        Vector3 targetVel = desiredDir * speed;
+
+        // --- 벽 판정: 앞으로 짧게 SphereCast해서 법선이 있으면 이동을 그 평면으로 프로젝션 ---
+        if (dir.sqrMagnitude > 0.0001f)
+        {
+            // 캐릭터 상중심에서 체크 (머리 높이·중간 높이 등으로 조절 가능)
+            float originHeight = Mathf.Clamp(capsule.height * 0.5f, 0.1f, 2f);
+            Vector3 origin = transform.position + Vector3.up * originHeight;
+
+            float radius = Mathf.Max(0.01f, capsule.radius * 0.9f);
+            RaycastHit hit;
+            if (Physics.SphereCast(origin, radius, transform.TransformDirection(dir), out hit, wallCheckDistance, ~0, QueryTriggerInteraction.Ignore))
+            {
+                // 수직 성분이 작으면 벽으로 판단 (값은 필요시 튜닝)
+                if (Mathf.Abs(hit.normal.y) < 0.7f)
+                {
+                    // 이동을 벽의 평면으로 투영 -> 벽에 붙지 않고 슬라이드
+                    targetVel = Vector3.ProjectOnPlane(targetVel, hit.normal);
+
+                    // 약간 벽에서 밀어내는 보정 (작은 값 권장)
+                    _rb.AddForce(hit.normal * wallRepelForce, ForceMode.VelocityChange);
+                }
+            }
+        }
 
         Vector3 hVel = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
         Vector3 velChange = Vector3.ClampMagnitude(targetVel - hVel, maxVelChange);
@@ -362,7 +392,7 @@ public class PlayerController : SerializedMonoBehaviour
     }
     #endregion
 
-    // ────────────────────────────────────────────────────────────
+    // ───────────────────────────────────────────────────────────-
     #region ▶ Ground Check (Fixed 전용)
     /// <summary>캡슐 하단 스피어캐스트로 지면/경사 판정</summary>
     bool CheckGround()
@@ -393,7 +423,7 @@ public class PlayerController : SerializedMonoBehaviour
     }
     #endregion
 
-    // ────────────────────────────────────────────────────────────
+    // ───────────────────────────────────────────────────────────-
     #region ▶ External
     public void LockMovement(bool locked)
     {

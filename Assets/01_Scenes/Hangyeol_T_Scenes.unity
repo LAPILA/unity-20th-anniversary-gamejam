@@ -10046,10 +10046,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2063321045ef643bf3f57452139706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cleanupDelay: 5
+  cleanupDelay: 20
   explosionRadius: 5
-  upwardsModifier: 2
-  explosionForce: 500
+  upwardsModifier: 3
+  explosionForce: 1000
   explosionAnimator: {fileID: 0}
   animatorTrigger: Explode
   explosionParticles: {fileID: 0}
