@@ -93,6 +93,8 @@ public class PlayerController : SerializedMonoBehaviour
     public bool IsSprinting => _sprinting;
     public bool IsCrouched => _crouched;
     public bool IsWalking { get; private set; }
+
+    public Vector2 CurrentMoveInput => _moveInput;
     #endregion
 
     // ────────────────────────────────────────────────────────────
