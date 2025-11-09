@@ -71,7 +71,7 @@ MonoBehaviour:
       buttonText_Korean: What?
       buttonText_English: What?
       nextDialogue: {fileID: 11400000, guid: 692902607e627d140b26dc3342bcbf7c, type: 2}
-      endingStackToAdd: 0
+      endingStackToAdd: 1
     text_Korean: The Escape Pod Bay is just beyond this area, so if you can get past
       this room, you will be safe.
     text_English: The Escape Pod Bay is just beyond this area, so if you can get
