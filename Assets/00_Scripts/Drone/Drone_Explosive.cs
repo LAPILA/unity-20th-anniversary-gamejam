@@ -321,7 +321,7 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
         {
             string layerName = LayerMask.LayerToName(hit.gameObject.layer);
 
-            // 실제 거리 계산 추가
+            //  실제 거리 계산 추가
             float distance = Vector3.Distance(transform.position, hit.transform.position);
             if (distance > explosionRadius) continue; // 폭발 반경 밖이면 무시
 
