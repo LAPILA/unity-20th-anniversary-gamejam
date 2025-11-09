@@ -398,17 +398,22 @@ public class DialogueManager : MonoBehaviour
         string text = (_currentLanguage == Language.Korean) ? option.buttonText_Korean : option.buttonText_English;
         buttonText.text = text;
 
+        // 💥 [핵심 수정] 💥
+        // 버튼 클릭 리스너를 설정합니다.
         button.onClick.AddListener(() =>
         {
+            // 1. 엔딩 스택 추가 (GameEventManager가 있는지 확인)
             if (GameEventManager.Instance != null && option.endingStackToAdd != 0)
             {
                 GameEventManager.Instance.AddEndingStack(option.endingStackToAdd);
             }
             else if (GameEventManager.Instance == null && option.endingStackToAdd != 0)
             {
+                // GameEventManager가 없으면 스택 추가가 안된다고 경고
                 Debug.LogWarning("GameEventManager가 씬에 없어 엔딩 스택을 추가할 수 없습니다.");
             }
 
+            // 2. 기존 선택지 로직 실행 (다음 대화로 넘어가거나 종료)
             OnChoiceMade(option.nextDialogue);
         });
     }

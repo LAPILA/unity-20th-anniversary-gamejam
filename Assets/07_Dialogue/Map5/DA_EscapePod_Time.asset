@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a1338225cb24dd44a4ff7bc161a971c, type: 3}
+  m_Name: DA_EscapePod_Time
+  m_EditorClassIdentifier: 
+  lines:
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0.146
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: Thank god! The escape pod... it's still intact!
+    text_English: Thank god! The escape pod... it's still intact!
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: ....
+    text_English: ....
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: Lisa. There is something I must tell you.
+    text_English: Lisa. There is something I must tell you.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: '? What is it?"'
+    text_English: '? What is it?"'
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: 'The probability of survival, even if you board the escape pod,
+      is extremely low.
+
+      I do not wish to see you perish within the black hole.'
+    text_English: 'The probability of survival, even if you board the escape pod,
+      is extremely low.
+
+      I do not wish to see you perish within the black hole.'
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: It is not too late. I recommend you return to the Isolation Chamber
+      and enter the Time Stabilizer Capsule.
+    text_English: It is not too late. I recommend you return to the Isolation Chamber
+      and enter the Time Stabilizer Capsule.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: ...And if I get in that capsule, what happens to me?
+    text_English: ...And if I get in that capsule, what happens to me?
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: Your physical body will be placed in cryosleep. Your consciousness
+      will be transferred to a holographic world, where I will personally look after
+      you.
+    text_English: Your physical body will be placed in cryosleep. Your consciousness
+      will be transferred to a holographic world, where I will personally look after
+      you.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: Both paths lead to a form of death in space. But by choosing the
+      latter, you allow me to personally attend to you.
+    text_English: Both paths lead to a form of death in space. But by choosing the
+      latter, you allow me to personally attend to you.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 1
+    choice1:
+      buttonText_Korean: Ok..
+      buttonText_English: Ok..
+      nextDialogue: {fileID: 11400000, guid: 9f5c0cd300c85b747a2408419f7b82e8, type: 2}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: Escape
+      buttonText_English: Escape
+      nextDialogue: {fileID: 11400000, guid: 91b1e9b010372894b9d03bd34ce64068, type: 2}
+      endingStackToAdd: 0
+    text_Korean: What is your decision, Lisa?
+    text_English: What is your decision, Lisa?
+  isEndingTrigger: 0

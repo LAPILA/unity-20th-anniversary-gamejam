@@ -51,15 +51,11 @@ public class GameEventManager : MonoBehaviour
         // 씬 이름은 File > Build Settings에 등록되어 있어야 합니다.
         if (endingStack >= 2)
         {
-            SceneManager.LoadScene("Ending_Good"); // 예시: 스택 2 이상일 때
-        }
-        else if (endingStack == 1)
-        {
-            SceneManager.LoadScene("Ending_Normal"); // 예시: 스택 1일 때
+            SceneManager.LoadScene("Ending1"); // 엔딩 1 (회귀)
         }
         else
         {
-            SceneManager.LoadScene("Ending_Bad"); // 예시: 스택 0 이하일 때
+            SceneManager.LoadScene("Ending2"); // 엔딩 2 (탈출)
         }
     }
 }
