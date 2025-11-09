@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using Unity.Cinemachine;
+using UnityEngine;
 using UnityEngine.InputSystem;
-using Sirenix.OdinInspector;
 
 /// <summary>
 /// 1인칭 플레이어 컨트롤러 (Unity 6 / New Input System / CM3)
@@ -17,6 +18,8 @@ public class PlayerController : SerializedMonoBehaviour
     [BoxGroup("References"), Required] public PlayerCameraController cam;
     [BoxGroup("References"), Required] public CapsuleCollider capsule;
     [BoxGroup("References"), Required] public PlayerFeedbacks fx;
+    [BoxGroup("References"), Required, Tooltip("사망 연출 시 전환될 가상 카메라")]
+    public CinemachineCamera deathVCam;
     #endregion
 
     // ────────────────────────────────────────────────────────────
@@ -90,6 +93,7 @@ public class PlayerController : SerializedMonoBehaviour
     #region ▸ State
     private Rigidbody _rb;
     private IA_Player _actions;
+    private PlayerAnimatorManagement _animManager;
     private Vector2 _moveInput;
     private bool _sprinting, _sprintHeld;
     private float _moveSpeed;
@@ -108,6 +112,7 @@ public class PlayerController : SerializedMonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _animManager = GetComponent<PlayerAnimatorManagement>();
         _rb.interpolation = RigidbodyInterpolation.None;
         _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
@@ -166,13 +171,6 @@ public class PlayerController : SerializedMonoBehaviour
 
         HandleFootsteps();
         cam?.SyncFOV(_sprinting, sprintFOV, fovLerp);
-
-        // 착지 이벤트(연출 시점)
-        if (_justLandedFixed)
-        {
-            fx?.Land();
-            _justLandedFixed = false;
-        }
 
         // 프레임 플래그 초기화
         _crouchPressedThisFrame = false;
@@ -273,7 +271,6 @@ public class PlayerController : SerializedMonoBehaviour
             _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
             _rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
 
-            fx?.Jump();
             _jumpBufferCounter = 0f;
             _grounded = false;
             _groundedFixed = false;
@@ -480,5 +477,33 @@ public class PlayerController : SerializedMonoBehaviour
             _actions.Player.Enable();
         }
     }
+
+    /// <summary>
+    /// 플레이어 사망 처리를 시작합니다. (Feel 없이 VCam 직접 전환)
+    /// 이동을 잠그고, 사망 애니메이션과 VCam 전환, 기타 피드백을 재생합니다.
+    /// </summary>
+    [Button("Test Die Sequence")]
+    public void Die()
+    {
+        // 이미 죽었거나 컷신 등으로 움직임이 잠겨있으면 중복 실행 방지
+        if (!_canMove) return;
+
+        Debug.Log("Player Die()가 호출되었습니다.");
+        LockMovement(true);
+
+        _animManager?.TriggerDie();
+
+        if (deathVCam != null)
+        {
+            deathVCam.Priority = 11;
+        }
+        else
+        {
+            Debug.LogWarning("PlayerController에 'Death VCam'이 할당되지 않았습니다.");
+        }
+
+        fx?.Death();
+    }
+
     #endregion
 }
