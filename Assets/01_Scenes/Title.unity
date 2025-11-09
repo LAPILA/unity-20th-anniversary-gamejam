@@ -1158,7 +1158,7 @@ MonoBehaviour:
   buttonClickFeedback: {fileID: 906365512}
   panelFadeDuration: 0.5
   sceneFadeDuration: 4
-  gameSceneName: Map3
+  gameSceneName: Intro
 --- !u!1001 &818266049
 PrefabInstance:
   m_ObjectHideFlags: 0
