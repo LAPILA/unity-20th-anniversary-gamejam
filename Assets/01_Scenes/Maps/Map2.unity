@@ -15801,6 +15801,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
+      propertyPath: loopLastDialogue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
+      propertyPath: dialogueList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
+      propertyPath: 'dialogueList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 22d4b4389ac194846a826405bbddda7b, type: 2}
     - target: {fileID: 8703418536367372767, guid: 9551f28157680d449a6527659e0890b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -21.247328

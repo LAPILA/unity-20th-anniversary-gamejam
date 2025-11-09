@@ -1,0 +1,319 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a1338225cb24dd44a4ff7bc161a971c, type: 3}
+  m_Name: 1_1
+  m_EditorClassIdentifier: 
+  lines:
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: Haa... Judging by the situation, I must be stuck somewhere in the
+      middle of the black hole.
+    text_English: Haa... Judging by the situation, I must be stuck somewhere in the
+      middle of the black hole.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: The ship's operation... is definitely not normal.
+    text_English: The ship's operation... is definitely not normal.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: ...Does that mean the isolation chamber isn't working properly either?
+    text_English: ...Does that mean the isolation chamber isn't working properly
+      either?
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: Welcome, Ms. Lisa Kane.
+    text_English: Welcome, Ms. Lisa Kane.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: Good. At least you seem to be functioning normally, Orion.
+    text_English: Good. At least you seem to be functioning normally, Orion.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: This compartment operates on a separate power source, allowing it
+      to function even if the main ship fails.
+    text_English: This compartment operates on a separate power source, allowing
+      it to function even if the main ship fails.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: It appears we have been pulled into the center of the black hole.
+    text_English: It appears we have been pulled into the center of the black hole.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: Yes. Things are complicated now. The ship is broken, and we're inside
+      a black hole.
+    text_English: Yes. Things are complicated now. The ship is broken, and we're
+      inside a black hole.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: We need to escape immediately, or we'll meet our end out here in
+      space.
+    text_English: We need to escape immediately, or we'll meet our end out here in
+      space.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: In that case, please take this.
+    text_English: In that case, please take this.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: A gun? But I doubt you'd give me just an ordinary one now.
+    text_English: A gun? But I doubt you'd give me just an ordinary one now.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: Precisely. It can be used like a normal sidearm, but it also has
+      the ability to freeze the time of objects.
+    text_English: Precisely. It can be used like a normal sidearm, but it also has
+      the ability to freeze the time of objects.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: I created it in preparation for an unlikely event such as this.
+    text_English: I created it in preparation for an unlikely event such as this.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: From this point on, Ms. Kane, to escape, you must reach the Escape
+      Pod Bay at the very bottom level of the ship.
+    text_English: From this point on, Ms. Kane, to escape, you must reach the Escape
+      Pod Bay at the very bottom level of the ship.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: However, due to the black hole's influence, the regular Security
+      Bots that should be on patrol have gone haywire and are now running wild.
+    text_English: However, due to the black hole's influence, the regular Security
+      Bots that should be on patrol have gone haywire and are now running wild.
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: More headaches on top of the current ones... Fine, I understand.
+    text_English: More headaches on top of the current ones... Fine, I understand.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: Then let's begin.
+    text_English: Then let's begin.

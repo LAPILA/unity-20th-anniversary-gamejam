@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a1338225cb24dd44a4ff7bc161a971c, type: 3}
+  m_Name: 1_1
+  m_EditorClassIdentifier: 
+  lines:
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    text_Korean: You will encounter small Security Bots as you move around. Be careful;
+      they will explode if you get too close.
+    text_English: You will encounter small Security Bots as you move around. Be careful;
+      they will explode if you get too close.
+  - speakerName: ORION
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 1
+    choice1:
+      buttonText_Korean: Cool
+      buttonText_English: Cool
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: ..?
+      buttonText_English: ..?
+      nextDialogue: {fileID: 11400000, guid: e5b3d031e31101c4b8937a5c0071f0e0, type: 2}
+    text_Korean: Oh, and for your convenience, I have deactivated the Office Bots.
+    text_English: Oh, and for your convenience, I have deactivated the Office Bots.
