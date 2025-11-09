@@ -2,7 +2,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using Sirenix.OdinInspector;
-using System.Collections; // 1. 코루틴(딜레이)을 위해 추가
+using System.Collections;
 
 public class TimeGun : MonoBehaviour
 {
@@ -42,14 +42,41 @@ public class TimeGun : MonoBehaviour
     [Tooltip("발사 명령 후 실제 발사(Raycast)까지의 딜레이 (초)")]
     public float fireDelay = 0.2f;
 
+    [BoxGroup("Effects (New)")]
+    [Tooltip("활성화 성공 시 피격 지점에 생성할 VFX 프리팹")]
+    public GameObject hitSuccessVFX;
 
-    private bool isFiring = false; // 연사 방지 플래그
+    [BoxGroup("Effects (New)")]
+    [Tooltip("활성화 성공 시 피격 지점에서 재생할 사운드 클립")]
+    public AudioClip hitSuccessSound;
 
+    [BoxGroup("Effects (New)")]
+    [Tooltip("활성화 성공 사운드 볼륨")]
+    [Range(0f, 1f)]
+    public float hitSoundVolume = 1f;
+
+    // ▼▼▼ [ 1. 이펙트 지속시간 추가 ] ▼▼▼
+    [BoxGroup("Effects (New)")]
+    [Tooltip("총구 VFX의 지속 시간(초). (VFX 프리팹 자체에 자동 파괴 기능이 없는 경우 사용)")]
+    public float muzzleVFXLifetime = 2.0f;
+
+    [BoxGroup("Effects (New)")]
+    [Tooltip("피격 성공 VFX의 지속 시간(초). (VFX 프리팹 자체에 자동 파괴 기능이 없는 경우 사용)")]
+    public float hitVFXLifetime = 3.0f;
+    // ▲▲▲ [ 1. 이펙트 지속시간 추가 ] ▲▲▲
+
+
+    private bool isFiring = false;
+
+    // (OnEnable, OnDisable, OnFireInput, Fire 함수는 동일)
+    #region Input and Fire
     void OnEnable()
     {
         if (playerInput != null && playerInput.actions != null)
         {
-            playerInput.actions["Fire"].performed += OnFireInput;
+            // .performed는 씬 로드 시 원치 않게 실행될 수 있으므로,
+            // "눌리는 순간"만 감지하는 .started로 변경합니다.
+            playerInput.actions["Fire"].started += OnFireInput;
         }
         else
         {
@@ -61,30 +88,23 @@ public class TimeGun : MonoBehaviour
     {
         if (playerInput != null && playerInput.actions != null)
         {
-            // 3. "Zoom"(우클릭) 연결 해제
-            playerInput.actions["Fire"].performed -= OnFireInput;
+            // .performed에서 .started로 변경
+            playerInput.actions["Fire"].started -= OnFireInput;
         }
     }
 
-    /// <summary>
-    /// 4. 발사 입력(우클릭)을 받으면 코루틴을 실행
-    /// </summary>
     private void OnFireInput(InputAction.CallbackContext context)
     {
         Fire();
     }
 
-    /// <summary>
-    /// 5. 테스트 버튼 및 공용 발사 함수
-    /// </summary>
     [Button("Test Fire")]
     public void Fire()
     {
-        // 연사 중이 아닐 때만 발사
         if (isFiring) return;
-
         StartCoroutine(FireSequence());
     }
+    #endregion
 
     /// <summary>
     /// 6. 발사 시퀀스 (딜레이 -> 이펙트 -> 레이캐스트)
@@ -97,15 +117,11 @@ public class TimeGun : MonoBehaviour
         {
             Debug.LogError("Player Camera가 TimeGun에 할당되지 않았습니다!");
             isFiring = false;
-            yield break; // 코루틴 즉시 중지
+            yield break;
         }
 
-        // --- A. 발사 딜레이 (0.2초) ---
         yield return new WaitForSeconds(fireDelay);
 
-        // --- B. 이펙트 재생 ---
-
-        // 사운드 재생
         if (audioSource != null && fireSound != null)
         {
             audioSource.PlayOneShot(fireSound);
@@ -114,23 +130,31 @@ public class TimeGun : MonoBehaviour
         // VFX 생성
         if (muzzleFlashVFX != null)
         {
-            // 총구(muzzlePoint)가 설정되었으면 그 위치에, 아니면 카메라 위치에 생성
-            Vector3 vfxPos = muzzlePoint != null ? muzzlePoint.position : playerCamera.transform.position + playerCamera.transform.forward;
-            Quaternion vfxRot = muzzlePoint != null ? muzzlePoint.rotation : playerCamera.transform.rotation;
+            // ▼▼▼ [ 2. VFX 부모 설정 및 자동 파괴 로직 추가 ] ▼▼▼
 
-            Instantiate(muzzleFlashVFX, vfxPos, vfxRot);
+            // 총구(muzzlePoint)가 설정되었으면 그 위치/회전/부모로, 아니면 카메라를 기준으로 설정
+            Transform spawnPoint = muzzlePoint != null ? muzzlePoint : playerCamera.transform;
+
+            // Instantiate의 4번째 인자(parent)를 spawnPoint로 설정하여 VFX가 총구를 따라다니게 함
+            GameObject vfxInstance = Instantiate(muzzleFlashVFX, spawnPoint.position, spawnPoint.rotation, spawnPoint);
+
+            // [중요] VFX가 스스로 파괴되지 않을 경우를 대비해, 지정된 시간 후에 강제 파괴
+            Destroy(vfxInstance, muzzleVFXLifetime);
+
+            // --- [ 기존 코드 ] ---
+            // Vector3 vfxPos = muzzlePoint != null ? muzzlePoint.position : playerCamera.transform.position + playerCamera.transform.forward;
+            // Quaternion vfxRot = muzzlePoint != null ? muzzlePoint.rotation : playerCamera.transform.rotation;
+            // Instantiate(muzzleFlashVFX, vfxPos, vfxRot);
+
+            // ▲▲▲ [ 2. 수정 완료 ] ▲▲▲
         }
 
-        // --- C. 실제 레이캐스트 발사 ---
         PerformRaycast();
-
-        // --- D. 발사 완료 ---
         isFiring = false;
     }
 
-    /// <summary>
-    /// 7. 기존 Fire() 로직을 별도 함수로 분리 (레이캐스트만 담당)
-    /// </summary>
+    // (PerformRaycast 함수는 동일)
+    #region Raycast Logic
     private void PerformRaycast()
     {
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -146,6 +170,7 @@ public class TimeGun : MonoBehaviour
             if (timeObject != null)
             {
                 timeObject.ToggleTimeState();
+                PlayHitEffects(hit.point);
             }
             else
             {
@@ -154,13 +179,11 @@ public class TimeGun : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ITimeActivatable을 구현하지 않은 '일반' 오브젝트의
-    /// 물리/애니메이션/AI 상태를 강제로 토글(On/Off)합니다.
-    /// </summary>
+    // (ActivateDefaultTimeToggle 함수는 동일)
     private void ActivateDefaultTimeToggle(GameObject target, Vector3 hitPoint)
     {
-        // (기존 ActivateDefaultTimeToggle 함수 내용과 동일)
+        PlayHitEffects(hitPoint);
+
         Rigidbody rb = target.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -196,6 +219,28 @@ public class TimeGun : MonoBehaviour
         {
             agent.isStopped = !agent.isStopped;
             Debug.Log(target.name + ": NavMeshAgent 토글 -> isStopped: " + agent.isStopped, target);
+        }
+    }
+    #endregion
+
+    /// <summary>
+    /// 지정된 위치에 성공 VFX와 성공 사운드(3D)를 재생합니다.
+    /// </summary>
+    private void PlayHitEffects(Vector3 position)
+    {
+        if (hitSuccessSound != null)
+        {
+            AudioSource.PlayClipAtPoint(hitSuccessSound, position, hitSoundVolume);
+        }
+
+        if (hitSuccessVFX != null)
+        {
+            // ▼▼▼ [ 3. 피격 VFX 자동 파괴 로직 추가 ] ▼▼▼
+            GameObject hitVfxInstance = Instantiate(hitSuccessVFX, position, Quaternion.identity);
+
+            // [중요] 피격 VFX도 지정된 시간 후에 강제 파괴
+            Destroy(hitVfxInstance, hitVFXLifetime);
+            // ▲▲▲ [ 3. 수정 완료 ] ▲▲▲
         }
     }
 }
