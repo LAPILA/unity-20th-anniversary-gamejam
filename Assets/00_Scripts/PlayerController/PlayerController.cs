@@ -1,7 +1,9 @@
 ﻿using Sirenix.OdinInspector;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 1인칭 플레이어 컨트롤러 (Unity 6 / New Input System / CM3)
@@ -98,6 +100,7 @@ public class PlayerController : SerializedMonoBehaviour
     private bool _sprinting, _sprintHeld;
     private float _moveSpeed;
     private bool _canMove = true;
+    private bool _isDead = false;
 
     // R/O
     public bool IsSprinting => _sprinting;
@@ -106,6 +109,10 @@ public class PlayerController : SerializedMonoBehaviour
 
     public Vector2 CurrentMoveInput => _moveInput;
     #endregion
+
+    [BoxGroup("Death")]
+    [Tooltip("사망 애니메이션이 재생되는 시간(초)")]
+    public float deathAnimationDuration = 3.0f;
 
     // ────────────────────────────────────────────────────────────
     #region ▶ Unity
@@ -485,10 +492,12 @@ public class PlayerController : SerializedMonoBehaviour
     [Button("Test Die Sequence")]
     public void Die()
     {
+        // 💥 [수정] 💥
         // 이미 죽었거나 컷신 등으로 움직임이 잠겨있으면 중복 실행 방지
-        if (!_canMove) return;
+        if (!_canMove || _isDead) return; // 💥 _isDead 플래그 체크
 
         Debug.Log("Player Die()가 호출되었습니다.");
+        _isDead = true; // 💥 사망 상태로 설정
         LockMovement(true);
 
         _animManager?.TriggerDie();
@@ -503,6 +512,18 @@ public class PlayerController : SerializedMonoBehaviour
         }
 
         fx?.Death();
+
+        StartCoroutine(ReloadSceneAfterAnimation(deathAnimationDuration));
+    }
+
+    private IEnumerator ReloadSceneAfterAnimation(float delay)
+    {
+        Debug.Log($"{delay}초 후 씬을 리로드합니다...");
+        yield return new WaitForSeconds(delay);
+
+        // 현재 활성화된 씬의 이름을 가져와서 리로드합니다.
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
     }
 
     #endregion
