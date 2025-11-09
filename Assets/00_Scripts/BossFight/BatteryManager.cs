@@ -1,30 +1,54 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class BatteryManager : MonoBehaviour
 {
     [Header("Manager Settings")]
-    [Tooltip("¾À¿¡¼­ ÇÊ¿äÇÑ ÃÑ ¹èÅÍ¸® ¹Ú½ºÀÇ °³¼ö")]
+    [Tooltip("ì”¬ì—ì„œ í•„ìš”í•œ ì´ ë°°í„°ë¦¬ ë°•ìŠ¤ì˜ ê°œìˆ˜")]
     public int requiredBatteries = 5;
 
-    [Tooltip("¸ğµç ¹èÅÍ¸®°¡ ÃæÀüµÇ¾ú´ÂÁö ¿©ºÎ (ÀĞ±â Àü¿ë)")]
-    [SerializeField] private bool _allCharged = false;
+    [Tooltip("ëª¨ë“  ë°°í„°ë¦¬ê°€ ì¶©ì „ë˜ì—ˆëŠ”ì§€ ì—¬ë¶€ (ì½ê¸° ì „ìš©)")]
+    public bool _allCharged = false;
 
-    // ÇöÀç ÃæÀüÀÌ ¿Ï·áµÈ ¹èÅÍ¸® ¹Ú½º ¸ñ·Ï
+    [Header("Door Destruction Settings")]
+    [Tooltip("íŒŒê´´í•  ë¬¸ì§ GameObjects 3ê°œë¥¼ ì—°ê²°í•˜ì„¸ìš”.")]
+    public GameObject[] doorObjects;
+
+    [Tooltip("ë¬¸ì§ íŒŒê´´ ì‹œ í™œì„±í™”í•  ê°ì²´ (ì˜ˆ: ìµœì¢… ë³´ìŠ¤, ë‹¤ìŒ ë ˆë²¨ í¬í„¸ ë“±)")]
+    public GameObject objectToActivate;
+
+    [Header("Optional Destruction Feedback")]
+    [Tooltip("ë¬¸ì§ íŒŒê´´ ì‹œ ì¬ìƒí•  íŒŒí‹°í´ ì‹œìŠ¤í…œ(í­ë°œ ì´í™íŠ¸) í”„ë¦¬íŒ¹")]
+    public GameObject destructionEffectPrefab;
+
+    [Header("Cannon Animation (Legacy)")]
+    [Tooltip("Animation ì»´í¬ë„ŒíŠ¸ë¥¼ ì—°ê²°í•˜ì„¸ìš”.")]
+    public Animation cannonAnimation;
+
+    [Tooltip("ì¬ìƒí•  ì• ë‹ˆë©”ì´ì…˜ í´ë¦½")]
+    public AnimationClip cannonFireClip; // ìˆ˜ë™ìœ¼ë¡œ ì‹¤í–‰í•  ì• ë‹ˆë©”ì´ì…˜ í´ë¦½
+
+    public float explosionDelay = 1.0f; // ì• ë‹ˆë©”ì´ì…˜ í›„ í­ë°œê¹Œì§€ ë”œë ˆì´
+    public float explosionForce = 800f;
+    public float explosionRadius = 6f;
+
+    private bool _hasFired = false;
+
     private List<BatteryBox> _chargedBatteries = new List<BatteryBox>();
-
-    // ¾À¿¡ ÀÖ´Â ¸ğµç BatteryBox ÀÎ½ºÅÏ½º
     private BatteryBox[] _allBatteryBoxes;
+
+    // ğŸ”¹ ë³´ìŠ¤ ë ˆì´ì € ì°¸ì¡°
+    private BossLaserController bossLaser;
 
     void Awake()
     {
-        // ¾À ·Îµå ½Ã ¸ğµç BatteryBox ÄÄÆ÷³ÍÆ®¸¦ Ã£½À´Ï´Ù.
         _allBatteryBoxes = FindObjectsOfType<BatteryBox>();
+        bossLaser = FindObjectOfType<BossLaserController>();
 
-        // Ã£Àº °³¼ö°¡ ÇÊ¿äÇÑ °³¼ö¿Í ´Ù¸£¸é °æ°í
         if (_allBatteryBoxes.Length != requiredBatteries)
         {
-            Debug.LogWarning($"[BatteryManager] ¾À¿¡¼­ {requiredBatteries}°³°¡ ÇÊ¿äÇÏÁö¸¸, {_allBatteryBoxes.Length}°³¸¸ ¹ß°ßµÇ¾ú½À´Ï´Ù.");
+            Debug.LogWarning($"[BatteryManager] ì”¬ì—ì„œ {requiredBatteries}ê°œê°€ í•„ìš”í•˜ì§€ë§Œ, {_allBatteryBoxes.Length}ê°œë§Œ ë°œê²¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
         }
     }
 
@@ -47,7 +71,6 @@ public class BatteryManager : MonoBehaviour
                 _chargedBatteries.Add(battery);
             }
 
-            // ¸ğµç ¹èÅÍ¸®°¡ ÃæÀüµÇ¾ú´ÂÁö È®ÀÎ
             if (_chargedBatteries.Count >= requiredBatteries && !_allCharged)
             {
                 _allCharged = true;
@@ -58,7 +81,95 @@ public class BatteryManager : MonoBehaviour
 
     private void AllBatteriesCharged()
     {
-
         Debug.LogError("Launch!");
+
+        // ğŸ”¹ 1. ë³´ìŠ¤ ë ˆì´ì € ì •ì§€
+        StopBossLaser();
+
+        // ğŸ”¹ 2. ë¬¸ì§ íŒŒê´´
+        DestroyDoors();
+
+        // ğŸ”¹ 3. ë‹¤ìŒ ì˜¤ë¸Œì íŠ¸ í™œì„±í™”
+        ActivateTargetObject();
+    }
+
+    private void StopBossLaser()
+    {
+        if (bossLaser != null)
+        {
+            bossLaser.SetLaserActive(false);  // ì¦‰ì‹œ ë ˆì´ì € ë„ê¸°
+            bossLaser.enabled = false;        // ì•„ì˜ˆ ìŠ¤í¬ë¦½íŠ¸ ë¹„í™œì„±í™” (ì£¼ê¸°ì  ë°œì‚¬ ì¤‘ì§€)
+            Debug.Log("âš¡ ë³´ìŠ¤ ë ˆì´ì € ì™„ì „íˆ ì •ì§€ë¨!");
+        }
+        else
+        {
+            Debug.LogWarning("BossLaserControllerë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+        }
+    }
+
+    private void DestroyDoors()
+    {
+        if (_hasFired) return;
+        _hasFired = true;
+
+        if (cannonAnimation != null && cannonFireClip != null)
+        {
+            cannonAnimation.Play(cannonFireClip.name);
+            StartCoroutine(WaitAndExplodeDoors());
+        }
+        else
+        {
+            Debug.LogWarning("Animation ë˜ëŠ” í´ë¦½ì´ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤. ë°”ë¡œ í­ë°œ ì‹¤í–‰.");
+            StartCoroutine(ExplodeDoorsPhysics());
+        }
+    }
+
+    private void ActivateTargetObject()
+    {
+        if (objectToActivate != null)
+        {
+            objectToActivate.SetActive(true);
+            Debug.Log($"ê°ì²´ '{objectToActivate.name}'ê°€ í™œì„±í™”ë˜ì—ˆìŠµë‹ˆë‹¤.");
+        }
+        else
+        {
+            Debug.LogWarning("í™œì„±í™”í•  ê°ì²´ê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+        }
+    }
+
+    private IEnumerator WaitAndExplodeDoors()
+    {
+        yield return new WaitForSeconds(explosionDelay);
+        StartCoroutine(ExplodeDoorsPhysics());
+    }
+
+    private IEnumerator ExplodeDoorsPhysics()
+    {
+        if (doorObjects == null || doorObjects.Length == 0)
+        {
+            Debug.LogWarning("íŒŒê´´í•  ë¬¸ì§ ê°ì²´ê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
+            yield break;
+        }
+
+        foreach (GameObject door in doorObjects)
+        {
+            if (door == null) continue;
+
+            if (destructionEffectPrefab != null)
+                Instantiate(destructionEffectPrefab, door.transform.position, Quaternion.identity);
+
+            Rigidbody rb = door.GetComponent<Rigidbody>();
+            if (rb == null)
+                rb = door.AddComponent<Rigidbody>();
+
+            if (door.GetComponent<Collider>() == null)
+                door.AddComponent<BoxCollider>();
+
+            Vector3 explosionPos = transform.position;
+            rb.AddExplosionForce(explosionForce, explosionPos, explosionRadius, 1f, ForceMode.Impulse);
+
+            Destroy(door, 3f);
+        }
+        yield return null;
     }
 }

@@ -1631,6 +1631,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 816839028834127517, guid: 56553c59a52bf504aaac866c7f4030cd, type: 3}
   m_PrefabInstance: {fileID: 92260634}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &92937843 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
+  m_PrefabInstance: {fileID: 196232665}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &93603573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4037,7 +4042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       propertyPath: m_Name
-      value: Bay Door Wall
+      value: Bay Door Wall2
       objectReference: {fileID: 0}
     - target: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -7751,12 +7756,55 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.43134412
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.1743674
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.015554309
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0000003352317
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000022789475
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0.34710875
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.10131438
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.013989336
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5400000, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
     - {fileID: 6500000, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100002, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1280447436}
   m_SourcePrefab: {fileID: 100100000, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
 --- !u!4 &381501738 stripped
 Transform:
@@ -29531,6 +29579,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8969971835649028076, guid: 4e661a4b9cf2fac4dbc610ceb59e77b8, type: 3}
   m_PrefabInstance: {fileID: 1280376324}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1280447432 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: 2c05a6c9d0c6f4e4a90f835de5bdad76, type: 3}
+  m_PrefabInstance: {fileID: 381501737}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &1280447436
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280447432}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: f26e6e02bcbda194788133ff50b5fa98, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &1282220984
 GameObject:
   m_ObjectHideFlags: 0
@@ -31690,6 +31760,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2137195129188807160, guid: 4f019145598ea474b899ca25a03acd09, type: 3}
   m_PrefabInstance: {fileID: 1352241535}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1365989935 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2647211758135124163, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
+  m_PrefabInstance: {fileID: 196232665}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1378506218
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32691,6 +32766,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8220780882054941164, guid: e2fdcaac11701fe438724a8a8b3a76c5, type: 3}
   m_PrefabInstance: {fileID: 89924647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1425935515 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
+  m_PrefabInstance: {fileID: 6242528119089653085}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1428970352 stripped
 Transform:
@@ -43181,7 +43261,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       propertyPath: m_Name
-      value: Bay Door Wall
+      value: Bay Door Wall3
       objectReference: {fileID: 0}
     - target: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -50477,6 +50557,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredBatteries: 5
   _allCharged: 0
+  doorObjects:
+  - {fileID: 1425935515}
+  - {fileID: 92937843}
+  - {fileID: 2044620761}
+  objectToActivate: {fileID: 0}
+  destructionEffectPrefab: {fileID: 1365989935}
+  cannonAnimation: {fileID: 1280447436}
+  cannonFireClip: {fileID: 7400000, guid: f26e6e02bcbda194788133ff50b5fa98, type: 2}
+  explosionDelay: 6
+  explosionForce: 1000
+  explosionRadius: 10
 --- !u!1001 &1988296326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51809,6 +51900,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &2044620761 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
+  m_PrefabInstance: {fileID: 1865618054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2046999772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56223,7 +56319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       propertyPath: m_Name
-      value: Bay Door Wall
+      value: Bay Door Wall1
       objectReference: {fileID: 0}
     - target: {fileID: 2702167651921923441, guid: d324de115c4dff845bee7b7f166883c4, type: 3}
       propertyPath: m_StaticEditorFlags

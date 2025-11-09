@@ -17,9 +17,12 @@ public class BatteryBox : MonoBehaviour
     private Material _material;
 
     public bool IsCharged => _isCharged;
+    private BossLaserController bossLaser;
 
     void Awake()
     {
+        bossLaser = FindObjectOfType<BossLaserController>();
+
         // 자동으로 MeshRenderer나 SpriteRenderer 탐색
         var renderer = GetComponent<Renderer>();
         if (renderer != null)
