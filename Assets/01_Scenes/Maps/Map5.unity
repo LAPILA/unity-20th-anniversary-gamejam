@@ -16103,7 +16103,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 335742882}
-  - component: {fileID: 335742881}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -16111,19 +16110,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &335742881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335742880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b9678bb814f8d94ca67823a350dc87e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endingStack: 0
 --- !u!4 &335742882
 Transform:
   m_ObjectHideFlags: 0
@@ -28284,13 +28270,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
+      propertyPath: isEndingBranch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
+      propertyPath: dialogueForStackLow
+      value: 
+      objectReference: {fileID: 11400000, guid: 195d713b588b100429a5e1db7d539b0d, type: 2}
+    - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
+      propertyPath: dialogueForStackHigh
+      value: 
+      objectReference: {fileID: 11400000, guid: 87886918e0ffc724baa4a19e3f1fc5a6, type: 2}
+    - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
       propertyPath: dialogueList.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
       propertyPath: 'dialogueList.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 195d713b588b100429a5e1db7d539b0d, type: 2}
+      objectReference: {fileID: 11400000, guid: edc4fcee6fd64af43939f846f77ce0b3, type: 2}
     - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
       propertyPath: 'dialogueList.Array.data[1]'
       value: 
