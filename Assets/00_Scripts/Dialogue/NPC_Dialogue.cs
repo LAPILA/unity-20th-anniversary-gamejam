@@ -1,33 +1,35 @@
-using UnityEngine;
-using Unity.Cinemachine; // VCam »ç¿ëÀ» À§ÇØ Ãß°¡
+ï»¿using UnityEngine;
+using Unity.Cinemachine; // VCam ì‚¬ìš©ì„ ìœ„í•´ ì¶”ê°€
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
 /// <summary>
-/// NPC¿¡°Ô ºÎÂøµÇ¾î ´ëÈ­ »óÈ£ÀÛ¿ëÀ» Ã³¸®ÇÕ´Ï´Ù.
-/// IInteractable ÀÎÅÍÆäÀÌ½º¸¦ ±¸ÇöÇÕ´Ï´Ù.
+/// NPCì—ê²Œ ë¶€ì°©ë˜ì–´ ëŒ€í™” ìƒí˜¸ì‘ìš©ì„ ì²˜ë¦¬í•©ë‹ˆë‹¤.
+/// IInteractable ì¸í„°í˜ì´ìŠ¤ë¥¼ êµ¬í˜„í•©ë‹ˆë‹¤.
 /// </summary>
 public class NPC_Dialogue : MonoBehaviour, IInteractable
 {
     [BoxGroup("Virtual Camera"), Required]
-    [Tooltip("ÀÌ NPC¿Í ´ëÈ­ÇÒ ¶§ È°¼ºÈ­ÇÒ Cinemachine Virtual Camera")]
+    [Tooltip("ì´ NPCì™€ ëŒ€í™”í•  ë•Œ í™œì„±í™”í•  Cinemachine Virtual Camera")]
     [SerializeField] private CinemachineCamera virtualCamera;
 
     [BoxGroup("Dialogue"), Required]
-    [Tooltip("ÀÌ NPC°¡ Àç»ıÇÒ ´ëÈ­ µ¥ÀÌÅÍ ¸ñ·Ï")]
+    [Tooltip("ì´ NPCê°€ ì¬ìƒí•  ëŒ€í™” ë°ì´í„° ëª©ë¡")]
     [SerializeField] private List<DialogueData> dialogueList;
 
     [BoxGroup("Dialogue")]
-    [Tooltip("true: ¸¶Áö¸· ´ëÈ­¸¦ °è¼Ó ¹İº¹ / false: ¸ñ·Ï Ã³À½À¸·Î µ¹¾Æ°¨")]
+    [Tooltip("true: ë§ˆì§€ë§‰ ëŒ€í™”ë¥¼ ê³„ì† ë°˜ë³µ / false: ëª©ë¡ ì²˜ìŒìœ¼ë¡œ ëŒì•„ê°")]
     [SerializeField] private bool loopLastDialogue = true;
 
     [BoxGroup("Visuals")]
-    [Tooltip("ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§¿¡ µé¾î¿ÔÀ» ¶§ È°¼ºÈ­ÇÒ ¾Æ¿ô¶óÀÎ (¼±ÅÃ »çÇ×)")]
+    [Tooltip("í”Œë ˆì´ì–´ê°€ ë²”ìœ„ì— ë“¤ì–´ì™”ì„ ë•Œ í™œì„±í™”í•  ì•„ì›ƒë¼ì¸ (ì„ íƒ ì‚¬í•­)")]
     [SerializeField] private GameObject outlineObject;
 
     private int _dialogueIndex = 0;
     private bool _isInteracting = false;
     private PlayerInteractor _currentPlayerInteractor;
+
+    private DialogueData _currentDialogueData;
 
     void Awake()
     {
@@ -36,7 +38,7 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// [IInteractable] ÇÃ·¹ÀÌ¾î°¡ »óÈ£ÀÛ¿ë Å°¸¦ ´­·¶À» ¶§
+    /// [IInteractable] í”Œë ˆì´ì–´ê°€ ìƒí˜¸ì‘ìš© í‚¤ë¥¼ ëˆŒë €ì„ ë•Œ
     /// </summary>
     public void Interact(PlayerInteractor interactor)
     {
@@ -45,34 +47,67 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
         _isInteracting = true;
         _currentPlayerInteractor = interactor;
 
-        // 1. ÇÃ·¹ÀÌ¾î ÀÌµ¿ ¹× »óÈ£ÀÛ¿ë Àá±İ
         PlayerController pc = interactor.GetPlayerController();
-        if (pc != null) pc.LockMovement(true);
-        interactor.LockInteraction(true); // "E" Å° ¿¬Å¸ ¹æÁö
 
-        // 2. VCam È°¼ºÈ­ (Priority¸¦ ³ô¿©¼­)
+        // 1. í”Œë ˆì´ì–´ ì¡°ì‘ ë° ë§ˆìš°ìŠ¤ ì»¤ì„œ ìƒíƒœ ë³€ê²½ (í•µì‹¬ ìˆ˜ì •)
+        if (pc != null)
+        {
+            pc.SetUIMode(true); // ë§ˆìš°ìŠ¤ ì»¤ì„œ í‘œì‹œ ë° ì¡°ì‘ ì ê¸ˆ
+        }
+        interactor.LockInteraction(true); // "E" í‚¤ ì—°íƒ€ ë°©ì§€
+
+        // 2. VCam í™œì„±í™” (Priorityë¥¼ ë†’ì—¬ì„œ)
         if (virtualCamera != null) virtualCamera.Priority = 100;
-        
-        // 3. ÇöÀç ¼ø¼­¿¡ ¸Â´Â ´ëÈ­ µ¥ÀÌÅÍ °¡Á®¿À±â
-        DialogueData dataToPlay = dialogueList[_dialogueIndex];
 
-        // 4. ´ëÈ­ ¸Å´ÏÀú¿¡°Ô ´ëÈ­ ½ÃÀÛ ¿äÃ» (Á¾·á ½Ã È£ÃâÇÒ ÇÔ¼ö Àü´Ş)
-        DialogueManager.Instance.StartDialogue(dataToPlay, OnDialogueFinished);
+        // 3. í˜„ì¬ ìˆœì„œì— ë§ëŠ” ëŒ€í™” ë°ì´í„° ê°€ì ¸ì˜¤ê¸° ë° ì €ì¥
+        _currentDialogueData = dialogueList[_dialogueIndex];
 
-        // 5. ´ëÈ­ ÀÎµ¦½º °ü¸® (°ü¸® ¿ëÀÌ¼º)
+        // 4. ëŒ€í™” ë§¤ë‹ˆì €ì—ê²Œ ëŒ€í™” ì‹œì‘ ìš”ì²­ (ì¢…ë£Œ ì‹œ, ì„ íƒì§€ ì„ íƒ ì‹œ ì½œë°± ì „ë‹¬)
+        DialogueManager.Instance.StartDialogue(
+            _currentDialogueData,
+            virtualCamera, // ğŸ’¥ [ìˆ˜ì •] í˜„ì¬ NPCì˜ VCamì„ ë§¤ë‹ˆì €ì—ê²Œ ì „ë‹¬
+            OnDialogueFinished,
+            OnChoiceMade
+        );
+
+        // 5. ëŒ€í™” ì¸ë±ìŠ¤ ê´€ë¦¬ (ë‹¤ìŒ ê¸°ë³¸ ëŒ€í™”ë¡œ ë„˜ì–´ê°)
         if (_dialogueIndex < dialogueList.Count - 1)
         {
-            _dialogueIndex++; // ´ÙÀ½ ´ëÈ­·Î ³Ñ¾î°¨
+            _dialogueIndex++;
         }
         else if (!loopLastDialogue)
         {
-            _dialogueIndex = 0; // Ã³À½À¸·Î ¸®¼Â
+            _dialogueIndex = 0;
         }
-        // (loopLastDialogue°¡ true¸é ÀÎµ¦½º°¡ ¸¶Áö¸·¿¡ °íÁ¤µÊ)
     }
 
     /// <summary>
-    /// [IInteractable] ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§¿¡ µé¾î¿È
+    /// DialogueManagerì—ì„œ ì„ íƒì§€ê°€ ì„ íƒë˜ì—ˆì„ ë•Œ í˜¸ì¶œí•˜ëŠ” ì½œë°± í•¨ìˆ˜
+    /// </summary>
+    private void OnChoiceMade(DialogueData nextDialogue)
+    {
+        // 1. ì„ íƒì§€ ê²°ê³¼ì— ë”°ë¼ ë‹¤ìŒ ëŒ€í™” ë¶„ê¸° ì²˜ë¦¬
+        if (nextDialogue != null)
+        {
+            _currentDialogueData = nextDialogue;
+
+            // ë‹¤ìŒ ëŒ€í™” ì‹œì‘ ì‹œ VCam Priority 100ì„ ìœ ì§€í•©ë‹ˆë‹¤.
+            DialogueManager.Instance.StartDialogue(
+                _currentDialogueData,
+                virtualCamera, // ğŸ’¥ [ìˆ˜ì •] VCamì„ ë‹¤ì‹œ ì „ë‹¬
+                OnDialogueFinished,
+                OnChoiceMade
+            );
+        }
+        else
+        {
+            // ì„ íƒì§€ ê²°ê³¼ê°€ nullì´ë©´ ëŒ€í™”ë¥¼ ì™„ì „íˆ ì¢…ë£Œí•©ë‹ˆë‹¤.
+            OnDialogueFinished();
+        }
+    }
+
+    /// <summary>
+    /// [IInteractable] í”Œë ˆì´ì–´ê°€ ë²”ìœ„ì— ë“¤ì–´ì˜´
     /// </summary>
     public void OnPlayerEnterRange()
     {
@@ -80,7 +115,7 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// [IInteractable] ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§¿¡¼­ ³ª°¨
+    /// [IInteractable] í”Œë ˆì´ì–´ê°€ ë²”ìœ„ì—ì„œ ë‚˜ê°
     /// </summary>
     public void OnPlayerExitRange()
     {
@@ -88,22 +123,26 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// DialogueManager°¡ ´ëÈ­¸¦ ³¡³ÂÀ» ¶§ È£ÃâÇÏ´Â Äİ¹é ÇÔ¼ö
+    /// DialogueManagerê°€ ëŒ€í™”ë¥¼ ëëƒˆì„ ë•Œ í˜¸ì¶œí•˜ëŠ” ì½œë°± í•¨ìˆ˜ (ë¶„ê¸° ì²˜ë¦¬ ì™„ë£Œ í›„)
     /// </summary>
     private void OnDialogueFinished()
     {
-        // 1. VCam ºñÈ°¼ºÈ­ (Priority ¿ø·¡´ë·Î)
+        // 1. VCam ë¹„í™œì„±í™” (Priority ì›ë˜ëŒ€ë¡œ)
         if (virtualCamera != null) virtualCamera.Priority = 0;
 
-        // 2. ÇÃ·¹ÀÌ¾î ÀÌµ¿ ¹× »óÈ£ÀÛ¿ë Àá±İ ÇØÁ¦
+        // 2. í”Œë ˆì´ì–´ ì¡°ì‘ ë° ë§ˆìš°ìŠ¤ ì»¤ì„œ ìƒíƒœ ë³µêµ¬ (í•µì‹¬ ìˆ˜ì •)
         if (_currentPlayerInteractor != null)
         {
             PlayerController pc = _currentPlayerInteractor.GetPlayerController();
-            if (pc != null) pc.LockMovement(false);
+            if (pc != null)
+            {
+                pc.SetUIMode(false); // ë§ˆìš°ìŠ¤ ì»¤ì„œ ìˆ¨ê¹€ ë° ì¡°ì‘ ì ê¸ˆ í•´ì œ
+            }
             _currentPlayerInteractor.LockInteraction(false);
         }
 
         _isInteracting = false;
         _currentPlayerInteractor = null;
+        _currentDialogueData = null;
     }
 }
