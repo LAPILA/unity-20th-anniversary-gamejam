@@ -31,20 +31,29 @@ public class Explode : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    //void Update()
+    //{
+    //    // 안전하게 Rigidbody가 없을 경우 Prepare로 간주
+    //    if (Keyboard.current.gKey.wasPressedThisFrame)
+    //    {
+    //        if (rb == null || rb.isKinematic)
+    //        {
+    //            PrepareExplosion();
+    //        }
+    //        else
+    //        {
+    //            // 이미 물리 활성 상태면 즉시 터지게 함
+    //            ExplodeNow(transform.position);
+    //        }
+    //    }
+    //}
+
     void Update()
     {
-        // 안전하게 Rigidbody가 없을 경우 Prepare로 간주
-        if (Keyboard.current.gKey.wasPressedThisFrame)
+        // prepared 상태가 되면 바로 ExplodeNow 실행
+        if (prepared && !released) // released 체크 추가 (무한 루프 방지)
         {
-            if (rb == null || rb.isKinematic)
-            {
-                PrepareExplosion();
-            }
-            else
-            {
-                // 이미 물리 활성 상태면 즉시 터지게 함
-                ExplodeNow(transform.position);
-            }
+            ExplodeNow(transform.position); // explosionPoint는 PrepareExplosion에서 설정됨
         }
     }
 

@@ -1,155 +1,155 @@
-using UnityEngine;
-using UnityEngine.AI; // NavMeshAgent (AI ÀÌµ¿) »ç¿ë
+ï»¿using UnityEngine;
+using UnityEngine.AI; // NavMeshAgent (AI ì´ë™) ì‚¬ìš©
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
 /// <summary>
-/// TimeGun (ITimeActivatable)°ú ¿¬µ¿µÇ´Â Æø¹ß µå·Ğ AIÀÔ´Ï´Ù.
-/// Animator¸¦ »ç¿ëÇÏÁö ¾Ê°í »óÅÂ ¸Ó½Å(FSM)À¸·Î ÀÛµ¿ÇÕ´Ï´Ù.
-/// [AudioSource] ÄÄÆ÷³ÍÆ®°¡ ÇÊ¿äÇÕ´Ï´Ù.
+/// TimeGun (ITimeActivatable)ê³¼ ì—°ë™ë˜ëŠ” í­ë°œ ë“œë¡  AIì…ë‹ˆë‹¤.
+/// Animatorë¥¼ ì‚¬ìš©í•˜ì§€ ì•Šê³  ìƒíƒœ ë¨¸ì‹ (FSM)ìœ¼ë¡œ ì‘ë™í•©ë‹ˆë‹¤.
+/// [AudioSource] ì»´í¬ë„ŒíŠ¸ê°€ í•„ìš”í•©ë‹ˆë‹¤.
 /// </summary>
-[RequireComponent(typeof(NavMeshAgent), typeof(AudioSource))] // 1. AudioSource °­Á¦
+[RequireComponent(typeof(NavMeshAgent), typeof(AudioSource))] // 1. AudioSource ê°•ì œ
 public class Drone_Explosive : MonoBehaviour, ITimeActivatable
 {
     /// <summary>
-    /// µå·Ğ AIÀÇ ÇöÀç »óÅÂ
+    /// ë“œë¡  AIì˜ í˜„ì¬ ìƒíƒœ
     /// </summary>
     public enum DroneState
     {
-        Frozen,     // (t=0) ½Ã°£ Á¤Áö »óÅÂ
-        Patrolling, // (t=1) ¼øÂû
-        Chasing,    // (t=1) ÇÃ·¹ÀÌ¾î Ãß°İ
-        Countdown,  // (t=1) Æø¹ß Ä«¿îÆ®´Ù¿î
-        Primed      // (t=0) Æø¹ß ´ë±â (Countdown Áß Á¤ÁöµÊ)
+        Frozen,     // (t=0) ì‹œê°„ ì •ì§€ ìƒíƒœ
+        Patrolling, // (t=1) ìˆœì°°
+        Chasing,    // (t=1) í”Œë ˆì´ì–´ ì¶”ê²©
+        Countdown,  // (t=1) í­ë°œ ì¹´ìš´íŠ¸ë‹¤ìš´
+        Primed      // (t=0) í­ë°œ ëŒ€ê¸° (Countdown ì¤‘ ì •ì§€ë¨)
     }
 
     [BoxGroup("State"), ShowInInspector, ReadOnly]
     private DroneState _currentState = DroneState.Frozen;
 
     [BoxGroup("References"), Required]
-    [Tooltip("AI ÀÌµ¿À» À§ÇÑ NavMeshAgent ÄÄÆ÷³ÍÆ®")]
+    [Tooltip("AI ì´ë™ì„ ìœ„í•œ NavMeshAgent ì»´í¬ë„ŒíŠ¸")]
     [SerializeField] private NavMeshAgent agent;
 
     [BoxGroup("References"), Required]
-    [Tooltip("Ä«¿îÆ®´Ù¿î ½Ã Á¡¸êÇÒ Light ÄÄÆ÷³ÍÆ®")]
+    [Tooltip("ì¹´ìš´íŠ¸ë‹¤ìš´ ì‹œ ì ë©¸í•  Light ì»´í¬ë„ŒíŠ¸")]
     [SerializeField] private Light countdownLight;
 
     [BoxGroup("References"), Required]
-    [Tooltip("Æø¹ß ½Ã »ı¼ºÇÒ VFX ÇÁ¸®ÆÕ")]
+    [Tooltip("í­ë°œ ì‹œ ìƒì„±í•  VFX í”„ë¦¬íŒ¹")]
     [SerializeField] private GameObject explosionVFX;
 
     [BoxGroup("References"), Required]
-    [Tooltip("¼øÂû ÁöÁ¡ (Transform) ¸ñ·Ï. 2°³ ÀÌ»ó ±ÇÀå.")]
+    [Tooltip("ìˆœì°° ì§€ì  (Transform) ëª©ë¡. 2ê°œ ì´ìƒ ê¶Œì¥.")]
     [SerializeField] private List<Transform> patrolPoints;
 
     [BoxGroup("Audio"), Required]
-    [Tooltip("Æø¹ß ½Ã Àç»ıÇÒ 1È¸¼º ¿Àµğ¿À Å¬¸³")]
+    [Tooltip("í­ë°œ ì‹œ ì¬ìƒí•  1íšŒì„± ì˜¤ë””ì˜¤ í´ë¦½")]
     [SerializeField] private AudioClip explosionSound;
 
     [BoxGroup("AI Stats")]
-    [Tooltip("ÇÃ·¹ÀÌ¾î¸¦ °¨ÁöÇÒ ¹İ°æ")]
+    [Tooltip("í”Œë ˆì´ì–´ë¥¼ ê°ì§€í•  ë°˜ê²½")]
     [SerializeField] private float sightRange = 15f;
-    [Tooltip("ÇÃ·¹ÀÌ¾î¿¡°Ô Á¢±ÙÇØ Æø¹ßÀ» ½ÃÀÛÇÒ ¹İ°æ")]
+    [Tooltip("í”Œë ˆì´ì–´ì—ê²Œ ì ‘ê·¼í•´ í­ë°œì„ ì‹œì‘í•  ë°˜ê²½")]
     [SerializeField] private float attackRange = 3f;
-    [Tooltip("Æø¹ß Ä«¿îÆ®´Ù¿î ½Ã°£(ÃÊ)")]
+    [Tooltip("í­ë°œ ì¹´ìš´íŠ¸ë‹¤ìš´ ì‹œê°„(ì´ˆ)")]
     [SerializeField] private float countdownTime = 1.0f;
 
     [BoxGroup("Explosion Feedback")]
-    [Tooltip("Æø¹ßÀÌ ÇÃ·¹ÀÌ¾î¿¡°Ô °¡ÇÏ´Â ³Ë¹é Èû")]
+    [Tooltip("í­ë°œì´ í”Œë ˆì´ì–´ì—ê²Œ ê°€í•˜ëŠ” ë„‰ë°± í˜")]
     [SerializeField] private float explosionForce = 700f;
-    [Tooltip("Æø¹ßÀÌ ÇÇÇØ¸¦ ÁÖ´Â ¹İ°æ")]
+    [Tooltip("í­ë°œì´ í”¼í•´ë¥¼ ì£¼ëŠ” ë°˜ê²½")]
     [SerializeField] private float explosionRadius = 5f;
-    [Tooltip("ÇÃ·¹ÀÌ¾î¸¦ ÀÎ½ÄÇÏ±â À§ÇÑ ·¹ÀÌ¾î ¸¶½ºÅ©")]
+    [Tooltip("í”Œë ˆì´ì–´ë¥¼ ì¸ì‹í•˜ê¸° ìœ„í•œ ë ˆì´ì–´ ë§ˆìŠ¤í¬")]
     [SerializeField] private LayerMask playerLayer;
 
-    private Transform _playerTransform; // Ãß°İ ´ë»ó ÇÃ·¹ÀÌ¾î
-    private Coroutine _countdownCoroutine; // 1ÃÊ Æø¹ß ÄÚ·çÆ¾
-    private Coroutine _blinkCoroutine; // Á¡¸ê ÄÚ·çÆ¾
-    private bool _isPrimed = false; // ¿ø°İ ÆøÆÄ ´ë±â »óÅÂ
-    private float _baseStoppingDistance; // ¼øÂû¿ë ±âº» Á¤Áö °Å¸®
+    private Transform _playerTransform; // ì¶”ê²© ëŒ€ìƒ í”Œë ˆì´ì–´
+    private Coroutine _countdownCoroutine; // 1ì´ˆ í­ë°œ ì½”ë£¨í‹´
+    private Coroutine _blinkCoroutine; // ì ë©¸ ì½”ë£¨í‹´
+    private bool _isPrimed = false; // ì›ê²© í­íŒŒ ëŒ€ê¸° ìƒíƒœ
+    private float _baseStoppingDistance; // ìˆœì°°ìš© ê¸°ë³¸ ì •ì§€ ê±°ë¦¬
 
-    private AudioSource _audioSource; // ÀÛµ¿ Áß ·çÇÁ »ç¿îµå¿ë
+    private AudioSource _audioSource; // ì‘ë™ ì¤‘ ë£¨í”„ ì‚¬ìš´ë“œìš©
 
     void Awake()
     {
         if (agent == null) agent = GetComponent<NavMeshAgent>();
 
-        // 1. AudioSource ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+        // 1. AudioSource ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
         _audioSource = GetComponent<AudioSource>();
         _audioSource.playOnAwake = false;
-        _audioSource.loop = true; // "ÀÛµ¿ Áß" »ç¿îµå´Â °è¼Ó ¹İº¹µÊ
+        _audioSource.loop = true; // "ì‘ë™ ì¤‘" ì‚¬ìš´ë“œëŠ” ê³„ì† ë°˜ë³µë¨
 
-        // 2. (t=0) ½ÃÀÛ ½Ã AI´Â Ç×»ó Á¤Áö »óÅÂ
+        // 2. (t=0) ì‹œì‘ ì‹œ AIëŠ” í•­ìƒ ì •ì§€ ìƒíƒœ
         agent.isStopped = true;
 
-        // 3. NavMeshAgentÀÇ '±âº» Á¤Áö °Å¸®'¸¦ Inspector ¼³Á¤°ª¿¡¼­ Ä³½Ã
+        // 3. NavMeshAgentì˜ 'ê¸°ë³¸ ì •ì§€ ê±°ë¦¬'ë¥¼ Inspector ì„¤ì •ê°’ì—ì„œ ìºì‹œ
         _baseStoppingDistance = agent.stoppingDistance;
 
-        // 4. Ä«¿îÆ®´Ù¿î¿ë ¶óÀÌÆ® ºñÈ°¼ºÈ­
+        // 4. ì¹´ìš´íŠ¸ë‹¤ìš´ìš© ë¼ì´íŠ¸ ë¹„í™œì„±í™”
         if (countdownLight != null) countdownLight.enabled = false;
     }
 
     /// <summary>
-    /// [ITimeActivatable] TimeGun¿¡ ¸Â¾ÒÀ» ¶§ È£ÃâµÇ´Â ¸ŞÀÎ ÇÔ¼ö
+    /// [ITimeActivatable] TimeGunì— ë§ì•˜ì„ ë•Œ í˜¸ì¶œë˜ëŠ” ë©”ì¸ í•¨ìˆ˜
     /// </summary>
     public void ToggleTimeState()
     {
         switch (_currentState)
         {
-            // [State 1] Á¤Áö »óÅÂÀÏ ¶§
+            // [State 1] ì •ì§€ ìƒíƒœì¼ ë•Œ
             case DroneState.Frozen:
-                // [State 1] ÀÏ¹İ Á¤Áö »óÅÂ¿´´Ù¸é, ¼øÂû ½ÃÀÛ
+                // [State 1] ì¼ë°˜ ì •ì§€ ìƒíƒœì˜€ë‹¤ë©´, ìˆœì°° ì‹œì‘
                 _currentState = DroneState.Patrolling;
-                agent.isStopped = false; // NavMeshAgent È°¼ºÈ­
-                agent.stoppingDistance = _baseStoppingDistance; // ¼øÂû¿ë Á¤Áö °Å¸® »ç¿ë
+                agent.isStopped = false; // NavMeshAgent í™œì„±í™”
+                agent.stoppingDistance = _baseStoppingDistance; // ìˆœì°°ìš© ì •ì§€ ê±°ë¦¬ ì‚¬ìš©
 
-                _audioSource.Play(); // 1. ÀÛµ¿ ½ÃÀÛ (»ç¿îµå Àç»ı)
+                _audioSource.Play(); // 1. ì‘ë™ ì‹œì‘ (ì‚¬ìš´ë“œ ì¬ìƒ)
 
                 GoToRandomPatrolPoint();
                 break;
 
-            // [State 7] Æø¹ß ´ë±â »óÅÂÀÏ ¶§
+            // [State 7] í­ë°œ ëŒ€ê¸° ìƒíƒœì¼ ë•Œ
             case DroneState.Primed:
-                // [State 7] Æø¹ß ´ë±â »óÅÂ¿´´Ù¸é, Áï½Ã ¿ø°İ Æø¹ß
-                Explode(); // (Explode ÇÔ¼ö¿¡¼­ »ç¿îµå Ã³¸®)
+                // [State 7] í­ë°œ ëŒ€ê¸° ìƒíƒœì˜€ë‹¤ë©´, ì¦‰ì‹œ ì›ê²© í­ë°œ
+                Explode(); // (Explode í•¨ìˆ˜ì—ì„œ ì‚¬ìš´ë“œ ì²˜ë¦¬)
                 break;
 
 
-            // [State 5] Ä«¿îÆ®´Ù¿î ÁßÀÏ ¶§
+            // [State 5] ì¹´ìš´íŠ¸ë‹¤ìš´ ì¤‘ì¼ ë•Œ
             case DroneState.Countdown:
-                // [State 6] Æø¹ß ´ë±â(Primed) »óÅÂ·Î Á¤Áö
+                // [State 6] í­ë°œ ëŒ€ê¸°(Primed) ìƒíƒœë¡œ ì •ì§€
                 _currentState = DroneState.Primed;
                 agent.isStopped = true;
                 _isPrimed = true;
                 agent.stoppingDistance = _baseStoppingDistance;
 
-                _audioSource.Stop(); // 2. Ä«¿îÆ®´Ù¿î Á¤Áö (»ç¿îµå ÁßÁö)
+                _audioSource.Stop(); // 2. ì¹´ìš´íŠ¸ë‹¤ìš´ ì •ì§€ (ì‚¬ìš´ë“œ ì¤‘ì§€)
 
                 if (_countdownCoroutine != null) StopCoroutine(_countdownCoroutine);
                 if (_blinkCoroutine != null) StopCoroutine(_blinkCoroutine);
                 if (countdownLight != null) countdownLight.enabled = false;
                 break;
 
-            // [State 2 & 3] ¼øÂû ¶Ç´Â Ãß°İ ÁßÀÏ ¶§
+            // [State 2 & 3] ìˆœì°° ë˜ëŠ” ì¶”ê²© ì¤‘ì¼ ë•Œ
             case DroneState.Patrolling:
             case DroneState.Chasing:
-                // [State 1] ÀÏ¹İ Á¤Áö »óÅÂ·Î µ¹¾Æ°¨
+                // [State 1] ì¼ë°˜ ì •ì§€ ìƒíƒœë¡œ ëŒì•„ê°
                 _currentState = DroneState.Frozen;
                 agent.isStopped = true;
                 agent.stoppingDistance = _baseStoppingDistance;
 
-                _audioSource.Stop(); // 3. °­Á¦ Á¤Áö (»ç¿îµå ÁßÁö)
+                _audioSource.Stop(); // 3. ê°•ì œ ì •ì§€ (ì‚¬ìš´ë“œ ì¤‘ì§€)
                 break;
         }
     }
 
     /// <summary>
-    /// Update()´Â ¿ÀÁ÷ (t=1) È°¼ºÈ­ »óÅÂÀÏ ¶§¸¸ ·ÎÁ÷À» ½ÇÇàÇÕ´Ï´Ù.
+    /// Update()ëŠ” ì˜¤ì§ (t=1) í™œì„±í™” ìƒíƒœì¼ ë•Œë§Œ ë¡œì§ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
     /// </summary>
     void Update()
     {
-        // (t=0) Á¤Áö, Ä«¿îÆ®´Ù¿î, Æø¹ß ´ë±â »óÅÂÀÏ ¶§´Â ¾Æ¹«°Íµµ ÇÏÁö ¾ÊÀ½
+        // (t=0) ì •ì§€, ì¹´ìš´íŠ¸ë‹¤ìš´, í­ë°œ ëŒ€ê¸° ìƒíƒœì¼ ë•ŒëŠ” ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•ŠìŒ
         if (_currentState == DroneState.Frozen ||
             _currentState == DroneState.Countdown ||
             _currentState == DroneState.Primed)
@@ -157,79 +157,79 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
             return;
         }
 
-        // (t=1) È°¼ºÈ­ »óÅÂÀÏ ¶§:
-        // 1. ÇÃ·¹ÀÌ¾î Å½»ö
+        // (t=1) í™œì„±í™” ìƒíƒœì¼ ë•Œ:
+        // 1. í”Œë ˆì´ì–´ íƒìƒ‰
         HandleSight();
-        // 2. »óÅÂ¿¡ µû¸¥ ÀÌµ¿ Ã³¸®
+        // 2. ìƒíƒœì— ë”°ë¥¸ ì´ë™ ì²˜ë¦¬
         HandleMovement();
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î Å½»ö ¹× »óÅÂ(¼øÂû/Ãß°İ) ÀüÈ¯
+    /// í”Œë ˆì´ì–´ íƒìƒ‰ ë° ìƒíƒœ(ìˆœì°°/ì¶”ê²©) ì „í™˜
     /// </summary>
     private void HandleSight()
     {
         if (PlayerInSight())
         {
-            // Ãß°İ »óÅÂ·Î Ã³À½ ÀüÈ¯µÉ ¶§¸¸ Á¤Áö °Å¸®¸¦ 0À¸·Î ¼³Á¤
+            // ì¶”ê²© ìƒíƒœë¡œ ì²˜ìŒ ì „í™˜ë  ë•Œë§Œ ì •ì§€ ê±°ë¦¬ë¥¼ 0ìœ¼ë¡œ ì„¤ì •
             if (_currentState != DroneState.Chasing)
             {
                 _currentState = DroneState.Chasing;
-                agent.stoppingDistance = 0f; // [FIX] Ãß°İ ½Ã¿¡´Â Á¤ÁöÇÏÁö ¾Ê°í µ¹°İ
+                agent.stoppingDistance = 0f; // [FIX] ì¶”ê²© ì‹œì—ëŠ” ì •ì§€í•˜ì§€ ì•Šê³  ëŒê²©
             }
         }
-        // ÇÃ·¹ÀÌ¾î¸¦ Ãß°İÇÏ´Ù°¡ ½Ã¾ß¿¡¼­ ³õÃÆ´Ù¸é
+        // í”Œë ˆì´ì–´ë¥¼ ì¶”ê²©í•˜ë‹¤ê°€ ì‹œì•¼ì—ì„œ ë†“ì³¤ë‹¤ë©´
         else if (_currentState == DroneState.Chasing)
         {
             _currentState = DroneState.Patrolling;
-            agent.stoppingDistance = _baseStoppingDistance; // [FIX] ´Ù½Ã ¼øÂû¿ë Á¤Áö °Å¸®·Î º¹±¸
-            _playerTransform = null; // Ãß°İ ´ë»ó ¸®¼Â
-            GoToRandomPatrolPoint(); // ´Ù½Ã ¼øÂû ½ÃÀÛ
+            agent.stoppingDistance = _baseStoppingDistance; // [FIX] ë‹¤ì‹œ ìˆœì°°ìš© ì •ì§€ ê±°ë¦¬ë¡œ ë³µêµ¬
+            _playerTransform = null; // ì¶”ê²© ëŒ€ìƒ ë¦¬ì…‹
+            GoToRandomPatrolPoint(); // ë‹¤ì‹œ ìˆœì°° ì‹œì‘
         }
     }
 
     /// <summary>
-    /// ÇöÀç »óÅÂ(¼øÂû/Ãß°İ)¿¡ µû¸¥ ÀÌµ¿ Ã³¸®
+    /// í˜„ì¬ ìƒíƒœ(ìˆœì°°/ì¶”ê²©)ì— ë”°ë¥¸ ì´ë™ ì²˜ë¦¬
     /// </summary>
     private void HandleMovement()
     {
-        // [State 3] Ãß°İ »óÅÂ
+        // [State 3] ì¶”ê²© ìƒíƒœ
         if (_currentState == DroneState.Chasing)
         {
-            if (_playerTransform == null) return; // (½Ã¾ß ¹ö±× ¹æÁö)
+            if (_playerTransform == null) return; // (ì‹œì•¼ ë²„ê·¸ ë°©ì§€)
 
-            // ÇÃ·¹ÀÌ¾î¸¦ ÇâÇØ ÀÌµ¿
+            // í”Œë ˆì´ì–´ë¥¼ í–¥í•´ ì´ë™
             agent.SetDestination(_playerTransform.position);
 
-            // [State 4] °ø°İ ¹üÀ§¿¡ µµ´ŞÇÏ¸é Ä«¿îÆ®´Ù¿î ½ÃÀÛ
+            // [State 4] ê³µê²© ë²”ìœ„ì— ë„ë‹¬í•˜ë©´ ì¹´ìš´íŠ¸ë‹¤ìš´ ì‹œì‘
             if (Vector3.Distance(transform.position, _playerTransform.position) <= attackRange)
             {
                 StartCountdown();
             }
         }
-        // [State 2] ¼øÂû »óÅÂ
+        // [State 2] ìˆœì°° ìƒíƒœ
         else if (_currentState == DroneState.Patrolling)
         {
-            // [FIX] ¸ñÀûÁö¿¡ µµÂøÇÏ¸é (°æ·Î °è»ê ÁßÀÌ ¾Æ´Ï°í, ³²Àº °Å¸®°¡ Á¤Áö °Å¸®º¸´Ù ÀÛÀ¸¸é)
+            // [FIX] ëª©ì ì§€ì— ë„ì°©í•˜ë©´ (ê²½ë¡œ ê³„ì‚° ì¤‘ì´ ì•„ë‹ˆê³ , ë‚¨ì€ ê±°ë¦¬ê°€ ì •ì§€ ê±°ë¦¬ë³´ë‹¤ ì‘ìœ¼ë©´)
             if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
             {
-                // [¼öÁ¤µÊ] ´ÙÀ½ ¼øÂû ÁöÁ¡À» '¹«ÀÛÀ§'·Î ¼±ÅÃ
+                // [ìˆ˜ì •ë¨] ë‹¤ìŒ ìˆœì°° ì§€ì ì„ 'ë¬´ì‘ìœ„'ë¡œ ì„ íƒ
                 GoToRandomPatrolPoint();
             }
         }
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ½Ã¾ß ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
+    /// í”Œë ˆì´ì–´ê°€ ì‹œì•¼ ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ í™•ì¸
     /// </summary>
     private bool PlayerInSight()
     {
-        // sightRange ¹İ°æ ³»¿¡¼­ playerLayer¸¦ °¡Áø Äİ¶óÀÌ´õ¸¦ °ËÃâ
+        // sightRange ë°˜ê²½ ë‚´ì—ì„œ playerLayerë¥¼ ê°€ì§„ ì½œë¼ì´ë”ë¥¼ ê²€ì¶œ
         Collider[] hits = Physics.OverlapSphere(transform.position, sightRange, playerLayer);
 
         if (hits.Length > 0)
         {
-            // (Ã¹ ¹øÂ° °¨ÁöµÈ ÇÃ·¹ÀÌ¾î¸¦ Å¸°ÙÀ¸·Î ¼³Á¤)
+            // (ì²« ë²ˆì§¸ ê°ì§€ëœ í”Œë ˆì´ì–´ë¥¼ íƒ€ê²Ÿìœ¼ë¡œ ì„¤ì •)
             _playerTransform = hits[0].transform;
             return true;
         }
@@ -237,35 +237,35 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
     }
 
     /// <summary>
-    /// [¼öÁ¤µÊ] ¼øÂû ÁöÁ¡ ¸ñ·Ï¿¡¼­ '¹«ÀÛÀ§' ÁöÁ¡À» ¼±ÅÃÇÏ¿© ÀÌµ¿
+    /// [ìˆ˜ì •ë¨] ìˆœì°° ì§€ì  ëª©ë¡ì—ì„œ 'ë¬´ì‘ìœ„' ì§€ì ì„ ì„ íƒí•˜ì—¬ ì´ë™
     /// </summary>
     private void GoToRandomPatrolPoint()
     {
         if (patrolPoints == null || patrolPoints.Count == 0)
         {
-            Debug.LogWarning(gameObject.name + ": ¼øÂû ÁöÁ¡ÀÌ ¼³Á¤µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogWarning(gameObject.name + ": ìˆœì°° ì§€ì ì´ ì„¤ì •ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
             return;
         }
 
-        // 0ºÎÅÍ (¸ñ·Ï °³¼ö - 1) »çÀÌÀÇ ¹«ÀÛÀ§ ÀÎµ¦½º ¼±ÅÃ
+        // 0ë¶€í„° (ëª©ë¡ ê°œìˆ˜ - 1) ì‚¬ì´ì˜ ë¬´ì‘ìœ„ ì¸ë±ìŠ¤ ì„ íƒ
         int newIndex = Random.Range(0, patrolPoints.Count);
 
-        // NavMeshAgentÀÇ ¸ñÀûÁö¸¦ »õ ¹«ÀÛÀ§ ÁöÁ¡À¸·Î ¼³Á¤
+        // NavMeshAgentì˜ ëª©ì ì§€ë¥¼ ìƒˆ ë¬´ì‘ìœ„ ì§€ì ìœ¼ë¡œ ì„¤ì •
         agent.SetDestination(patrolPoints[newIndex].position);
     }
 
 
     /// <summary>
-    /// 1ÃÊ Æø¹ß Ä«¿îÆ®´Ù¿î ½ÃÀÛ (»óÅÂ ÀüÈ¯)
+    /// 1ì´ˆ í­ë°œ ì¹´ìš´íŠ¸ë‹¤ìš´ ì‹œì‘ (ìƒíƒœ ì „í™˜)
     /// </summary>
     private void StartCountdown()
     {
         _currentState = DroneState.Countdown;
-        agent.isStopped = true; // Æø¹ßÀ» À§ÇØ Á¤Áö
+        agent.isStopped = true; // í­ë°œì„ ìœ„í•´ ì •ì§€
 
-        _audioSource.Stop(); // 4. Ä«¿îÆ®´Ù¿î ½ÃÀÛ (ÀÛµ¿À½ ÁßÁö)
+        _audioSource.Stop(); // 4. ì¹´ìš´íŠ¸ë‹¤ìš´ ì‹œì‘ (ì‘ë™ìŒ ì¤‘ì§€)
 
-        // Áßº¹ ½ÇÇà ¹æÁö
+        // ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
         if (_countdownCoroutine != null) StopCoroutine(_countdownCoroutine);
         if (_blinkCoroutine != null) StopCoroutine(_blinkCoroutine);
 
@@ -274,16 +274,16 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
     }
 
     /// <summary>
-    /// 1ÃÊ ´ë±â ÈÄ Explode() È£Ãâ
+    /// 1ì´ˆ ëŒ€ê¸° í›„ Explode() í˜¸ì¶œ
     /// </summary>
     private IEnumerator CountdownRoutine()
     {
-        yield return new WaitForSeconds(countdownTime); // 1ÃÊ ´ë±â
-        Explode(); // Æø¹ß
+        yield return new WaitForSeconds(countdownTime); // 1ì´ˆ ëŒ€ê¸°
+        Explode(); // í­ë°œ
     }
 
     /// <summary>
-    /// Ä«¿îÆ®´Ù¿î Áß ¶óÀÌÆ®¸¦ 0.1ÃÊ °£°İÀ¸·Î Á¡¸ê
+    /// ì¹´ìš´íŠ¸ë‹¤ìš´ ì¤‘ ë¼ì´íŠ¸ë¥¼ 0.1ì´ˆ ê°„ê²©ìœ¼ë¡œ ì ë©¸
     /// </summary>
     private IEnumerator BlinkLightRoutine()
     {
@@ -297,50 +297,140 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
     }
 
     /// <summary>
-    /// µå·Ğ Æø¹ß Ã³¸®
+    /// ë“œë¡  í­ë°œ ì²˜ë¦¬
     /// </summary>
+    //private void Explode()
+    //{
+    //    // 1. ëª¨ë“  ë£¨í”„ ì‚¬ìš´ë“œ ì¦‰ì‹œ ì¤‘ì§€
+    //    if (_audioSource != null) _audioSource.Stop();
+
+    //    // 2. í­ë°œìŒ ì¬ìƒ (1íšŒì„±, PlayClipAtPointëŠ” ì˜¤ë¸Œì íŠ¸ê°€ íŒŒê´´ë˜ì–´ë„ ì†Œë¦¬ê°€ ë‚¨)
+    //    if (explosionSound != null)
+    //    {
+    //        AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+    //    }
+
+    //    Debug.Log(gameObject.name + " EXPLODED!", this);
+
+    //    if (explosionVFX != null)
+    //    {
+    //        Instantiate(explosionVFX, transform.position, Quaternion.identity);
+    //    }
+
+    //    Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, playerLayer); // [ìˆ˜ì •] playerLayerë§Œ ê²€ì‚¬í•˜ë„ë¡ ìµœì í™”
+
+    //    foreach (var hit in hits)
+    //    {
+    //        // 1. í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ ì°¾ê¸° (ë£¨íŠ¸ ì˜¤ë¸Œì íŠ¸)
+    //        PlayerController pc = hit.GetComponentInParent<PlayerController>();
+    //        if (pc == null) continue; // í”Œë ˆì´ì–´ê°€ ì•„ë‹ˆë©´ ë¬´ì‹œ
+
+    //        // 2. ë¬¼ë¦¬ í”¼ë“œë°± (ë„‰ë°±)
+    //        if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))  
+    //        {
+    //            playerRb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
+    //            Debug.Log("í”Œë ˆì´ì–´ì—ê²Œ í­ë°œ ë„‰ë°± ì ìš©!", pc.gameObject);
+    //        }
+
+    //        PlayerFeedbacks fx = pc.GetComponent<PlayerFeedbacks>();
+    //        if (fx != null)
+    //        {
+    //            fx.ExplosionHit();
+    //            Debug.Log("í”Œë ˆì´ì–´ì—ê²Œ í­ë°œ Feel ì ìš©!", fx.gameObject);
+    //        }
+    //    }
+
     private void Explode()
     {
-        // 1. ¸ğµç ·çÇÁ »ç¿îµå Áï½Ã ÁßÁö
         if (_audioSource != null) _audioSource.Stop();
-
-        // 2. Æø¹ßÀ½ Àç»ı (1È¸¼º, PlayClipAtPoint´Â ¿ÀºêÁ§Æ®°¡ ÆÄ±«µÇ¾îµµ ¼Ò¸®°¡ ³²)
         if (explosionSound != null)
-        {
             AudioSource.PlayClipAtPoint(explosionSound, transform.position);
-        }
 
         Debug.Log(gameObject.name + " EXPLODED!", this);
 
         if (explosionVFX != null)
-        {
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
-        }
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, playerLayer); // [¼öÁ¤] playerLayer¸¸ °Ë»çÇÏµµ·Ï ÃÖÀûÈ­
-        
+        //ëª¨ë“  ì¶©ëŒì²´ë¥¼ ë ˆì´ì–´ ë¬´ê´€í•˜ê²Œ íƒìƒ‰
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+
         foreach (var hit in hits)
         {
-            // 1. ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ Ã£±â (·çÆ® ¿ÀºêÁ§Æ®)
-            PlayerController pc = hit.GetComponentInParent<PlayerController>();
-            if (pc == null) continue; // ÇÃ·¹ÀÌ¾î°¡ ¾Æ´Ï¸é ¹«½Ã
+            GameObject target = hit.gameObject;
+            int targetLayer = target.layer;
+            string layerName = LayerMask.LayerToName(targetLayer);
 
-            // 2. ¹°¸® ÇÇµå¹é (³Ë¹é)
-            if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))  
+            switch (layerName)
             {
-                playerRb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
-                Debug.Log("ÇÃ·¹ÀÌ¾î¿¡°Ô Æø¹ß ³Ë¹é Àû¿ë!", pc.gameObject);
-            }
+                case "Player":
+                    HandlePlayerExplosion(hit);
+                    break;
 
-            PlayerFeedbacks fx = pc.GetComponent<PlayerFeedbacks>();
-            if (fx != null)
-            {
-                fx.ExplosionHit();
-                Debug.Log("ÇÃ·¹ÀÌ¾î¿¡°Ô Æø¹ß Feel Àû¿ë!", fx.gameObject);
+                case "Explode":
+                    HandleExplodeObject(hit);
+                    break;
+
+                case "ExDoor":
+                    HandleExDoor(hit);
+                    break;
             }
         }
 
         StopAllCoroutines();
         Destroy(gameObject);
     }
+
+    //1ï¸í”Œë ˆì´ì–´ ì²˜ë¦¬
+    private void HandlePlayerExplosion(Collider hit)
+    {
+        PlayerController pc = hit.GetComponentInParent<PlayerController>();
+        if (pc == null) return;
+
+        if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))
+        {
+            playerRb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
+            Debug.Log("í”Œë ˆì´ì–´ì—ê²Œ í­ë°œ ë„‰ë°± ì ìš©!", pc.gameObject);
+        }
+
+        PlayerFeedbacks fx = pc.GetComponent<PlayerFeedbacks>();
+        if (fx != null)
+        {
+            fx.ExplosionHit();
+            Debug.Log("í”Œë ˆì´ì–´ì—ê²Œ í­ë°œ Feel ì ìš©!", fx.gameObject);
+        }
+    }
+
+
+    // 2ï¸Explode Layer ì˜¤ë¸Œì íŠ¸ ì²˜ë¦¬
+    private void HandleExplodeObject(Collider hit)
+    {
+        var explodeScript = hit.GetComponent<Explode>();
+        if (explodeScript != null)
+        {
+            explodeScript.PrepareExplosion();
+            Debug.Log($"{hit.name} â†’ prepareExplode íŠ¸ë¦¬ê±°ë¨");
+        }
+        else
+        {
+            Debug.LogWarning($"{hit.name} (Explode Layer)ì— Explode ìŠ¤í¬ë¦½íŠ¸ê°€ ì—†ìŒ!");
+        }
+    }
+
+
+    // 3ï¸ExDoor Layer ì˜¤ë¸Œì íŠ¸ ì²˜ë¦¬
+    private void HandleExDoor(Collider hit)
+    {
+        Rigidbody rb = hit.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = hit.gameObject.AddComponent<Rigidbody>();
+        }
+
+        rb.mass = 1f;
+        rb.AddExplosionForce(explosionForce * 0.5f, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
+
+        Debug.Log($"{hit.name} (ExDoor) í­ë°œ ë°˜ì‘ë¨!");
+    }
+
+
 }
