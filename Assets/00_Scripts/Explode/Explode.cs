@@ -68,9 +68,12 @@ public class Explode : MonoBehaviour
         rb.isKinematic = true;
         rb.useGravity = false;
 
-        // 부모에 Collider 없으면 간단한 Collider 추가
-        if (GetComponent<Collider>() == null)
-            AddSimpleCollider(gameObject);
+        if (GetComponent<Collider>() != null)
+        {
+            // 콜라이더를 비활성화 (충돌 및 트리거 감지 중지)
+            GetComponent<Collider>().enabled = false;
+            Debug.Log(gameObject.name + "의 콜라이더가 비활성화되었습니다.");
+        }
 
         // 자식들에 대해 Collider/Rigidbody 생성 및 kinematic으로 고정
         Rigidbody[] childRbs = GetComponentsInChildren<Rigidbody>(true);
@@ -88,6 +91,7 @@ public class Explode : MonoBehaviour
 
             childRb.isKinematic = true;
             childRb.useGravity = false;
+            childRb.linearDamping = 8f;
         }
     }
 
