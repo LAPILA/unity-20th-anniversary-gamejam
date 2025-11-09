@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 84860be3eae526d438ae6176ec612a06
+AssetOrigin:
+  serializedVersion: 1
+  productId: 7677
+  packageName: Stealth
+  packageVersion: 1.4
+  assetPath: Assets/Audio/lift_raise.ogg
+  uploadId: 1414
 AudioImporter:
   externalObjects: {}
   serializedVersion: 8
@@ -21,10 +28,3 @@ AudioImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 7677
-  packageName: Stealth
-  packageVersion: 1.4
-  assetPath: Assets/Audio/lift_raise.ogg
-  uploadId: 1414
