@@ -24,10 +24,12 @@ MonoBehaviour:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     choice2:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     text_Korean: You will encounter small Security Bots as you move around. Be careful;
       they will explode if you get too close.
     text_English: You will encounter small Security Bots as you move around. Be careful;
@@ -43,9 +45,12 @@ MonoBehaviour:
       buttonText_Korean: Cool
       buttonText_English: Cool
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     choice2:
       buttonText_Korean: ..?
       buttonText_English: ..?
       nextDialogue: {fileID: 11400000, guid: e5b3d031e31101c4b8937a5c0071f0e0, type: 2}
+      endingStackToAdd: 1
     text_Korean: Oh, and for your convenience, I have deactivated the Office Bots.
     text_English: Oh, and for your convenience, I have deactivated the Office Bots.
+  isEndingTrigger: 0
