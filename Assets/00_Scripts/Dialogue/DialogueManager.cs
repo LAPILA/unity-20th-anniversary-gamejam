@@ -37,6 +37,9 @@ public class DialogueManager : MonoBehaviour
     [BoxGroup("UI References"), Required]
     [SerializeField] private Image DialogueBox_Image;
 
+    [BoxGroup("UI References"), Required]
+    [SerializeField] private Image NameBox_Image;
+
     [BoxGroup("Choice UI"), Required]
     [Tooltip("화면 전체를 덮을 검은색 반투명 배경 이미지")]
     [SerializeField] private Image dimmingPanel;
@@ -124,8 +127,9 @@ public class DialogueManager : MonoBehaviour
         portraitImage.sprite = null;
         portraitImage.color = Color.clear;
 
-        DialogueBox_Image.sprite = null;
         DialogueBox_Image.color = Color.clear;
+
+        NameBox_Image.color = Color.clear;
     }
 
     public void StartDialogue(DialogueData data, CinemachineCamera baseVCam, Action onCompleteCallback = null, Action<DialogueData> onChoiceSelected = null)
@@ -354,12 +358,14 @@ public class DialogueManager : MonoBehaviour
             portraitImage.sprite = line.portrait;
             portraitImage.color = Color.white;
             DialogueBox_Image.color = Color.white;
+            NameBox_Image.color = Color.white;
         }
         else
         {
             portraitImage.sprite = null;
             portraitImage.color = Color.clear;
             DialogueBox_Image.color = Color.clear;
+            NameBox_Image.color = Color.clear;
         }
     }
 
