@@ -63,7 +63,6 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
     [Tooltip("플레이어를 인식하기 위한 레이어 마스크")]
     [SerializeField] private LayerMask playerLayer;
 
-
     private Transform _playerTransform; // 추격 대상 플레이어
     private Coroutine _countdownCoroutine; // 1초 폭발 코루틴
     private Coroutine _blinkCoroutine; // 점멸 코루틴
@@ -319,6 +318,7 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
         }
 
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, playerLayer); // [수정] playerLayer만 검사하도록 최적화
+        
         foreach (var hit in hits)
         {
             // 1. 플레이어 컨트롤러 찾기 (루트 오브젝트)
@@ -326,7 +326,7 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
             if (pc == null) continue; // 플레이어가 아니면 무시
 
             // 2. 물리 피드백 (넉백)
-            if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))
+            if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))  
             {
                 playerRb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
                 Debug.Log("플레이어에게 폭발 넉백 적용!", pc.gameObject);
