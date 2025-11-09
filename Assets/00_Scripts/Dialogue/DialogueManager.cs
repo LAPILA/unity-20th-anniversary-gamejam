@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,16 +8,16 @@ using DG.Tweening;
 using System;
 
 /// <summary>
-/// ¹ü¿ë ´ëÈ­ ½Ã½ºÅÛÀ» °ü¸®ÇÏ´Â ½Ì±ÛÅæ ¸Å´ÏÀú (DOTween ÄÚµå ±â¹İ)
-/// - Æä¸£¼Ò³ª ½ºÅ¸ÀÏ (L/R ½½¶óÀÌµå)
-/// - ´Ù±¹¾î, ÅØ½ºÆ® Å¸ÀÌÇÎ, Á¾·á Äİ¹é Áö¿ø
+/// ë²”ìš© ëŒ€í™” ì‹œìŠ¤í…œì„ ê´€ë¦¬í•˜ëŠ” ì‹±ê¸€í†¤ ë§¤ë‹ˆì € (DOTween ì½”ë“œ ê¸°ë°˜)
+/// - í˜ë¥´ì†Œë‚˜ ìŠ¤íƒ€ì¼ (L/R ìŠ¬ë¼ì´ë“œ)
+/// - ë‹¤êµ­ì–´, í…ìŠ¤íŠ¸ íƒ€ì´í•‘, ì¢…ë£Œ ì½œë°± ì§€ì›
 /// </summary>
 public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
     [BoxGroup("UI References"), Required]
-    [Tooltip("´ëÈ­Ã¢ ÀüÃ¼ ÄÁÅ×ÀÌ³Ê (RectTransform Á¦¾î ´ë»ó)")]
+    [Tooltip("ëŒ€í™”ì°½ ì „ì²´ ì»¨í…Œì´ë„ˆ (RectTransform ì œì–´ ëŒ€ìƒ)")]
     [SerializeField] private GameObject dialogueBoxContainer;
 
     [BoxGroup("UI References"), Required]
@@ -29,38 +29,39 @@ public class DialogueManager : MonoBehaviour
     [BoxGroup("UI References"), Required]
     [SerializeField] private Image portraitImage;
 
+    // ì‚¬ìš©ìê°€ ì¶”ê°€ ìš”ì²­í•œ ëŒ€í™”ì°½ ë°°ê²½ ì´ë¯¸ì§€ ì»´í¬ë„ŒíŠ¸
+    [BoxGroup("UI References"), Required]
+    [SerializeField] private Image DialogueBox_Image;
+
     [BoxGroup("Text Settings")]
-    [Tooltip("ÅØ½ºÆ® Å¸ÀÌÇÎ ¼Óµµ")]
+    [Tooltip("í…ìŠ¤íŠ¸ íƒ€ì´í•‘ ì†ë„")]
     [SerializeField] private float typeSpeed = 0.03f;
 
-    // (3ÇÁ·¹ÀÓ ¾Ö´Ï¸ŞÀÌ¼Ç °ü·Ã ÇÊµå Á¦°ÅµÊ)
-
     [BoxGroup("Animation (Slide-In)")]
-    [Tooltip("L/R ½½¶óÀÌµå ÀÎ¿¡ °É¸®´Â ½Ã°£")]
+    [Tooltip("L/R ìŠ¬ë¼ì´ë“œ ì¸ì— ê±¸ë¦¬ëŠ” ì‹œê°„")]
     [SerializeField] private float slideDuration = 0.4f;
 
     [BoxGroup("Animation (Slide-In)")]
-    [Tooltip("´ëÈ­Ã¢ÀÌ È­¸é ¹ÛÀ¸·Î ³ª°¥ ¶§ Y À§Ä¡")]
+    [Tooltip("ëŒ€í™”ì°½ì´ í™”ë©´ ë°–ìœ¼ë¡œ ë‚˜ê°ˆ ë•Œ Y ìœ„ì¹˜")]
     [SerializeField] private float offscreenY = -1000f;
 
     [BoxGroup("Animation (Slide-In)")]
-    [Tooltip("´ëÈ­Ã¢ÀÌ È­¸é ¾ÈÀ¸·Î µé¾î¿ÔÀ» ¶§ Y À§Ä¡")]
+    [Tooltip("ëŒ€í™”ì°½ì´ í™”ë©´ ì•ˆìœ¼ë¡œ ë“¤ì–´ì™”ì„ ë•Œ Y ìœ„ì¹˜")]
     [SerializeField] private float onscreenY = 0f;
 
-    // ³»ºÎ »óÅÂ
+    // ë‚´ë¶€ ìƒíƒœ
     private RectTransform _dialogueBoxRect;
     private Queue<DialogueLine> _lineQueue;
     private bool _isTyping = false;
-    private bool _isBusy = false; // ½½¶óÀÌµå ¶Ç´Â Å¸ÀÌÇÎ ÁßÀÎÁö
-    private Language _currentLanguage = Language.Korean; // ÀÓ½Ã
+    private bool _isBusy = false; // ìŠ¬ë¼ì´ë“œ ë˜ëŠ” íƒ€ì´í•‘ ì¤‘ì¸ì§€
+    private Language _currentLanguage = Language.Korean; // ì„ì‹œ
     private Coroutine _typingCoroutine;
-    // (3ÇÁ·¹ÀÓ ¾Ö´Ï¸ŞÀÌ¼Ç ÄÚ·çÆ¾ Á¦°ÅµÊ)
     private DialogueLine _previousLine;
     private Action _onDialogueComplete;
 
     public bool IsDialogueActive => _isBusy || _isTyping || dialogueBoxContainer.activeSelf;
 
-    // ÀÓ½Ã ¾ğ¾î ¼³Á¤
+    // ì„ì‹œ ì–¸ì–´ ì„¤ì •
     public enum Language { Korean, English }
 
     void Awake()
@@ -71,11 +72,9 @@ public class DialogueManager : MonoBehaviour
             _lineQueue = new Queue<DialogueLine>();
             _dialogueBoxRect = dialogueBoxContainer.GetComponent<RectTransform>();
 
-            // [¼öÁ¤µÊ]
-            // Awake()¿¡¼­ SetActive(false)¸¦ È£ÃâÇÏ´Â ´ë½Å,
-            // À¯´ÏÆ¼ ¿¡µğÅÍ¿¡¼­ dialogueBoxContainer¸¦
-            // ±âº»À¸·Î 'ºñÈ°¼ºÈ­(Checked OFF)' ÇØµÎ´Â °ÍÀ» ±ÇÀåÇÕ´Ï´Ù.
-            // ÀÌ ½ºÅ©¸³Æ®°¡ StartDialogue¿¡¼­ ÄÑ°í EndDialogue¿¡¼­ ²ü´Ï´Ù.
+            // DOTween ì´ˆê¸°í™” ë° ê¸°ë³¸ ìœ„ì¹˜ ì„¤ì • (ê¹œë¹¡ì„ ìµœì†Œí™”)
+            _dialogueBoxRect.anchoredPosition = new Vector2(0, offscreenY);
+            ClearDialogueUI(); // Awakeì—ì„œ UI ìƒíƒœë¥¼ ì´ˆê¸°í™”í•˜ì—¬ íˆ¬ëª…í•˜ê²Œ ì‹œì‘
         }
         else
         {
@@ -85,16 +84,20 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
-        // ½ÃÀÛ ½Ã ´ëÈ­Ã¢À» È­¸é ¹ÛÀ¸·Î ¼³Á¤ (Awake¿¡¼­ ÀÌ¹Ì ºñÈ°¼ºÈ­µÊ)
-        _dialogueBoxRect.anchoredPosition = new Vector2(0, offscreenY);
+        // Startì—ì„œëŠ” ë³„ë„ì˜ ë™ì‘ì´ í•„ìš” ì—†ìŠµë‹ˆë‹¤.
     }
 
     private void ClearDialogueUI()
     {
+        // ëª¨ë“  í…ìŠ¤íŠ¸, ì´ˆìƒí™”, ë°°ê²½ ì´ë¯¸ì§€ë¥¼ íˆ¬ëª…í•˜ê²Œ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
         speakerNameText.text = "";
         dialogueText.text = "";
+
         portraitImage.sprite = null;
         portraitImage.color = Color.clear;
+
+        DialogueBox_Image.sprite = null; // ë°°ê²½ ì´ë¯¸ì§€ë„ íˆ¬ëª…í™” (ë§Œì•½ Sprite ëª¨ë“œë¼ë©´)
+        DialogueBox_Image.color = Color.clear; // ë°°ê²½ ì´ë¯¸ì§€ ì»¬ëŸ¬ë„ íˆ¬ëª…í™”
     }
 
     public void StartDialogue(DialogueData data, Action onCompleteCallback = null)
@@ -109,23 +112,23 @@ public class DialogueManager : MonoBehaviour
 
         _onDialogueComplete = onCompleteCallback;
 
-        // ¡å¡å¡å [¼öÁ¤µÊ] ½ÇÇà ¼ø¼­ º¯°æ ¡å¡å¡å
-
-        // 1. ÄÑ±â¸¦ ¸ÕÀú ¼öÇàÇÕ´Ï´Ù.
-        dialogueBoxContainer.SetActive(true);
-
-        // 2. ÄÑÁø Á÷ÈÄ¿¡ UI¸¦ Áï½Ã Ã»¼ÒÇÕ´Ï´Ù.
-        // (ÀÌ ½ÃÁ¡¿¡¼­ ÄÄÆ÷³ÍÆ®µéÀÌ È°¼ºÈ­µÇ¾î .text/.sprite º¯°æÀÌ Áï½Ã ¹İ¿µµË´Ï´Ù)
+        // 1. UIë¥¼ íˆ¬ëª…í•˜ê²Œ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
         ClearDialogueUI();
 
-        // 3. ºñ¾îÀÖ´Â ´ëÈ­Ã¢À» À§·Î ½½¶óÀÌµåÇÕ´Ï´Ù.
+        // 2. ëŒ€í™”ì°½ì„ í™”ë©´ ë°– ìœ„ì¹˜ë¡œ ì¦‰ì‹œ ê³ ì •í•©ë‹ˆë‹¤. (ê¹œë¹¡ì„ 2ì°¨ ë°©ì§€)
+        _dialogueBoxRect.anchoredPosition = new Vector2(_dialogueBoxRect.anchoredPosition.x, offscreenY);
+
+        // 3. ì¼œê¸°ë¥¼ ìˆ˜í–‰í•©ë‹ˆë‹¤. (ClearDialogueUIê°€ ì´ë¯¸ íˆ¬ëª…í•˜ê²Œ ë§Œë“¤ì—ˆìœ¼ë¯€ë¡œ ê¹œë¹¡ì„ ìµœì†Œí™”)
+        dialogueBoxContainer.SetActive(true);
+
+        // 4. ë¹„ì–´ìˆëŠ” ëŒ€í™”ì°½ì„ ìœ„ë¡œ ìŠ¬ë¼ì´ë“œí•©ë‹ˆë‹¤.
         _isBusy = true;
         _dialogueBoxRect.DOAnchorPosY(onscreenY, slideDuration * 1.5f)
             .SetEase(Ease.OutCubic)
             .OnComplete(() =>
             {
                 _isBusy = false;
-                ShowNextLine(); // 4. ½½¶óÀÌµå ¿Ï·á ÈÄ Ã¹ ´ë»ç Ç¥½Ã
+                ShowNextLine(); // 5. ìŠ¬ë¼ì´ë“œ ì™„ë£Œ í›„ ì²« ëŒ€ì‚¬ í‘œì‹œ
             });
     }
 
@@ -155,75 +158,97 @@ public class DialogueManager : MonoBehaviour
 
         DialogueLine currentLine = _lineQueue.Dequeue();
 
-        // ¡å¡å¡å [¹®Á¦ 2 ÇØ°á] µ¿ÀÏ È­ÀÚ Ã¼Å© ¡å¡å¡å
-        // È­ÀÚ°¡ °°°í, ´ëÈ­Ã¢ÀÌ ÀÌ¹Ì È°¼ºÈ­µÇ¾î ÀÖÀ¸¸é(Ã¹ ´ë»ç°¡ ¾Æ´Ï¸é)
+        // í™”ìê°€ ê°™ê³ , ëŒ€í™”ì°½ì´ ì´ë¯¸ í™œì„±í™”ë˜ì–´ ìˆìœ¼ë©´(ì²« ëŒ€ì‚¬ê°€ ì•„ë‹ˆë©´)
         if (dialogueBoxContainer.activeSelf && currentLine.speakerName == _previousLine.speakerName)
         {
-            // ½½¶óÀÌµå ¾øÀÌ ÅØ½ºÆ®¸¸ °»½Å
+            // ìŠ¬ë¼ì´ë“œ ì—†ì´ í…ìŠ¤íŠ¸ë§Œ ê°±ì‹ 
             StartCoroutine(UpdateTextOnlyRoutine(currentLine));
         }
         else
         {
-            // È­ÀÚ°¡ ´Ù¸£¸é L/R ½½¶óÀÌµå ½ÇÇà
+            // í™”ìê°€ ë‹¤ë¥´ë©´ L/R ìŠ¬ë¼ì´ë“œ ì‹¤í–‰
             StartCoroutine(ShowLineRoutine(currentLine));
         }
-        // ¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã¡ã
 
         _previousLine = currentLine;
     }
 
     /// <summary>
-    /// [¹®Á¦ 2 ÇØ°á] L/R ½½¶óÀÌµå ¾øÀÌ ÅØ½ºÆ®¸¸ °»½ÅÇÏ´Â ÄÚ·çÆ¾
+    /// L/R ìŠ¬ë¼ì´ë“œ ì—†ì´ í…ìŠ¤íŠ¸ë§Œ ê°±ì‹ í•˜ëŠ” ì½”ë£¨í‹´
     /// </summary>
     private IEnumerator UpdateTextOnlyRoutine(DialogueLine line)
     {
-        // 1. ±âÁ¸ Å¸ÀÌÇÎ ÁßÁö
+        // 1. ê¸°ì¡´ íƒ€ì´í•‘ ì¤‘ì§€
         if (_typingCoroutine != null)
         {
             StopCoroutine(_typingCoroutine);
             _isTyping = false;
         }
 
-        // 2. ÅØ½ºÆ®/ÃÊ»óÈ­ °»½Å (È­ÀÚ ÀÌ¸§Àº µ¿ÀÏÇÏ¹Ç·Î »ı·«)
-        // (ÃÊ»óÈ­°¡ ¹Ù²ğ ¼ö ÀÖÀ¸´Ï °»½Å)
-        if (line.portrait != null)
-        {
-            portraitImage.sprite = line.portrait;
-            portraitImage.color = Color.white;
-        }
-        else
-        {
-            portraitImage.sprite = null;
-            portraitImage.color = Color.clear;
-        }
+        // 2. ì´ˆìƒí™” ê°±ì‹ 
+        UpdatePortraitAndDialogueBox(line);
 
         string textToShow = (_currentLanguage == Language.Korean)
             ? line.text_Korean
             : line.text_English;
 
-        // 3. »õ Å¸ÀÌÇÎ ½ÃÀÛ
+        // 3. ìƒˆ íƒ€ì´í•‘ ì‹œì‘
         _typingCoroutine = StartCoroutine(TypewriterEffect(textToShow));
 
-        yield break; // ÄÚ·çÆ¾ Áï½Ã Á¾·á (TypewriterEffect°¡ _isTypingÀ» °ü¸®)
+        yield break;
     }
 
     private IEnumerator ShowLineRoutine(DialogueLine line)
     {
         _isBusy = true;
 
+        string textToShow = (_currentLanguage == Language.Korean)
+            ? line.text_Korean
+            : line.text_English;
+
         float exitX = line.isPlayer ?
             _dialogueBoxRect.rect.width * 2f : -_dialogueBoxRect.rect.width * 2f;
 
-        // _previousLine.speakerNameÀÌ nullÀÌ ¾Æ´Ï¸é(Ã¹ ´ë»ç°¡ ¾Æ´Ï¸é) ½½¶óÀÌµå ¾Æ¿ô ½ÇÇà
+        // ì´ì „ ëŒ€í™” ìŠ¬ë¼ì´ë“œ ì•„ì›ƒ
         if (!string.IsNullOrEmpty(_previousLine.speakerName))
         {
             yield return _dialogueBoxRect.DOAnchorPosX(exitX, slideDuration)
-               .SetEase(Ease.InCubic)
-               .WaitForCompletion();
+                .SetEase(Ease.InCubic)
+                .WaitForCompletion();
+
+            // ìŠ¬ë¼ì´ë“œ ì•„ì›ƒ ì™„ë£Œ í›„, ë‹¤ìŒ ìŠ¬ë¼ì´ë“œ ì¸ ì• ë‹ˆë©”ì´ì…˜ ì „ì— ëŒ€í™”ì°½ ì´ë¯¸ì§€ ë¹„í™œì„±í™”/íˆ¬ëª…í™”
+            ClearDialogueUI();
         }
 
+        // 1. ì´ë¦„, ì´ˆìƒí™”, ë°°ê²½ ì„¤ì • (ìŠ¬ë¼ì´ë“œ ì¸ ì• ë‹ˆë©”ì´ì…˜ ì „ì— ë°°ì¹˜)
+        // ì´ ì‹œì ì—ì„œëŠ” í…ìŠ¤íŠ¸ ê°€ì‹œì„±ì´ 0ì´ê³ , ì´ˆìƒí™”/ë°°ê²½ì€ UpdatePortraitAndDialogueBoxì—ì„œ ì²˜ë¦¬ë¨
         speakerNameText.text = line.speakerName;
+        UpdatePortraitAndDialogueBox(line);
 
+        // 2. í…ìŠ¤íŠ¸ ì„¤ì • ë° ì¦‰ì‹œ ìˆ¨ê¹€ (ê°€ì¥ ì¤‘ìš”)
+        dialogueText.text = textToShow;
+        dialogueText.maxVisibleCharacters = 0;
+
+        // 3. ìƒˆ ì‹œì‘ ìœ„ì¹˜ ì„¤ì • ë° ìŠ¬ë¼ì´ë“œ ì¸ ì‹œì‘
+        float startX = line.isPlayer ?
+            -_dialogueBoxRect.rect.width * 2f : _dialogueBoxRect.rect.width * 2f;
+
+        _dialogueBoxRect.anchoredPosition = new Vector2(startX, onscreenY);
+
+        _dialogueBoxRect.DOAnchorPosX(0, slideDuration).SetEase(Ease.OutCubic);
+        yield return new WaitForSeconds(slideDuration);
+
+        _isBusy = false; // ì´ì œ íƒ€ì´í•‘ ì‹œì‘
+        if (_typingCoroutine != null) StopCoroutine(_typingCoroutine);
+        _typingCoroutine = StartCoroutine(TypewriterEffect(textToShow));
+    }
+
+    /// <summary>
+    /// ì´ˆìƒí™” ë° ëŒ€í™”ì°½ ë°°ê²½ ì´ë¯¸ì§€ ê°±ì‹  ë¡œì§ì„ í†µí•©
+    /// </summary>
+    private void UpdatePortraitAndDialogueBox(DialogueLine line)
+    {
+        // ì´ˆìƒí™” ê°±ì‹ 
         if (line.portrait != null)
         {
             portraitImage.sprite = line.portrait;
@@ -235,22 +260,22 @@ public class DialogueManager : MonoBehaviour
             portraitImage.color = Color.clear;
         }
 
-        string textToShow = (_currentLanguage == Language.Korean)
-            ? line.text_Korean
-            : line.text_English;
-        dialogueText.text = textToShow;
-        dialogueText.maxVisibleCharacters = 0;
+        // ëŒ€í™”ì°½ ì´ë¯¸ì§€ ê°±ì‹ 
+        // DialogueBox_ImageëŠ” í•­ìƒ íˆ¬ëª…í•˜ê±°ë‚˜,
+        // í”Œë ˆì´ì–´/NPCì— ë”°ë¼ ë‹¤ë¥¸ ìŠ¤íƒ€ì¼ì„ ê°€ì§ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+        // ì—¬ê¸°ì„œëŠ” ê°„ë‹¨íˆ íˆ¬ëª…/ë¶ˆíˆ¬ëª…ë§Œ ì œì–´í•©ë‹ˆë‹¤.
 
-        float startX = line.isPlayer ?
-            -_dialogueBoxRect.rect.width * 2f : _dialogueBoxRect.rect.width * 2f;
-        _dialogueBoxRect.anchoredPosition = new Vector2(startX, onscreenY);
-
-        _dialogueBoxRect.DOAnchorPosX(0, slideDuration).SetEase(Ease.OutCubic);
-        yield return new WaitForSeconds(slideDuration);
-
-        _isBusy = false; // ÀÌÁ¦ Å¸ÀÌÇÎ ½ÃÀÛ
-        if (_typingCoroutine != null) StopCoroutine(_typingCoroutine);
-        _typingCoroutine = StartCoroutine(TypewriterEffect(textToShow));
+        // ì´ˆìƒí™”ê°€ ìˆì„ ë•Œë§Œ ë°°ê²½ ì´ë¯¸ì§€ë„ ë³´ì´ë„ë¡ ì„¤ì • (ì¼ë°˜ì ì¸ ë°©ì‹)
+        if (line.portrait != null)
+        {
+            // ì‹¤ì œ ë°°ê²½ ì´ë¯¸ì§€ë¥¼ ì„¤ì •í•˜ê±°ë‚˜, ë‹¨ìˆœíˆ ë¶ˆíˆ¬ëª…í•˜ê²Œ ë§Œë“­ë‹ˆë‹¤.
+            DialogueBox_Image.color = Color.white; // ë°°ê²½ì´ ë³´ì´ë„ë¡ ë¶ˆíˆ¬ëª…í•˜ê²Œ ì„¤ì •
+        }
+        else
+        {
+            // ì´ˆìƒí™”ê°€ ì—†ìœ¼ë©´ ë°°ê²½ë„ ìˆ¨ê¹€
+            DialogueBox_Image.color = Color.clear;
+        }
     }
 
 
@@ -288,7 +313,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (_isBusy) return;
         _isBusy = true;
-        _previousLine = default; // ´ÙÀ½ ´ëÈ­°¡ ½½¶óÀÌµåÀÎÀ¸·Î ½ÃÀÛÇÏµµ·Ï ÃÊ±âÈ­
+        _previousLine = default; // ë‹¤ìŒ ëŒ€í™”ê°€ ìŠ¬ë¼ì´ë“œì¸ìœ¼ë¡œ ì‹œì‘í•˜ë„ë¡ ì´ˆê¸°í™”
 
         _dialogueBoxRect.DOAnchorPosY(offscreenY, slideDuration * 1.5f)
             .SetEase(Ease.InCubic)
@@ -296,6 +321,9 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueBoxContainer.SetActive(false);
                 _isBusy = false;
+
+                // ëŒ€í™” ì¢…ë£Œ ì‹œ ëª¨ë“  UIë¥¼ íˆ¬ëª…í•˜ê²Œ ì´ˆê¸°í™”
+                ClearDialogueUI();
 
                 _onDialogueComplete?.Invoke();
                 _onDialogueComplete = null;

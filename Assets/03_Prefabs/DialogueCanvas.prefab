@@ -598,6 +598,7 @@ MonoBehaviour:
   speakerNameText: {fileID: 7229452034785119950}
   dialogueText: {fileID: 1655487508189067369}
   portraitImage: {fileID: 5472146345395990923}
+  DialogueBox_Image: {fileID: 7290684735061980925}
   typeSpeed: 0.03
   slideDuration: 0.4
   offscreenY: -1000
