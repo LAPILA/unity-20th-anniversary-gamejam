@@ -10383,6 +10383,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1540961532}
     m_Modifications:
+    - target: {fileID: 1616855105966694499, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
+      propertyPath: m_Radius
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3611815209272307947, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 6
@@ -16744,7 +16748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 420165738283952864, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4985758727371760893, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: serializationData.Prefab
@@ -22414,6 +22418,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1540961532}
     m_Modifications:
+    - target: {fileID: 1616855105966694499, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
+      propertyPath: m_Radius
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3611815209272307947, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 6
@@ -29834,6 +29842,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1540961532}
     m_Modifications:
+    - target: {fileID: 1616855105966694499, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
+      propertyPath: m_Radius
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3611815209272307947, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 6
@@ -41444,7 +41456,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 420165738283952864, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4316388394083383785, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -41464,15 +41476,23 @@ PrefabInstance:
       objectReference: {fileID: 5110656955612620187, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
     - target: {fileID: 7897164069733952240, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.00000047683716
+      value: 16.200207
       objectReference: {fileID: 0}
     - target: {fileID: 7897164069733952240, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000011920929
+      value: 5.0000286
       objectReference: {fileID: 0}
     - target: {fileID: 7897164069733952240, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.000000029802322
+      value: -35.640633
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897164069733952240, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897164069733952240, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42449,6 +42469,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1540961532}
     m_Modifications:
+    - target: {fileID: 1616855105966694499, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
+      propertyPath: m_Radius
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3611815209272307947, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 6
@@ -53096,6 +53120,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1540961532}
     m_Modifications:
+    - target: {fileID: 1616855105966694499, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
+      propertyPath: m_Radius
+      value: 1.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3611815209272307947, guid: a6074693c0ce3034ab2d0441970de94d, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 6

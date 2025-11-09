@@ -351,28 +351,28 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
         if (explosionVFX != null)
             Instantiate(explosionVFX, transform.position, Quaternion.identity);
 
-        //모든 충돌체를 레이어 무관하게 탐색
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
 
         foreach (var hit in hits)
         {
-            GameObject target = hit.gameObject;
-            int targetLayer = target.layer;
-            string layerName = LayerMask.LayerToName(targetLayer);
+            string layerName = LayerMask.LayerToName(hit.gameObject.layer);
 
-            switch (layerName)
+            // Player 반응
+            if (layerName == "Player")
             {
-                case "Player":
-                    HandlePlayerExplosion(hit);
-                    break;
+                HandlePlayerExplosion(hit);
+            }
 
-                case "Explode":
-                    HandleExplodeObject(hit);
-                    break;
+            // Explode 반응
+            else if (layerName == "Explode")
+            {
+                HandleExplodeObject(hit);
+            }
 
-                case "ExDoor":
-                    HandleExDoor(hit);
-                    break;
+            // ExDoor 반응
+            else if (layerName == "ExDoor")
+            {
+                HandleExDoor(hit);
             }
         }
 
