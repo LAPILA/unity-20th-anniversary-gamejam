@@ -84,6 +84,11 @@ public class BossLaserController : MonoBehaviour
         if (((1 << layer) & playerLayer) != 0)
         {
             Debug.Log($"플레이어 적중! 즉사 처리 예정. 오브젝트: {hitObject.name}");
+            PlayerController pc = hitObject.GetComponentInParent<PlayerController>();
+            if (pc != null)
+            {
+                pc.RespawnAtCheckpoint();
+            }
         }
         else if (((1 << layer) & batteryBoxLayer) != 0)
         {
