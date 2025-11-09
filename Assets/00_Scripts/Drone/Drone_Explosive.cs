@@ -321,19 +321,19 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
         {
             string layerName = LayerMask.LayerToName(hit.gameObject.layer);
 
+            // 실제 거리 계산 추가
+            float distance = Vector3.Distance(transform.position, hit.transform.position);
+            if (distance > explosionRadius) continue; // 폭발 반경 밖이면 무시
+
             // Player 반응
             if (layerName == "Player")
             {
                 HandlePlayerExplosion(hit);
             }
-
-            // Explode 반응
             else if (layerName == "Explode")
             {
                 HandleExplodeObject(hit);
             }
-
-            // ExDoor 반응
             else if (layerName == "ExDoor")
             {
                 HandleExDoor(hit);
@@ -343,10 +343,14 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
         StopAllCoroutines();
         Destroy(gameObject);
     }
+
     private void HandlePlayerExplosion(Collider hit)
     {
         PlayerController pc = hit.GetComponentInParent<PlayerController>();
         if (pc == null) return;
+
+        float distance = Vector3.Distance(transform.position, pc.transform.position);
+        if (distance > explosionRadius) return; //추가 안전검사
 
         if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))
         {
@@ -363,6 +367,7 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
 
         pc.Die();
     }
+
 
     private void HandleExplodeObject(Collider hit)
     {
