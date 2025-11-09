@@ -6,7 +6,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using System;
-using Unity.Cinemachine; // VCam 처리를 위해 추가
+using Unity.Cinemachine;
 
 /// <summary>
 /// 범용 대화 시스템을 관리하는 싱글톤 매니저 (DOTween 코드 기반)
@@ -15,6 +15,10 @@ using Unity.Cinemachine; // VCam 처리를 위해 추가
 /// </summary>
 public class DialogueManager : MonoBehaviour
 {
+    // ... (모든 변수와 Awake, ClearDialogueUI, StartDialogue, OnClickNext, ShowNextLine - 변경 없음) ...
+    // ... (ExecuteDynamicEvents, ClearDynamicEvents, UpdateTextOnlyRoutine, ShowLineRoutine - 변경 없음) ...
+    // ... (UpdatePortraitAndDialogueBox, ShowChoices, CreateChoiceButton - 변경 없음) ...
+
     public static DialogueManager Instance { get; private set; }
 
     [BoxGroup("UI References"), Required]
@@ -30,7 +34,6 @@ public class DialogueManager : MonoBehaviour
     [BoxGroup("UI References"), Required]
     [SerializeField] private Image portraitImage;
 
-    // 사용자가 추가 요청한 대화창 배경 이미지 컴포넌트
     [BoxGroup("UI References"), Required]
     [SerializeField] private Image DialogueBox_Image;
 
@@ -49,6 +52,10 @@ public class DialogueManager : MonoBehaviour
     [BoxGroup("Audio")]
     [Tooltip("사운드 재생용 AudioSource")]
     [SerializeField] private AudioSource audioSource;
+
+    [BoxGroup("Audio")]
+    [Tooltip("언더테일 스타일 텍스트 타이핑 기본 사운드 클립")]
+    [SerializeField] private AudioClip defaultTypingSound;
 
     [BoxGroup("Text Settings")]
     [Tooltip("텍스트 타이핑 속도")]
@@ -70,19 +77,21 @@ public class DialogueManager : MonoBehaviour
     private RectTransform _dialogueBoxRect;
     private Queue<DialogueLine> _lineQueue;
     private bool _isTyping = false;
-    private bool _isBusy = false; // 슬라이드, 선택지, 타이핑 중인지
-    private Language _currentLanguage = Language.Korean; // 임시
+    private bool _isBusy = false;
+    private Language _currentLanguage = Language.Korean;
     private Coroutine _typingCoroutine;
     private DialogueLine _previousLine;
     private Action _onDialogueComplete;
 
-    // 선택지 처리를 위한 Action (NPC_Dialogue로 결과를 전달)
     private Action<DialogueData> _onChoiceSelected;
     private CinemachineCamera _currentVCamOverride;
+    private CinemachineCamera _baseVCam; // 💥 [추가] NPC로부터 기본 VCam을 저장할 변수
+
+    // 현재 대사에 설정된 사운드 클립 (타이핑 코루틴에서 사용)
+    private AudioClip _currentLineTypingSound;
 
     public bool IsDialogueActive => _isBusy || _isTyping || dialogueBoxContainer.activeSelf || dimmingPanel.gameObject.activeSelf;
 
-    // 임시 언어 설정
     public enum Language { Korean, English }
 
     void Awake()
@@ -93,10 +102,8 @@ public class DialogueManager : MonoBehaviour
             _lineQueue = new Queue<DialogueLine>();
             _dialogueBoxRect = dialogueBoxContainer.GetComponent<RectTransform>();
 
-            // DOTween 초기화 및 기본 위치 설정 (깜빡임 최소화)
             _dialogueBoxRect.anchoredPosition = new Vector2(0, offscreenY);
 
-            // 선택지 및 어둡게 패널 초기화 (비활성화 및 투명화)
             dimmingPanel.gameObject.SetActive(false);
             dimmingPanel.color = new Color(0, 0, 0, 0);
             choiceContainer.SetActive(false);
@@ -111,7 +118,6 @@ public class DialogueManager : MonoBehaviour
 
     private void ClearDialogueUI()
     {
-        // 모든 텍스트, 초상화, 배경 이미지를 투명하게 초기화합니다.
         speakerNameText.text = "";
         dialogueText.text = "";
 
@@ -122,7 +128,7 @@ public class DialogueManager : MonoBehaviour
         DialogueBox_Image.color = Color.clear;
     }
 
-    public void StartDialogue(DialogueData data, Action onCompleteCallback = null, Action<DialogueData> onChoiceSelected = null)
+    public void StartDialogue(DialogueData data, CinemachineCamera baseVCam, Action onCompleteCallback = null, Action<DialogueData> onChoiceSelected = null)
     {
         if (_isBusy) return;
 
@@ -133,7 +139,14 @@ public class DialogueManager : MonoBehaviour
         }
 
         _onDialogueComplete = onCompleteCallback;
-        _onChoiceSelected = onChoiceSelected; // 선택지 결과 처리 콜백 저장
+        _onChoiceSelected = onChoiceSelected;
+        _baseVCam = baseVCam; // 💥 [추가] 기본 VCam 저장
+
+        ClearDynamicEvents(); // 새 대화 시작 전 이전 동적 VCam 초기화
+
+        // 💥 [수정됨] StartDialogue가 호출될 때도 _previousLine을 초기화합니다.
+        // 이것이 OnChoiceMade에서 재시작될 때 선택지가 다시 뜨는 것을 막는 2차 방어선입니다.
+        _previousLine = default;
 
         // 1. UI를 투명하게 초기화합니다.
         ClearDialogueUI();
@@ -151,7 +164,7 @@ public class DialogueManager : MonoBehaviour
             .OnComplete(() =>
             {
                 _isBusy = false;
-                ShowNextLine(); // 5. 슬라이드 완료 후 첫 대사 표시
+                ShowNextLine();
             });
     }
 
@@ -165,8 +178,14 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            // 현재 대사가 선택지 분기점이었다면, 클릭을 무시하고 선택지를 기다립니다.
-            if (_previousLine.isChoicePoint) return;
+            // 💥 [수정됨] 타이핑이 끝났고, 선택지 대기 상태(isChoicePoint)라면
+            // ShowNextLine()을 호출하여 선택지를 띄웁니다.
+            // (이전에는 return; 으로 막혀있었음)
+            if (_previousLine.isChoicePoint)
+            {
+                ShowNextLine();
+                return;
+            }
 
             ShowNextLine();
         }
@@ -176,7 +195,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (_isBusy) return;
 
-        // 💥💥 선택지 표시 로직 💥💥
+        // 타이핑이 완료된 후 (또는 OnClickNext로 호출된 후), 
+        // 이전에 처리하지 못한 선택지 분기가 있다면 처리
         if (_previousLine.isChoicePoint)
         {
             ShowChoices(_previousLine.choice1, _previousLine.choice2);
@@ -210,43 +230,49 @@ public class DialogueManager : MonoBehaviour
         // VCam 오버라이드
         if (line.overrideVCam != null)
         {
-            // 이전 VCam이 있다면 우선순위를 낮춥니다.
+            // VCam이 null이 아니면 기존 VCam(101)보다 높게 설정하여 오버라이드
             if (_currentVCamOverride != null) _currentVCamOverride.Priority = 0;
 
-            // 새 VCam을 활성화하고 현재 VCam으로 저장합니다.
-            line.overrideVCam.Priority = 101;
+            line.overrideVCam.Priority = 102; // NPC_Dialogue의 VCam(100)보다 높게
             _currentVCamOverride = line.overrideVCam;
         }
-        // VCam이 null이고 이전에 활성화된 VCam이 있다면, 우선순위를 낮춥니다.
+        // 오버라이드 VCam이 없고, 이전에 오버라이드된 VCam이 있다면 해제
         else if (_currentVCamOverride != null)
         {
             _currentVCamOverride.Priority = 0;
             _currentVCamOverride = null;
         }
 
-        // 사운드 재생
-        if (line.dialogueSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(line.dialogueSound);
-        }
+        // 사운드 클립 설정 (타이핑 코루틴에서 사용)
+        _currentLineTypingSound = line.dialogueSound != null ? line.dialogueSound : defaultTypingSound;
 
-        // 화면 흔들림 (Screen Shake) - Cinemachine Impulse 등 구현 필요 (간단 구현은 생략)
-        // [TODO: Cinemachine Impulse Source를 사용하여 화면 흔들림 구현]
+        // 화면 흔들림 (간단한 화면 흔들림 효과)
         if (line.cameraShakeIntensity > 0.0f)
         {
-            Debug.Log($"[Effect] Camera shake: {line.cameraShakeIntensity}");
-            // 예시: Cinemachine Brain 또는 Impulse Source를 통해 흔들림을 트리거합니다.
+            // 💥 [수정] Camera.main 대신 활성화된 VCam을 흔듭니다.
+            CinemachineCamera activeVCam = _currentVCamOverride != null ? _currentVCamOverride : _baseVCam;
+            if (activeVCam != null)
+            {
+                // VCam의 트랜스폼 회전을 흔들면 CinemachineBrain이 이를 반영합니다.
+                activeVCam.transform.DOShakeRotation(
+                    0.3f, // 흔들림 시간
+                    line.cameraShakeIntensity * 3f, // 흔들림 강도 (회전이므로 값을 좀 더 줌)
+                    10 // 자글거림
+                );
+            }
         }
     }
 
     private void ClearDynamicEvents()
     {
-        // 오버라이드 VCam 원상 복구 (VCam Priority 100이 NPC_Dialogue의 기본 VCam)
+        // 오버라이드 VCam 원상 복구
         if (_currentVCamOverride != null)
         {
             _currentVCamOverride.Priority = 0;
             _currentVCamOverride = null;
         }
+        // 타이핑 사운드 초기화
+        _currentLineTypingSound = null;
     }
 
     /// <summary>
@@ -371,7 +397,14 @@ public class DialogueManager : MonoBehaviour
 
     private void OnChoiceMade(DialogueData nextDialogue)
     {
-        _isBusy = true; // 선택지 처리 중 잠금
+        _isBusy = true;
+
+        // 💥💥 [핵심 수정] 💥💥
+        // 선택지가 선택되면 _previousLine을 즉시 초기화(default)합니다.
+        // 이것이 없으면 NPC_Dialogue가 StartDialogue를 다시 호출했을 때
+        // ShowNextLine()이 _previousLine.isChoicePoint를 true로 읽어
+        // 선택지 UI가 다시 뜨는 버그가 발생합니다.
+        _previousLine = default;
 
         // 1. 선택지 UI 숨김
         dimmingPanel.DOColor(new Color(0, 0, 0, 0), 0.3f)
@@ -395,7 +428,6 @@ public class DialogueManager : MonoBehaviour
             });
     }
 
-
     private void CompleteTyping()
     {
         if (_typingCoroutine != null)
@@ -416,20 +448,38 @@ public class DialogueManager : MonoBehaviour
         dialogueText.maxVisibleCharacters = 0;
 
         int charIndex = 0;
-        // DOTween의 Typing Effect와 달리, 이 코루틴은 다음 대사 클릭 시 StopCoroutine으로 종료되어야 합니다.
+
+        // 언더테일 스타일 타이핑 사운드 재생
+        float lastSoundTime = Time.time;
+        float soundInterval = typeSpeed; // 타이핑 속도와 동일하게 설정 (튜닝 가능)
+
         while (charIndex < fullText.Length)
         {
             dialogueText.maxVisibleCharacters++;
             charIndex++;
+
+            // 사운드 재생
+            if (_currentLineTypingSound != null && audioSource != null && Time.time - lastSoundTime >= soundInterval)
+            {
+                // 💥 [수정] audioSource.Stop()을 제거해야 소리가 정상적으로 재생됩니다.
+                // audioSource.Stop(); 
+                audioSource.PlayOneShot(_currentLineTypingSound);
+                lastSoundTime = Time.time;
+            }
+
             yield return new WaitForSeconds(typeSpeed);
         }
 
         _isTyping = false;
-        // 타이핑이 완전히 끝났을 때만 선택지를 표시하도록 ShowNextLine 호출 (선택지 대기)
+
+        // 💥 [수정됨] 타이핑이 완료되었을 때 선택지 대기 상태라면
+        // _isBusy만 false로 풀어주고, 클릭(OnClickNext)을 기다립니다.
         if (_previousLine.isChoicePoint)
         {
-            _isBusy = false; // 타이핑은 끝났으므로 클릭 가능하게 락 해제
-            ShowNextLine(); // ShowChoices를 호출
+            _isBusy = false;
+            // ShowNextLine()을 여기서 호출하면 클릭 없이 바로 선택지가 뜹니다.
+            // 사용자가 "다음"을 눌러야 선택지가 뜨게 하려면 이 라인을 주석 처리합니다.
+            // ShowNextLine(); // <- 주석 처리 시 클릭해야 선택지 나옴
         }
     }
 
@@ -438,8 +488,9 @@ public class DialogueManager : MonoBehaviour
         if (_isBusy) return;
         _isBusy = true;
         _previousLine = default;
+        _baseVCam = null; // 💥 [추가] 기본 VCam 참조 해제
 
-        ClearDynamicEvents(); // 동적 VCam 원상 복구
+        ClearDynamicEvents(); // 동적 VCam/사운드 초기화
 
         _dialogueBoxRect.DOAnchorPosY(offscreenY, slideDuration * 1.5f)
             .SetEase(Ease.InCubic)

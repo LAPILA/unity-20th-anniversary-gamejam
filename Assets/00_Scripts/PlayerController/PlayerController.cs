@@ -115,14 +115,14 @@ public class PlayerController : SerializedMonoBehaviour
         // 캡슐 원본 치수 캐시(앉기/복원 정확성)
         _capBaseH = capsule.height;
         _capBaseCenter = capsule.center;
+
+        if (_actions == null) _actions = new IA_Player();
     }
 
     void OnEnable()
     {
-        if (_actions == null) _actions = new IA_Player();
         _actions.Player.Enable();
 
-        // 입력 바인딩(가벼운 값/플래그만 세팅)
         _actions.Player.Move.performed += c => _moveInput = c.ReadValue<Vector2>();
         _actions.Player.Move.canceled += _ => _moveInput = Vector2.zero;
 
@@ -436,6 +436,15 @@ public class PlayerController : SerializedMonoBehaviour
         LockMovement(ui);
         Cursor.lockState = ui ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = ui;
+
+        if (ui)
+        {
+            _actions.Player.Disable();
+        }
+        else
+        {
+            _actions.Player.Enable();
+        }
     }
     #endregion
 }
