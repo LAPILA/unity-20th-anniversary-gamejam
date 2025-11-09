@@ -10,28 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a1338225cb24dd44a4ff7bc161a971c, type: 3}
-  m_Name: DA_EscapePod_NoTime
+  m_Name: Da1
   m_EditorClassIdentifier: 
   lines:
-  - speakerName: LISA
-    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
-    isPlayer: 1
-    dialogueSound: {fileID: 0}
-    overrideVCam: {fileID: 0}
-    cameraShakeIntensity: 0
-    isChoicePoint: 0
-    choice1:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    choice2:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    text_Korean: ....We're too late.
-    text_English: ....We're too late.
   - speakerName: ORION
     portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
     isPlayer: 0
@@ -49,8 +30,8 @@ MonoBehaviour:
       buttonText_English: 
       nextDialogue: {fileID: 0}
       endingStackToAdd: 0
-    text_Korean: ...Perhaps this is for the best.
-    text_English: ...Perhaps this is for the best.
+    text_Korean: Lisa! There is no time! We must hurry!
+    text_English: Lisa! There is no time! We must hurry!
   - speakerName: LISA
     portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
     isPlayer: 1
@@ -68,8 +49,8 @@ MonoBehaviour:
       buttonText_English: 
       nextDialogue: {fileID: 0}
       endingStackToAdd: 0
-    text_Korean: What do you mean?
-    text_English: What do you mean?
+    text_Korean: I know, Orion! I'm almost there...
+    text_English: I know, Orion! I'm almost there...
   - speakerName: ORION
     portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
     isPlayer: 0
@@ -87,58 +68,100 @@ MonoBehaviour:
       buttonText_English: 
       nextDialogue: {fileID: 0}
       endingStackToAdd: 0
-    text_Korean: 'The probability of survival, even if you had boarded the escape
-      pod, was extremely low.
+    text_Korean: Warning! Hull breach imminent! The time stabilization field can
+      no longer compensate for the gravitational distortion!
+    text_English: Warning! Hull breach imminent! The time stabilization field can
+      no longer compensate for the gravitational distortion!
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: Damn it! The ship is going to tear itself apart before we even reach
+      the pod!
+    text_English: Damn it! The ship is going to tear itself apart before we even
+      reach the pod!
+  - speakerName: Orion
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: The main engine section is gone. Estimated time remaining... 90
+      seconds... no, 75 seconds!
+    text_English: The main engine section is gone. Estimated time remaining... 90
+      seconds... no, 75 seconds!
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: What's the status of the escape pod! Is it still functional?!
+    text_English: What's the status of the escape pod! Is it still functional?!
+  - speakerName: Orion
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
+    isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: 'The data stream is unstable! But... based on the last positive
+      signal...!!
 
-      I do not wish to see you perish within the black
-      hole, Lisa.'
-    text_English: 'The probability of survival, even if you had boarded the escape
-      pod, was extremely low.
+      The docking station... it still has power! But barely...
+      Lisa, just ahead! The Escape Pod Bay!'
+    text_English: 'The data stream is unstable! But... based on the last positive
+      signal...!!
 
-      I do not wish to see you perish within the black
-      hole, Lisa.'
-  - speakerName: ORION
-    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
-    isPlayer: 0
-    dialogueSound: {fileID: 0}
-    overrideVCam: {fileID: 0}
-    cameraShakeIntensity: 0
-    isChoicePoint: 0
-    choice1:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    choice2:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    text_Korean: Therefore, I must recommend you return to the Isolation Chamber
-      and enter the Time Stabilizer Capsule.
-    text_English: Therefore, I must recommend you return to the Isolation Chamber
-      and enter the Time Stabilizer Capsule.
+      The docking station... it still has power! But barely...
+      Lisa, just ahead! The Escape Pod Bay!'
   - speakerName: LISA
     portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
-    isPlayer: 1
-    dialogueSound: {fileID: 0}
-    overrideVCam: {fileID: 0}
-    cameraShakeIntensity: 0
-    isChoicePoint: 0
-    choice1:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    choice2:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    text_Korean: ...And if I get in that capsule, what happens to me?
-    text_English: ...And if I get in that capsule, what happens to me?
-  - speakerName: ORION
-    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
     isPlayer: 0
     dialogueSound: {fileID: 0}
     overrideVCam: {fileID: 0}
@@ -154,50 +177,6 @@ MonoBehaviour:
       buttonText_English: 
       nextDialogue: {fileID: 0}
       endingStackToAdd: 0
-    text_Korean: Your physical body will be placed in cryosDleep. Your consciousness
-      will be transferred to a holographic world, where I will personally look after
-      you.
-    text_English: Your physical body will be placed in cryosDleep. Your consciousness
-      will be transferred to a holographic world, where I will personally look after
-      you.
-  - speakerName: ORION
-    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
-    isPlayer: 0
-    dialogueSound: {fileID: 0}
-    overrideVCam: {fileID: 0}
-    cameraShakeIntensity: 0
-    isChoicePoint: 0
-    choice1:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    choice2:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    text_Korean: Both paths lead to a form of death in space. But by choosing the
-      latter, you allow me to personally attend to you until the end.
-    text_English: Both paths lead to a form of death in space. But by choosing the
-      latter, you allow me to personally attend to you until the end.
-  - speakerName: LISA
-    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
-    isPlayer: 1
-    dialogueSound: {fileID: 0}
-    overrideVCam: {fileID: 0}
-    cameraShakeIntensity: 0
-    isChoicePoint: 0
-    choice1:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    choice2:
-      buttonText_Korean: 
-      buttonText_English: 
-      nextDialogue: {fileID: 0}
-      endingStackToAdd: 0
-    text_Korean: ....Very well.
-    text_English: ....Very well.
-  isEndingTrigger: 1
+    text_Korean: Please... please be intact...!
+    text_English: Please... please be intact...!
+  isEndingTrigger: 0

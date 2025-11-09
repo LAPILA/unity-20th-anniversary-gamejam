@@ -209,7 +209,7 @@ MonoBehaviour:
       buttonText_Korean: Ok..
       buttonText_English: Ok..
       nextDialogue: {fileID: 11400000, guid: 9f5c0cd300c85b747a2408419f7b82e8, type: 2}
-      endingStackToAdd: 0
+      endingStackToAdd: 5
     choice2:
       buttonText_Korean: Escape
       buttonText_English: Escape
