@@ -6,6 +6,7 @@ using TMPro;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using System;
+using Unity.Cinemachine; // VCam 처리를 위해 추가
 
 /// <summary>
 /// 범용 대화 시스템을 관리하는 싱글톤 매니저 (DOTween 코드 기반)
@@ -33,6 +34,22 @@ public class DialogueManager : MonoBehaviour
     [BoxGroup("UI References"), Required]
     [SerializeField] private Image DialogueBox_Image;
 
+    [BoxGroup("Choice UI"), Required]
+    [Tooltip("화면 전체를 덮을 검은색 반투명 배경 이미지")]
+    [SerializeField] private Image dimmingPanel;
+
+    [BoxGroup("Choice UI"), Required]
+    [Tooltip("선택지 버튼들이 담길 컨테이너")]
+    [SerializeField] private GameObject choiceContainer;
+
+    [BoxGroup("Choice UI"), Required]
+    [Tooltip("선택지 버튼 프리팹 (TMP_Button)")]
+    [SerializeField] private Button choiceButtonPrefab;
+
+    [BoxGroup("Audio")]
+    [Tooltip("사운드 재생용 AudioSource")]
+    [SerializeField] private AudioSource audioSource;
+
     [BoxGroup("Text Settings")]
     [Tooltip("텍스트 타이핑 속도")]
     [SerializeField] private float typeSpeed = 0.03f;
@@ -53,13 +70,17 @@ public class DialogueManager : MonoBehaviour
     private RectTransform _dialogueBoxRect;
     private Queue<DialogueLine> _lineQueue;
     private bool _isTyping = false;
-    private bool _isBusy = false; // 슬라이드 또는 타이핑 중인지
+    private bool _isBusy = false; // 슬라이드, 선택지, 타이핑 중인지
     private Language _currentLanguage = Language.Korean; // 임시
     private Coroutine _typingCoroutine;
     private DialogueLine _previousLine;
     private Action _onDialogueComplete;
 
-    public bool IsDialogueActive => _isBusy || _isTyping || dialogueBoxContainer.activeSelf;
+    // 선택지 처리를 위한 Action (NPC_Dialogue로 결과를 전달)
+    private Action<DialogueData> _onChoiceSelected;
+    private CinemachineCamera _currentVCamOverride;
+
+    public bool IsDialogueActive => _isBusy || _isTyping || dialogueBoxContainer.activeSelf || dimmingPanel.gameObject.activeSelf;
 
     // 임시 언어 설정
     public enum Language { Korean, English }
@@ -74,17 +95,18 @@ public class DialogueManager : MonoBehaviour
 
             // DOTween 초기화 및 기본 위치 설정 (깜빡임 최소화)
             _dialogueBoxRect.anchoredPosition = new Vector2(0, offscreenY);
-            ClearDialogueUI(); // Awake에서 UI 상태를 초기화하여 투명하게 시작
+
+            // 선택지 및 어둡게 패널 초기화 (비활성화 및 투명화)
+            dimmingPanel.gameObject.SetActive(false);
+            dimmingPanel.color = new Color(0, 0, 0, 0);
+            choiceContainer.SetActive(false);
+
+            ClearDialogueUI();
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    void Start()
-    {
-        // Start에서는 별도의 동작이 필요 없습니다.
     }
 
     private void ClearDialogueUI()
@@ -96,11 +118,11 @@ public class DialogueManager : MonoBehaviour
         portraitImage.sprite = null;
         portraitImage.color = Color.clear;
 
-        DialogueBox_Image.sprite = null; // 배경 이미지도 투명화 (만약 Sprite 모드라면)
-        DialogueBox_Image.color = Color.clear; // 배경 이미지 컬러도 투명화
+        DialogueBox_Image.sprite = null;
+        DialogueBox_Image.color = Color.clear;
     }
 
-    public void StartDialogue(DialogueData data, Action onCompleteCallback = null)
+    public void StartDialogue(DialogueData data, Action onCompleteCallback = null, Action<DialogueData> onChoiceSelected = null)
     {
         if (_isBusy) return;
 
@@ -111,14 +133,15 @@ public class DialogueManager : MonoBehaviour
         }
 
         _onDialogueComplete = onCompleteCallback;
+        _onChoiceSelected = onChoiceSelected; // 선택지 결과 처리 콜백 저장
 
         // 1. UI를 투명하게 초기화합니다.
         ClearDialogueUI();
 
-        // 2. 대화창을 화면 밖 위치로 즉시 고정합니다. (깜빡임 2차 방지)
+        // 2. 대화창을 화면 밖 위치로 즉시 고정합니다.
         _dialogueBoxRect.anchoredPosition = new Vector2(_dialogueBoxRect.anchoredPosition.x, offscreenY);
 
-        // 3. 켜기를 수행합니다. (ClearDialogueUI가 이미 투명하게 만들었으므로 깜빡임 최소화)
+        // 3. 켜기를 수행합니다.
         dialogueBoxContainer.SetActive(true);
 
         // 4. 비어있는 대화창을 위로 슬라이드합니다.
@@ -142,6 +165,9 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
+            // 현재 대사가 선택지 분기점이었다면, 클릭을 무시하고 선택지를 기다립니다.
+            if (_previousLine.isChoicePoint) return;
+
             ShowNextLine();
         }
     }
@@ -149,6 +175,13 @@ public class DialogueManager : MonoBehaviour
     private void ShowNextLine()
     {
         if (_isBusy) return;
+
+        // 💥💥 선택지 표시 로직 💥💥
+        if (_previousLine.isChoicePoint)
+        {
+            ShowChoices(_previousLine.choice1, _previousLine.choice2);
+            return;
+        }
 
         if (_lineQueue.Count == 0)
         {
@@ -158,10 +191,9 @@ public class DialogueManager : MonoBehaviour
 
         DialogueLine currentLine = _lineQueue.Dequeue();
 
-        // 화자가 같고, 대화창이 이미 활성화되어 있으면(첫 대사가 아니면)
+        // 화자가 같고, 대화창이 이미 활성화되어 있으면
         if (dialogueBoxContainer.activeSelf && currentLine.speakerName == _previousLine.speakerName)
         {
-            // 슬라이드 없이 텍스트만 갱신
             StartCoroutine(UpdateTextOnlyRoutine(currentLine));
         }
         else
@@ -173,26 +205,69 @@ public class DialogueManager : MonoBehaviour
         _previousLine = currentLine;
     }
 
+    private void ExecuteDynamicEvents(DialogueLine line)
+    {
+        // VCam 오버라이드
+        if (line.overrideVCam != null)
+        {
+            // 이전 VCam이 있다면 우선순위를 낮춥니다.
+            if (_currentVCamOverride != null) _currentVCamOverride.Priority = 0;
+
+            // 새 VCam을 활성화하고 현재 VCam으로 저장합니다.
+            line.overrideVCam.Priority = 101;
+            _currentVCamOverride = line.overrideVCam;
+        }
+        // VCam이 null이고 이전에 활성화된 VCam이 있다면, 우선순위를 낮춥니다.
+        else if (_currentVCamOverride != null)
+        {
+            _currentVCamOverride.Priority = 0;
+            _currentVCamOverride = null;
+        }
+
+        // 사운드 재생
+        if (line.dialogueSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(line.dialogueSound);
+        }
+
+        // 화면 흔들림 (Screen Shake) - Cinemachine Impulse 등 구현 필요 (간단 구현은 생략)
+        // [TODO: Cinemachine Impulse Source를 사용하여 화면 흔들림 구현]
+        if (line.cameraShakeIntensity > 0.0f)
+        {
+            Debug.Log($"[Effect] Camera shake: {line.cameraShakeIntensity}");
+            // 예시: Cinemachine Brain 또는 Impulse Source를 통해 흔들림을 트리거합니다.
+        }
+    }
+
+    private void ClearDynamicEvents()
+    {
+        // 오버라이드 VCam 원상 복구 (VCam Priority 100이 NPC_Dialogue의 기본 VCam)
+        if (_currentVCamOverride != null)
+        {
+            _currentVCamOverride.Priority = 0;
+            _currentVCamOverride = null;
+        }
+    }
+
     /// <summary>
     /// L/R 슬라이드 없이 텍스트만 갱신하는 코루틴
     /// </summary>
     private IEnumerator UpdateTextOnlyRoutine(DialogueLine line)
     {
-        // 1. 기존 타이핑 중지
         if (_typingCoroutine != null)
         {
             StopCoroutine(_typingCoroutine);
             _isTyping = false;
         }
 
-        // 2. 초상화 갱신
+        ExecuteDynamicEvents(line); // 동적 이벤트 실행
+
         UpdatePortraitAndDialogueBox(line);
 
         string textToShow = (_currentLanguage == Language.Korean)
             ? line.text_Korean
             : line.text_English;
 
-        // 3. 새 타이핑 시작
         _typingCoroutine = StartCoroutine(TypewriterEffect(textToShow));
 
         yield break;
@@ -216,16 +291,14 @@ public class DialogueManager : MonoBehaviour
                 .SetEase(Ease.InCubic)
                 .WaitForCompletion();
 
-            // 슬라이드 아웃 완료 후, 다음 슬라이드 인 애니메이션 전에 대화창 이미지 비활성화/투명화
             ClearDialogueUI();
         }
 
-        // 1. 이름, 초상화, 배경 설정 (슬라이드 인 애니메이션 전에 배치)
-        // 이 시점에서는 텍스트 가시성이 0이고, 초상화/배경은 UpdatePortraitAndDialogueBox에서 처리됨
+        // 1. 이름, 초상화, 배경 설정
         speakerNameText.text = line.speakerName;
         UpdatePortraitAndDialogueBox(line);
 
-        // 2. 텍스트 설정 및 즉시 숨김 (가장 중요)
+        // 2. 텍스트 설정 및 즉시 숨김
         dialogueText.text = textToShow;
         dialogueText.maxVisibleCharacters = 0;
 
@@ -238,7 +311,9 @@ public class DialogueManager : MonoBehaviour
         _dialogueBoxRect.DOAnchorPosX(0, slideDuration).SetEase(Ease.OutCubic);
         yield return new WaitForSeconds(slideDuration);
 
-        _isBusy = false; // 이제 타이핑 시작
+        ExecuteDynamicEvents(line); // 슬라이드 인 완료 후 동적 이벤트 실행
+
+        _isBusy = false;
         if (_typingCoroutine != null) StopCoroutine(_typingCoroutine);
         _typingCoroutine = StartCoroutine(TypewriterEffect(textToShow));
     }
@@ -248,34 +323,76 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void UpdatePortraitAndDialogueBox(DialogueLine line)
     {
-        // 초상화 갱신
         if (line.portrait != null)
         {
             portraitImage.sprite = line.portrait;
             portraitImage.color = Color.white;
+            DialogueBox_Image.color = Color.white;
         }
         else
         {
             portraitImage.sprite = null;
             portraitImage.color = Color.clear;
-        }
-
-        // 대화창 이미지 갱신
-        // DialogueBox_Image는 항상 투명하거나,
-        // 플레이어/NPC에 따라 다른 스타일을 가질 수 있습니다.
-        // 여기서는 간단히 투명/불투명만 제어합니다.
-
-        // 초상화가 있을 때만 배경 이미지도 보이도록 설정 (일반적인 방식)
-        if (line.portrait != null)
-        {
-            // 실제 배경 이미지를 설정하거나, 단순히 불투명하게 만듭니다.
-            DialogueBox_Image.color = Color.white; // 배경이 보이도록 불투명하게 설정
-        }
-        else
-        {
-            // 초상화가 없으면 배경도 숨김
             DialogueBox_Image.color = Color.clear;
         }
+    }
+
+    // --- 선택지 UI 로직 ---
+    private void ShowChoices(ChoiceOption c1, ChoiceOption c2)
+    {
+        _isBusy = true;
+
+        // 1. 검은색 반투명 배경 활성화 및 애니메이션
+        dimmingPanel.gameObject.SetActive(true);
+        dimmingPanel.DOColor(new Color(0, 0, 0, 0.5f), 0.3f);
+
+        // 2. 기존 버튼 제거 및 선택지 컨테이너 활성화
+        foreach (Transform child in choiceContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        choiceContainer.SetActive(true);
+
+        // 3. 선택지 버튼 생성 및 설정
+        CreateChoiceButton(c1);
+        CreateChoiceButton(c2);
+    }
+
+    private void CreateChoiceButton(ChoiceOption option)
+    {
+        Button button = Instantiate(choiceButtonPrefab, choiceContainer.transform);
+        TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+
+        string text = (_currentLanguage == Language.Korean) ? option.buttonText_Korean : option.buttonText_English;
+        buttonText.text = text;
+
+        button.onClick.AddListener(() => OnChoiceMade(option.nextDialogue));
+    }
+
+    private void OnChoiceMade(DialogueData nextDialogue)
+    {
+        _isBusy = true; // 선택지 처리 중 잠금
+
+        // 1. 선택지 UI 숨김
+        dimmingPanel.DOColor(new Color(0, 0, 0, 0), 0.3f)
+            .OnComplete(() => dimmingPanel.gameObject.SetActive(false));
+
+        choiceContainer.SetActive(false);
+
+        // 2. 대화창 슬라이드 아웃
+        _dialogueBoxRect.DOAnchorPosY(offscreenY, slideDuration * 1.5f)
+            .SetEase(Ease.InCubic)
+            .OnComplete(() =>
+            {
+                dialogueBoxContainer.SetActive(false);
+                ClearDialogueUI();
+
+                _isBusy = false;
+
+                // 3. NPC_Dialogue에게 다음 대화 데이터 전달
+                _onChoiceSelected?.Invoke(nextDialogue);
+                _onChoiceSelected = null;
+            });
     }
 
 
@@ -299,6 +416,7 @@ public class DialogueManager : MonoBehaviour
         dialogueText.maxVisibleCharacters = 0;
 
         int charIndex = 0;
+        // DOTween의 Typing Effect와 달리, 이 코루틴은 다음 대사 클릭 시 StopCoroutine으로 종료되어야 합니다.
         while (charIndex < fullText.Length)
         {
             dialogueText.maxVisibleCharacters++;
@@ -307,13 +425,21 @@ public class DialogueManager : MonoBehaviour
         }
 
         _isTyping = false;
+        // 타이핑이 완전히 끝났을 때만 선택지를 표시하도록 ShowNextLine 호출 (선택지 대기)
+        if (_previousLine.isChoicePoint)
+        {
+            _isBusy = false; // 타이핑은 끝났으므로 클릭 가능하게 락 해제
+            ShowNextLine(); // ShowChoices를 호출
+        }
     }
 
     private void EndDialogue()
     {
         if (_isBusy) return;
         _isBusy = true;
-        _previousLine = default; // 다음 대화가 슬라이드인으로 시작하도록 초기화
+        _previousLine = default;
+
+        ClearDynamicEvents(); // 동적 VCam 원상 복구
 
         _dialogueBoxRect.DOAnchorPosY(offscreenY, slideDuration * 1.5f)
             .SetEase(Ease.InCubic)
@@ -322,7 +448,6 @@ public class DialogueManager : MonoBehaviour
                 dialogueBoxContainer.SetActive(false);
                 _isBusy = false;
 
-                // 대화 종료 시 모든 UI를 투명하게 초기화
                 ClearDialogueUI();
 
                 _onDialogueComplete?.Invoke();

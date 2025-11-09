@@ -15,6 +15,7 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
 
     [BoxGroup("Dialogue"), Required]
     [Tooltip("이 NPC가 재생할 대화 데이터 목록")]
+    // 이 목록의 첫 번째 요소는 기본 시작 대화로 사용됩니다.
     [SerializeField] private List<DialogueData> dialogueList;
 
     [BoxGroup("Dialogue")]
@@ -28,6 +29,9 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
     private int _dialogueIndex = 0;
     private bool _isInteracting = false;
     private PlayerInteractor _currentPlayerInteractor;
+
+    // 현재 재생 중인 대화 데이터 (분기 처리용)
+    private DialogueData _currentDialogueData;
 
     void Awake()
     {
@@ -48,28 +52,57 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
         // 1. 플레이어 이동 및 상호작용 잠금
         PlayerController pc = interactor.GetPlayerController();
         if (pc != null) pc.LockMovement(true);
-        interactor.LockInteraction(true); // "E" 키 연타 방지
+        interactor.LockInteraction(true);
 
         // 2. VCam 활성화 (Priority를 높여서)
         if (virtualCamera != null) virtualCamera.Priority = 100;
-        
-        // 3. 현재 순서에 맞는 대화 데이터 가져오기
-        DialogueData dataToPlay = dialogueList[_dialogueIndex];
 
-        // 4. 대화 매니저에게 대화 시작 요청 (종료 시 호출할 함수 전달)
-        DialogueManager.Instance.StartDialogue(dataToPlay, OnDialogueFinished);
+        // 3. 현재 순서에 맞는 대화 데이터 가져오기 및 저장
+        _currentDialogueData = dialogueList[_dialogueIndex];
 
-        // 5. 대화 인덱스 관리 (관리 용이성)
+        // 4. 대화 매니저에게 대화 시작 요청 (종료 시, 선택지 선택 시 콜백 전달)
+        DialogueManager.Instance.StartDialogue(
+            _currentDialogueData,
+            OnDialogueFinished,
+            OnChoiceMade // 선택지 선택 시 호출될 새 콜백
+        );
+
+        // 5. 대화 인덱스 관리 (다음 기본 대화로 넘어감)
         if (_dialogueIndex < dialogueList.Count - 1)
         {
-            _dialogueIndex++; // 다음 대화로 넘어감
+            _dialogueIndex++;
         }
         else if (!loopLastDialogue)
         {
-            _dialogueIndex = 0; // 처음으로 리셋
+            _dialogueIndex = 0;
         }
-        // (loopLastDialogue가 true면 인덱스가 마지막에 고정됨)
     }
+
+    /// <summary>
+    /// DialogueManager에서 선택지가 선택되었을 때 호출하는 콜백 함수
+    /// </summary>
+    private void OnChoiceMade(DialogueData nextDialogue)
+    {
+        // 1. 선택지 결과에 따라 다음 대화 분기 처리
+        if (nextDialogue != null)
+        {
+            // NPC_Dialogue의 현재 대화 인덱스를 증가시키지 않고,
+            // 선택된 DialogueData로 바로 새 대화를 시작합니다.
+            _currentDialogueData = nextDialogue;
+
+            DialogueManager.Instance.StartDialogue(
+                _currentDialogueData,
+                OnDialogueFinished,
+                OnChoiceMade
+            );
+        }
+        else
+        {
+            // 선택지 결과가 null이면 대화를 완전히 종료합니다.
+            OnDialogueFinished();
+        }
+    }
+
 
     /// <summary>
     /// [IInteractable] 플레이어가 범위에 들어옴
@@ -88,7 +121,7 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// DialogueManager가 대화를 끝냈을 때 호출하는 콜백 함수
+    /// DialogueManager가 대화를 끝냈을 때 호출하는 콜백 함수 (분기 처리 완료 후)
     /// </summary>
     private void OnDialogueFinished()
     {
@@ -105,5 +138,6 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
 
         _isInteracting = false;
         _currentPlayerInteractor = null;
+        _currentDialogueData = null; // 대화 상태 초기화
     }
 }

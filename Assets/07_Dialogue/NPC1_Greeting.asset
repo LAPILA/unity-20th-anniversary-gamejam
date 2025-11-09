@@ -16,20 +16,68 @@ MonoBehaviour:
   - speakerName: NPC
     portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
     isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0.519
+    isChoicePoint: 1
+    choice1:
+      buttonText_Korean: "no\t"
+      buttonText_English: no
+      nextDialogue: {fileID: 11400000, guid: debd2a534a215304192b6f59a7fdbcd6, type: 2}
+    choice2:
+      buttonText_Korean: yes
+      buttonText_English: yes
+      nextDialogue: {fileID: 11400000, guid: 2d521d684a2cb2146929564768755945, type: 2}
     text_Korean: dd
     text_English: what are you?
   - speakerName: NPC
     portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
     isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
     text_Korean: afdaf
     text_English: Testing Dialogue?
   - speakerName: Player
     portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
     isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
     text_Korean: afsafd
     text_English: yeb
   - speakerName: NPC
     portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
     isPlayer: 0
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
     text_Korean: fsdaaaaaaaaaaaaaaaaaaaaaaaaa
     text_English: aaaaaaaaaaaaaaaaaa
