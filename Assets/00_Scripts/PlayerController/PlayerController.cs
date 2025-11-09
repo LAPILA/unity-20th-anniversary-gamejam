@@ -67,6 +67,8 @@ public class PlayerController : SerializedMonoBehaviour
     [BoxGroup("Physics"), Tooltip("바닥 레이어")] public LayerMask groundMask = ~0;
     [BoxGroup("Physics"), Tooltip("허용 경사(도)")] public float maxGroundAngle = 55f;
 
+    [BoxGroup("Physics"), Tooltip("경사면 미끄러짐 가속도")] public float slopeSlideGravity = 1.2f;
+    private bool _onSteepSlope;
     // 벽 처리용(추가)
     [BoxGroup("Physics"), Tooltip("벽 판정을 위한 캐스트 거리")] public float wallCheckDistance = 0.6f;
     [BoxGroup("Physics"), Tooltip("벽 밀어내기 강도 (작은 값 추천)")] public float wallRepelForce = 0.12f;
@@ -187,6 +189,8 @@ public class PlayerController : SerializedMonoBehaviour
         _groundedFixed = CheckGround();
         _justLandedFixed = (!prevGround && _groundedFixed);
 
+        HandleSlopeSlide();
+
         MoveCharacter();
     }
     #endregion
@@ -196,7 +200,7 @@ public class PlayerController : SerializedMonoBehaviour
     /// <summary>수평 가속만 제어해서 타이트한 FPS 감각 유지</summary>
     void MoveCharacter()
     {
-        if (_isSliding) return;
+        if (_isSliding || _onSteepSlope) return;
 
         Vector3 dir = new Vector3(_moveInput.x, 0, _moveInput.y);
         if (dir.sqrMagnitude > 1f) dir.Normalize();
@@ -235,6 +239,23 @@ public class PlayerController : SerializedMonoBehaviour
 
         if (velChange.sqrMagnitude > 0.000001f)
             _rb.AddForce(new Vector3(velChange.x, 0f, velChange.z), ForceMode.VelocityChange);
+    }
+
+    /// <summary>가파른 경사면에서 미끄러지는 물리 처리 (FixedUpdate)</summary>
+    void HandleSlopeSlide()
+    {
+        // 가파른 경사면에 있고, (앉기)슬라이딩 중이 아닐 때
+        if (_onSteepSlope && !_isSliding)
+        {
+            // 중력에 slopeSlideGravity 배율을 적용
+            Vector3 gravity = Physics.gravity * slopeSlideGravity;
+
+            // 중력을 경사면 법선에 투영하여 미끄러지는 방향 벡터를 얻음
+            Vector3 slideDirection = Vector3.ProjectOnPlane(gravity, _groundNormal);
+
+            // 미끄러지는 힘 적용 (가속도 모드: 질량과 무관하게 일정하게 가속)
+            _rb.AddForce(slideDirection, ForceMode.Acceleration);
+        }
     }
     #endregion
 
@@ -397,14 +418,18 @@ public class PlayerController : SerializedMonoBehaviour
     /// <summary>캡슐 하단 스피어캐스트로 지면/경사 판정</summary>
     bool CheckGround()
     {
+        // ▼▼▼ [2] CheckGround() 함수 전체를 이 코드로 교체 ▼▼▼
         float r = Mathf.Max(0.01f, capsule.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.z));
         float h = Mathf.Max(capsule.height * transform.lossyScale.y, r * 2f);
 
         Vector3 center = transform.TransformPoint(capsule.center);
         Vector3 bottom = center + Vector3.down * (h * 0.5f - r + 0.01f);
 
+        // 캐스트 전 상태 초기화
+        _onSteepSlope = false;
+
         bool hit = Physics.SphereCast(
-            bottom + Vector3.up * 0.02f,     // 살짝 위에서 캐스트
+            bottom + Vector3.up * 0.02f,
             r * 0.98f,
             Vector3.down,
             out RaycastHit info,
@@ -415,11 +440,20 @@ public class PlayerController : SerializedMonoBehaviour
 
         if (hit)
         {
-            _groundNormal = info.normal;
+            _groundNormal = info.normal; // 법선 벡터 저장
+
+            // 경사각이 허용치보다 큰 경우 (가파른 경사)
             if (Vector3.Angle(_groundNormal, Vector3.up) > maxGroundAngle)
-                hit = false; // 너무 가파르면 미지상 판정
+            {
+                _onSteepSlope = true; // 미끄러짐 상태 ON
+                return false;         // "Grounded" (점프 가능) 상태는 아님
+            }
+            // 경사각이 허용치 이내인 경우 (걸을 수 있는 땅)
+            return true;
         }
-        return hit;
+
+        _groundNormal = Vector3.up;
+        return false;
     }
     #endregion
 

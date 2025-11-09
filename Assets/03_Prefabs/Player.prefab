@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 40.755157, y: 39.396652}
+  m_AnchoredPosition: {x: 40.755127, y: 39.396606}
   m_SizeDelta: {x: -1820, y: -980}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5795433573990348975
@@ -2479,7 +2479,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 420165738283952864}
-  m_Material: {fileID: 13400000, guid: b3020e25c61222d4ebf8e77c4fdcfafa, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2585,7 +2585,8 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 55
-  maxGroundAngle: 55
+  maxGroundAngle: 90
+  slopeSlideGravity: 100
   wallCheckDistance: 0.6
   wallRepelForce: 0.12
 --- !u!114 &3108428391301744494
