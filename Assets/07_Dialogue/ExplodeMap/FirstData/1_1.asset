@@ -24,10 +24,12 @@ MonoBehaviour:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     choice2:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     text_Korean: This is the Cargo Bay. The Main System responsible for managing
       the Security Bots is located here.
     text_English: This is the Cargo Bay. The Main System responsible for managing
@@ -43,10 +45,12 @@ MonoBehaviour:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     choice2:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     text_Korean: However, that system has also gone haywire. It will recognize you
       as an intruder and attack.
     text_English: However, that system has also gone haywire. It will recognize you
@@ -62,14 +66,14 @@ MonoBehaviour:
       buttonText_Korean: Got it
       buttonText_English: Got it
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     choice2:
-      buttonText_Korean: "\uADF8 \uC815\uB3C4\uC758 \uADDC\uBAA8\uC778\uB370\uB3C4
-        \uC11C\uB85C \uC598\uAE30\uB3C4 \uC548\uD574\uBCF4\uACE0 \uC9C0\uB0B8\uAC70\uC57C?
-        \uC9C1\uC6D0\uB07C\uB9AC \uC300\uC300\uB9DE\uAD6C\uB9CC"
-      buttonText_English: A system of that size, and you never even talked to each
-        other? That's cold staff relations.
+      buttonText_Korean: What?
+      buttonText_English: What?
       nextDialogue: {fileID: 11400000, guid: 692902607e627d140b26dc3342bcbf7c, type: 2}
+      endingStackToAdd: 0
     text_Korean: The Escape Pod Bay is just beyond this area, so if you can get past
       this room, you will be safe.
     text_English: The Escape Pod Bay is just beyond this area, so if you can get
       past this room, you will be safe.
+  isEndingTrigger: 0

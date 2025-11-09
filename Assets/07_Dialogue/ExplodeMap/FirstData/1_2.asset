@@ -13,8 +13,29 @@ MonoBehaviour:
   m_Name: 1_2
   m_EditorClassIdentifier: 
   lines:
+  - speakerName: LISA
+    portrait: {fileID: 21300000, guid: 32ba029654ecb0a4a9fc7d7f092a65d9, type: 3}
+    isPlayer: 1
+    dialogueSound: {fileID: 0}
+    overrideVCam: {fileID: 0}
+    cameraShakeIntensity: 0
+    isChoicePoint: 0
+    choice1:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    choice2:
+      buttonText_Korean: 
+      buttonText_English: 
+      nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
+    text_Korean: A system of that size, and you never even talked to each other?
+      That's cold staff relations.
+    text_English: A system of that size, and you never even talked to each other?
+      That's cold staff relations.
   - speakerName: ORION
-    portrait: {fileID: 0}
+    portrait: {fileID: 21300000, guid: 13bdbb6b2092c354b9ae018de9c52b17, type: 3}
     isPlayer: 0
     dialogueSound: {fileID: 0}
     overrideVCam: {fileID: 0}
@@ -24,12 +45,14 @@ MonoBehaviour:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
+      endingStackToAdd: 0
     choice2:
       buttonText_Korean: 
       buttonText_English: 
       nextDialogue: {fileID: 0}
-    text_Korean: "\uC544\uBB34\uB798\uB3C4 \uC81C\uAC00 \uB2F4\uB2F9\uD558\uB294
-      \uC2DC\uC2A4\uD15C\uACFC \uBCF4\uC548\uC744 \uB2F4\uB2F9\uD558\uB294 \uC2DC\uC2A4\uD15C\uB07C\uB9AC
-      \uC11E\uC77C \uC774\uC720\uAC00 \uC5C6\uAE30 \uB54C\uBB38\uC774\uC8E0"
+      endingStackToAdd: 0
+    text_Korean: There is simply no reason for the system I manage to interact with
+      the security management system.
     text_English: There is simply no reason for the system I manage to interact with
       the security management system.
+  isEndingTrigger: 0
