@@ -19275,6 +19275,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneLoadMap
       objectReference: {fileID: 0}
+    - target: {fileID: 6765183184144426795, guid: d68b4ef8a867a9d4aa5c740c0dde6d12, type: 3}
+      propertyPath: sceneToLoad
+      value: Map3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
