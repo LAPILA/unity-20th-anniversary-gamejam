@@ -9520,11 +9520,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed72c7143ab6e4b96e6a3124efe925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupController: {fileID: 1665095792}
   circuitId: Circuit C
   circuitRenderer: {fileID: 0}
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  inactiveColor: {r: 1, g: 0, b: 0, a: 1}
+  stoppingColor: {r: 1, g: 0, b: 0, a: 1}
+  flowingColor: {r: 0, g: 1, b: 0, a: 1}
+  useAutoBlink: 0
+  blinkPeriod: 5
+  onRatio: 0.26
+  phaseOffset: 2
 --- !u!4 &473488945 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3496583644570392744, guid: 6d25ffad04977674abb78a1e1ff00730, type: 3}
@@ -14756,7 +14759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openPosition: {x: 42, y: 12, z: 12.08}
-  moveDuration: 4
+  moveDuration: 5
 --- !u!1001 &723936539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25302,23 +25305,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.9999698, y: 1.0001868, z: 1.0438892}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1142223991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1142223985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0aed72c7143ab6e4b96e6a3124efe925, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groupController: {fileID: 1665095792}
-  circuitId: Circuit A
-  circuitRenderer: {fileID: 0}
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  inactiveColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1142223992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25331,11 +25317,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed72c7143ab6e4b96e6a3124efe925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupController: {fileID: 0}
   circuitId: Circuit A
   circuitRenderer: {fileID: 0}
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  inactiveColor: {r: 1, g: 0, b: 0, a: 1}
+  stoppingColor: {r: 1, g: 0, b: 0, a: 1}
+  flowingColor: {r: 0, g: 1, b: 0, a: 1}
+  useAutoBlink: 0
+  blinkPeriod: 5
+  onRatio: 0.26
+  phaseOffset: 0
 --- !u!1001 &1144860281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35743,10 +35732,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circuits:
-  - {fileID: 1142223991}
+  - {fileID: 1142223992}
   - {fileID: 2002225425}
   - {fileID: 472813768}
-  targetDoor: {fileID: 721908061}
+  door: {fileID: 721908061}
 --- !u!4 &1665095793
 Transform:
   m_ObjectHideFlags: 0
@@ -40438,6 +40427,14 @@ PrefabInstance:
     - target: {fileID: 420165738283952864, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316388394083383785, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 40.755127
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316388394083383785, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 39.396606
       objectReference: {fileID: 0}
     - target: {fileID: 4985758727371760893, guid: 1d6846f1741214742b80150fb52ef0ef, type: 3}
       propertyPath: serializationData.Prefab
@@ -49060,11 +49057,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed72c7143ab6e4b96e6a3124efe925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupController: {fileID: 1665095792}
   circuitId: Circuit B
   circuitRenderer: {fileID: 0}
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  inactiveColor: {r: 1, g: 0, b: 0, a: 1}
+  stoppingColor: {r: 1, g: 0, b: 0, a: 1}
+  flowingColor: {r: 0, g: 1, b: 0, a: 1}
+  useAutoBlink: 0
+  blinkPeriod: 5
+  onRatio: 0.26
+  phaseOffset: 1
 --- !u!1001 &2007534339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49124,9 +49124,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 614fa0bc947f1964ab4ab6060d0756b4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1142223990}
-    - targetCorrespondingSourceObject: {fileID: 100000, guid: 614fa0bc947f1964ab4ab6060d0756b4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1142223991}
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 614fa0bc947f1964ab4ab6060d0756b4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1142223992}
