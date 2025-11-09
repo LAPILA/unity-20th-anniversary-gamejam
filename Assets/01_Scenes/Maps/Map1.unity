@@ -1921,7 +1921,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
       propertyPath: loopLastDialogue
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4645826766364022041, guid: 9551f28157680d449a6527659e0890b4, type: 3}
       propertyPath: dialogueList.Array.size
