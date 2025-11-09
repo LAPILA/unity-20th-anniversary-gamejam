@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Explode : MonoBehaviour
 {
@@ -114,9 +116,14 @@ public class Explode : MonoBehaviour
         released = true;
         Debug.Log($"{name}: ExplodeNow at {forceOrigin}");
 
-        // 부모 포함 모든 Rigidbody 수집
-        var rbs = new System.Collections.Generic.List<Rigidbody>();
+        // 코루틴으로 폭발 및 시간 정지 로직 실행
+        StartCoroutine(ExplodeRoutine(forceOrigin));
+    }
 
+    private IEnumerator ExplodeRoutine(Vector3 forceOrigin)
+    {
+        // 1. 부모 포함 모든 Rigidbody 수집
+        var rbs = new List<Rigidbody>();
         Rigidbody parentRb = GetComponent<Rigidbody>();
         if (parentRb != null && !rbs.Contains(parentRb))
             rbs.Add(parentRb);
@@ -127,7 +134,7 @@ public class Explode : MonoBehaviour
                 rbs.Add(rbChild);
         }
 
-        // 폭발 처리
+        // 2. 초기 폭발력 적용 및 파편 물리 활성화
         foreach (var r in rbs)
         {
             if (r == null) continue;
@@ -141,12 +148,27 @@ public class Explode : MonoBehaviour
 
             r.AddExplosionForce(explosionForce, forceOrigin, explosionRadius, upwardsModifier);
             r.AddTorque(Random.onUnitSphere * (explosionForce * 0.01f), ForceMode.Impulse);
-
-            Destroy(r.gameObject, cleanupDelay);
         }
 
+        // 3. 시각적 메인 오브젝트 비활성화 (파편만 남기기)
         var rend = GetComponent<Renderer>();
         if (rend != null) rend.enabled = false;
+
+        // 4. [시간 정지] 설정된 시간(0.5초) 동안 파편이 날아가도록 대기
+        yield return new WaitForSeconds(stopDelay);
+
+        // 5. [파편 동결] 모든 Rigidbody를 Kinematic으로 고정
+        foreach (var r in rbs)
+        {
+            if (r == null) continue;
+
+            // 물리 정지
+            r.isKinematic = true;
+            r.useGravity = false;
+
+            // 일정 시간 후 파괴 (메모리 정리)
+            Destroy(r.gameObject, cleanupDelay);
+        }
     }
 
     // 유틸: 단순 Collider 추가 (Mesh가 있으면 MeshCollider convex, 없으면 BoxCollider)
