@@ -1,7 +1,9 @@
 ﻿using Sirenix.OdinInspector;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 1인칭 플레이어 컨트롤러 (Unity 6 / New Input System / CM3)
@@ -98,6 +100,7 @@ public class PlayerController : SerializedMonoBehaviour
     private bool _sprinting, _sprintHeld;
     private float _moveSpeed;
     private bool _canMove = true;
+    private bool _isDead = false;
 
     // R/O
     public bool IsSprinting => _sprinting;
@@ -107,6 +110,11 @@ public class PlayerController : SerializedMonoBehaviour
     public Vector2 CurrentMoveInput => _moveInput;
     #endregion
 
+    [BoxGroup("Death")]
+    [Tooltip("사망 애니메이션이 재생되는 시간(초)")]
+    public float deathAnimationDuration = 3.0f;
+    [BoxGroup("Death"), Tooltip("사망 후 부활할 지점 (체크포인트)")]
+    public Transform respawnPoint;
     // ────────────────────────────────────────────────────────────
     #region ▶ Unity
     void Awake()
@@ -485,10 +493,12 @@ public class PlayerController : SerializedMonoBehaviour
     [Button("Test Die Sequence")]
     public void Die()
     {
+        // 💥 [수정] 💥
         // 이미 죽었거나 컷신 등으로 움직임이 잠겨있으면 중복 실행 방지
-        if (!_canMove) return;
+        if (!_canMove || _isDead) return; // 💥 _isDead 플래그 체크
 
         Debug.Log("Player Die()가 호출되었습니다.");
+        _isDead = true; // 💥 사망 상태로 설정
         LockMovement(true);
 
         _animManager?.TriggerDie();
@@ -503,7 +513,73 @@ public class PlayerController : SerializedMonoBehaviour
         }
 
         fx?.Death();
+
+        StartCoroutine(ReloadSceneAfterAnimation(deathAnimationDuration));
     }
 
+    private IEnumerator ReloadSceneAfterAnimation(float delay)
+    {
+        Debug.Log($"{delay}초 후 씬을 리로드합니다...");
+        yield return new WaitForSeconds(delay);
+
+        // 현재 활성화된 씬의 이름을 가져와서 리로드합니다.
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
+    }
+
+    [Button("Test Respawn at Checkpoint")]
+    public void RespawnAtCheckpoint()
+    {
+        // 이미 죽었거나 컷신 등으로 움직임이 잠겨있으면 중복 실행 방지
+        if (!_canMove || _isDead) return;
+
+        Debug.Log("Player RespawnAtCheckpoint()가 호출되었습니다.");
+        _isDead = true; // 사망 상태로 설정
+        LockMovement(true);
+
+        _animManager?.TriggerDie(); // 사망 애니메이션
+
+        if (deathVCam != null)
+        {
+            deathVCam.Priority = 11; // 사망 카메라 켜기
+        }
+        else
+        {
+            Debug.LogWarning("PlayerController에 'Death VCam'이 할당되지 않았습니다.");
+        }
+
+        fx?.Death();
+
+        // 💥 씬 리로드 대신 부활 코루틴을 시작합니다.
+        StartCoroutine(RespawnRoutine(deathAnimationDuration));
+    }
+
+    private IEnumerator RespawnRoutine(float delay)
+    {
+        Debug.Log($"{delay}초 후 체크포인트에서 부활합니다...");
+        yield return new WaitForSeconds(delay);
+
+        if (respawnPoint != null)
+        {
+            _rb.position = respawnPoint.position;
+        }
+        else
+        {
+            Debug.LogError("지정된 'Respawn Point'가 없어 부활할 수 없습니다! (PlayerController 인스펙터에서 할당 필요)");
+        }
+
+        // 4. 카메라 복구
+        if (deathVCam != null)
+        {
+            deathVCam.Priority = 9; // 사망 카메라 끄기 (기본 카메라(10)보다 낮게)
+        }
+
+        _animManager?.TriggerRevive();
+
+        _isDead = false;
+        LockMovement(false); // 다시 움직일 수 있도록 잠금 해제
+
+        Debug.Log("플레이어 부활 완료.");
+    }
     #endregion
 }

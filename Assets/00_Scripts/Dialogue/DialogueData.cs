@@ -17,6 +17,11 @@ public struct ChoiceOption
     // 이 선택지를 선택했을 때 재생할 다음 대화 목록 (DialogueData)
     // 이 필드가 null이 아니면, 이 선택지가 새로운 대화 분기의 시작점이 됩니다.
     public DialogueData nextDialogue;
+
+
+    [Header("엔딩 스택")]
+    [Tooltip("이 선택지를 고를 시 추가할 엔딩 스택 (음수도 가능)")]
+    public int endingStackToAdd;
 }
 
 /// <summary>
@@ -68,4 +73,8 @@ public class DialogueData : ScriptableObject
 {
     [Header("대화 큐")]
     public List<DialogueLine> lines;
+
+    [Header("엔딩 설정")]
+    [Tooltip("이 대화가 끝나면 엔딩 씬 로드를 시도합니다.")]
+    public bool isEndingTrigger = false;
 }

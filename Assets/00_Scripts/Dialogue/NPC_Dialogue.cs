@@ -141,6 +141,18 @@ public class NPC_Dialogue : MonoBehaviour, IInteractable
             _currentPlayerInteractor.LockInteraction(false);
         }
 
+        if (_currentDialogueData != null && _currentDialogueData.isEndingTrigger)
+        {
+            if (GameEventManager.Instance != null)
+            {
+                GameEventManager.Instance.LoadEndingScene();
+            }
+            else
+            {
+                Debug.LogWarning("GameEventManager.Instance가 씬에 없어 엔딩을 로드할 수 없습니다!");
+            }
+        }
+
         _isInteracting = false;
         _currentPlayerInteractor = null;
         _currentDialogueData = null;

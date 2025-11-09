@@ -297,48 +297,12 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
     }
 
     /// <summary>
-    /// 드론 폭발 처리
+    /// 드론 폭발 처리 (주석 처리된 이전 버전)
     /// </summary>
     //private void Explode()
     //{
-    //    // 1. 모든 루프 사운드 즉시 중지
-    //    if (_audioSource != null) _audioSource.Stop();
-
-    //    // 2. 폭발음 재생 (1회성, PlayClipAtPoint는 오브젝트가 파괴되어도 소리가 남)
-    //    if (explosionSound != null)
-    //    {
-    //        AudioSource.PlayClipAtPoint(explosionSound, transform.position);
-    //    }
-
-    //    Debug.Log(gameObject.name + " EXPLODED!", this);
-
-    //    if (explosionVFX != null)
-    //    {
-    //        Instantiate(explosionVFX, transform.position, Quaternion.identity);
-    //    }
-
-    //    Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius, playerLayer); // [수정] playerLayer만 검사하도록 최적화
-
-    //    foreach (var hit in hits)
-    //    {
-    //        // 1. 플레이어 컨트롤러 찾기 (루트 오브젝트)
-    //        PlayerController pc = hit.GetComponentInParent<PlayerController>();
-    //        if (pc == null) continue; // 플레이어가 아니면 무시
-
-    //        // 2. 물리 피드백 (넉백)
-    //        if (pc.TryGetComponent<Rigidbody>(out Rigidbody playerRb))  
-    //        {
-    //            playerRb.AddExplosionForce(explosionForce, transform.position, explosionRadius, 1.0f, ForceMode.Impulse);
-    //            Debug.Log("플레이어에게 폭발 넉백 적용!", pc.gameObject);
-    //        }
-
-    //        PlayerFeedbacks fx = pc.GetComponent<PlayerFeedbacks>();
-    //        if (fx != null)
-    //        {
-    //            fx.ExplosionHit();
-    //            Debug.Log("플레이어에게 폭발 Feel 적용!", fx.gameObject);
-    //        }
-    //    }
+    //    // ... (이전 Explode 로직) ...
+    //}
 
     private void Explode()
     {
@@ -379,8 +343,6 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
         StopAllCoroutines();
         Destroy(gameObject);
     }
-
-    //1️플레이어 처리
     private void HandlePlayerExplosion(Collider hit)
     {
         PlayerController pc = hit.GetComponentInParent<PlayerController>();
@@ -398,10 +360,10 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
             fx.ExplosionHit();
             Debug.Log("플레이어에게 폭발 Feel 적용!", fx.gameObject);
         }
+
+        pc.Die();
     }
 
-
-    // 2️Explode Layer 오브젝트 처리
     private void HandleExplodeObject(Collider hit)
     {
         var explodeScript = hit.GetComponent<Explode>();
@@ -416,8 +378,6 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
         }
     }
 
-
-    // 3️ExDoor Layer 오브젝트 처리
     private void HandleExDoor(Collider hit)
     {
         Rigidbody rb = hit.GetComponent<Rigidbody>();
@@ -431,6 +391,4 @@ public class Drone_Explosive : MonoBehaviour, ITimeActivatable
 
         Debug.Log($"{hit.name} (ExDoor) 폭발 반응됨!");
     }
-
-
 }

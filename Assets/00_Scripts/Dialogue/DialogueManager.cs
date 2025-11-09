@@ -398,7 +398,19 @@ public class DialogueManager : MonoBehaviour
         string text = (_currentLanguage == Language.Korean) ? option.buttonText_Korean : option.buttonText_English;
         buttonText.text = text;
 
-        button.onClick.AddListener(() => OnChoiceMade(option.nextDialogue));
+        button.onClick.AddListener(() =>
+        {
+            if (GameEventManager.Instance != null && option.endingStackToAdd != 0)
+            {
+                GameEventManager.Instance.AddEndingStack(option.endingStackToAdd);
+            }
+            else if (GameEventManager.Instance == null && option.endingStackToAdd != 0)
+            {
+                Debug.LogWarning("GameEventManager가 씬에 없어 엔딩 스택을 추가할 수 없습니다.");
+            }
+
+            OnChoiceMade(option.nextDialogue);
+        });
     }
 
     private void OnChoiceMade(DialogueData nextDialogue)

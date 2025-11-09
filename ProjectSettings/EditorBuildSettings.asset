@@ -24,13 +24,16 @@ EditorBuildSettings:
     path: Assets/01_Scenes/Maps/Map2.unity
     guid: feacf1f938a3de342828944651c2b728
   - enabled: 1
+    path: Assets/01_Scenes/Maps/Map3.unity
+    guid: 35a290b33b0deea41a58c1c808615b1a
+  - enabled: 1
     path: Assets/01_Scenes/Maps/Map4.unity
     guid: 04b01b5a15072564bb4a98a92d94b486
   - enabled: 1
     path: Assets/01_Scenes/Maps/Map5.unity
     guid: 21fa4212d2516364fad46ff8c4a15622
   - enabled: 1
-    path: Assets/01_Scenes/Maps/Outtro.unity
+    path: Assets/01_Scenes/Maps/Ending1.unity
     guid: b2b8a8e03bbc9f74aa33dd0d293c6505
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 6c47fa88b557bfa43b0fbf0c03b17bb0, type: 3}
