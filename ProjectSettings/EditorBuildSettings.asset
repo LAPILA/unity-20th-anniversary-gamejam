@@ -38,6 +38,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01_Scenes/Maps/Ending1.unity
     guid: 7141aa99ccb34d34ab08909d60e0e73b
+  - enabled: 1
+    path: Assets/01_Scenes/Maps/BadEnd.unity
+    guid: 6dcd8cf6a17136347ade476498310290
+  - enabled: 1
+    path: Assets/01_Scenes/Maps/HappyEnd.unity
+    guid: baf444642396279469e8d4eefa0b0290
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 6c47fa88b557bfa43b0fbf0c03b17bb0, type: 3}
   m_UseUCBPForAssetBundles: 0

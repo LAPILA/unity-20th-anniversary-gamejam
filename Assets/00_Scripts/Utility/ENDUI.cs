@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class EndingText : MonoBehaviour
@@ -41,6 +42,7 @@ public class EndingText : MonoBehaviour
         //3. 마지막 1초 동안 "ENDLESS"로 바꾸고 사라짐
         endText.text = endlessText;
         yield return StartCoroutine(FadeOutText());
+        SceneManager.LoadScene("Title");
     }
 
     IEnumerator FadeInText()
