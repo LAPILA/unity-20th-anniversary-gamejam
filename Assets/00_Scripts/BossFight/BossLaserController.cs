@@ -16,9 +16,15 @@ public class BossLaserController : MonoBehaviour
     public float fireInterval = 3f;   // 발사 주기
     public float fireDuration = 1f;   // 발사 유지 시간
 
+    [Header("Boss Eyes")]
+    [Tooltip("보스의 왼쪽, 오른쪽 눈 MeshRenderer를 연결하세요.")]
+    public MeshRenderer[] bossEyes;   // 눈 두짝 연결
+    public Color idleColor = Color.white;
+    public Color firingColor = Color.red;
+
     private bool _isLaserActive = false;
     private bool _isFiringCoroutineRunning = false;
-    private bool _isEnabled = false;  // 플레이어가 구역 진입하기 전엔 작동 안함
+    private bool _isEnabled = false;
     private float _timer = 0f;
 
     void Start()
@@ -27,11 +33,14 @@ public class BossLaserController : MonoBehaviour
             laserLineRenderer.enabled = false;
 
         _timer = 0f;
+
+        // 초기 눈 색상 설정
+        SetEyeColor(idleColor);
     }
 
     void Update()
     {
-        if (!_isEnabled) return;  // 🔹 아직 활성화되지 않았으면 아무것도 안함
+        if (!_isEnabled) return;
 
         if (!_isLaserActive && !_isFiringCoroutineRunning)
         {
@@ -83,12 +92,9 @@ public class BossLaserController : MonoBehaviour
 
         if (((1 << layer) & playerLayer) != 0)
         {
-            Debug.Log($"플레이어 적중! 즉사 처리 예정. 오브젝트: {hitObject.name}");
             PlayerController pc = hitObject.GetComponentInParent<PlayerController>();
-            if (pc != null)
-            {
-                pc.RespawnAtCheckpoint();
-            }
+            Debug.Log($"플레이어 적중! 즉사 처리 예정. 오브젝트: {hitObject.name}");
+            pc.Die();
         }
         else if (((1 << layer) & batteryBoxLayer) != 0)
         {
@@ -110,8 +116,30 @@ public class BossLaserController : MonoBehaviour
     public void SetLaserActive(bool isActive)
     {
         _isLaserActive = isActive;
-        if (!isActive && laserLineRenderer != null)
-            laserLineRenderer.enabled = false;
+
+        if (isActive)
+        {
+            SetEyeColor(firingColor); // 빨갛게
+        }
+        else
+        {
+            SetEyeColor(idleColor);   // 원래 색으로 복귀
+            if (laserLineRenderer != null)
+                laserLineRenderer.enabled = false;
+        }
+    }
+
+    private void SetEyeColor(Color color)
+    {
+        if (bossEyes == null || bossEyes.Length == 0) return;
+
+        foreach (var eye in bossEyes)
+        {
+            if (eye != null && eye.material != null)
+            {
+                eye.material.color = color;
+            }
+        }
     }
 
     // 외부에서 호출 (예: 트리거 존)
