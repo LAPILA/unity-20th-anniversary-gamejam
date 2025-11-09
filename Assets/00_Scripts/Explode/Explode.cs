@@ -15,6 +15,10 @@ public class Explode : MonoBehaviour
     public float upwardsModifier = 2f;
     public float explosionForce = 500f;
 
+    [Header("Time Stop")]
+    [Tooltip("폭발 후 파편이 멈추는 시간")]
+    public float stopDelay = 0.5f;
+
     [Header("Effect")]
     public Animator explosionAnimator;
     public string animatorTrigger = "Explode";

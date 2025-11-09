@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using Sirenix.OdinInspector;
@@ -6,19 +6,19 @@ using Sirenix.OdinInspector;
 public class TimeGun : MonoBehaviour
 {
     [BoxGroup("References"), Required]
-    [Tooltip("ÇÃ·¹ÀÌ¾îÀÇ PlayerInput ÄÄÆ÷³ÍÆ®")]
+    [Tooltip("í”Œë ˆì´ì–´ì˜ PlayerInput ì»´í¬ë„ŒíŠ¸")]
     public PlayerInput playerInput;
 
     [BoxGroup("References"), Required]
-    [Tooltip("ÇÃ·¹ÀÌ¾îÀÇ ¸ŞÀÎ Ä«¸Ş¶ó")]
+    [Tooltip("í”Œë ˆì´ì–´ì˜ ë©”ì¸ ì¹´ë©”ë¼")]
     public Camera playerCamera;
 
     [BoxGroup("Settings")]
-    [Tooltip("RaycastÀÇ ÃÖ´ë Å½Áö °Å¸®")]
+    [Tooltip("Raycastì˜ ìµœëŒ€ íƒì§€ ê±°ë¦¬")]
     public float maxDistance = 100f;
 
     [BoxGroup("Settings")]
-    [Tooltip("µğ¹ö±× Ray ½Ã°¢È­ ½Ã°£")]
+    [Tooltip("ë””ë²„ê·¸ Ray ì‹œê°í™” ì‹œê°„")]
     public float rayDrawDuration = 1f;
 
     void OnEnable()
@@ -29,7 +29,7 @@ public class TimeGun : MonoBehaviour
         }
         else
         {
-            Debug.LogError("PlayerInput ¶Ç´Â Actions°¡ TimeGun¿¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogError("PlayerInput ë˜ëŠ” Actionsê°€ TimeGunì— í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
         }
     }
 
@@ -51,7 +51,7 @@ public class TimeGun : MonoBehaviour
     {
         if (playerCamera == null)
         {
-            Debug.LogError("Player Camera°¡ TimeGun¿¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogError("Player Cameraê°€ TimeGunì— í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
             return;
         }
 
@@ -62,112 +62,77 @@ public class TimeGun : MonoBehaviour
         {
             GameObject target = hit.collider.gameObject;
             Debug.Log("TimeGun Hit: " + target.name, target);
-            ActivateTimeForObject(target, hit.point);
 
-            // --- [A / B ·ÎÁ÷] ---
-            // A: ÀÌ ¿ÀºêÁ§Æ®°¡ 'Æ¯º°ÇÑ' ·ÎÁ÷À» °¡Áö°í ÀÖ´ÂÁö È®ÀÎ (ITimeActivatable)
-            // (GetComponentInParent: ÇÏÀ§ Äİ¶óÀÌ´õ¸¦ ½÷µµ ºÎ¸ğÀÇ ¸ŞÀÎ ·ÎÁ÷À» Ã£À» ¼ö ÀÖ°Ô ÇÔ)
+            // --- [A / B ë¡œì§] ---
+            // A: ì´ ì˜¤ë¸Œì íŠ¸ê°€ 'íŠ¹ë³„í•œ' ë¡œì§ì„ ê°€ì§€ê³  ìˆëŠ”ì§€ í™•ì¸ (ITimeActivatable)
+            // (GetComponentInParent: í•˜ìœ„ ì½œë¼ì´ë”ë¥¼ ì´ë„ ë¶€ëª¨ì˜ ë©”ì¸ ë¡œì§ì„ ì°¾ì„ ìˆ˜ ìˆê²Œ í•¨)
             ITimeActivatable timeObject = target.GetComponentInParent<ITimeActivatable>();
 
             if (timeObject != null)
             {
-                // A-1: Æ¯º°ÇÑ ·ÎÁ÷ÀÌ ÀÖ´Ù¸é, ±× ·ÎÁ÷À» ½ÇÇà (¿¹: Drone_Explosive.cs)
+                // A-1: íŠ¹ë³„í•œ ë¡œì§ì´ ìˆë‹¤ë©´, ê·¸ ë¡œì§ì„ ì‹¤í–‰ (ì˜ˆ: Drone_Explosive.cs)
                 timeObject.ToggleTimeState();
             }
             else
             {
-                // B-1: Æ¯º°ÇÑ ·ÎÁ÷ÀÌ ¾ø´Ù¸é, '±âº»' Åä±Û ·ÎÁ÷ ½ÇÇà (¸ÛÃ»ÇÑ »óÀÚ, ¹® µî)
-                ActivateDefaultTimeToggle(target);
+                // B-1: íŠ¹ë³„í•œ ë¡œì§ì´ ì—†ë‹¤ë©´, 'ê¸°ë³¸' í† ê¸€ ë¡œì§ ì‹¤í–‰ (ë©ì²­í•œ ìƒì, ë¬¸ ë“±)
+                ActivateDefaultTimeToggle(target, hit.point);
             }
-            // --- [A / B ·ÎÁ÷ Á¾·á] ---
+            // --- [A / B ë¡œì§ ì¢…ë£Œ] ---
         }
     }
     /// <summary>
-    /// ITimeActivatableÀ» ±¸ÇöÇÏÁö ¾ÊÀº 'ÀÏ¹İ' ¿ÀºêÁ§Æ®ÀÇ
-    /// ¹°¸®/¾Ö´Ï¸ŞÀÌ¼Ç/AI »óÅÂ¸¦ °­Á¦·Î Åä±Û(On/Off)ÇÕ´Ï´Ù.
+    /// ITimeActivatableì„ êµ¬í˜„í•˜ì§€ ì•Šì€ 'ì¼ë°˜' ì˜¤ë¸Œì íŠ¸ì˜
+    /// ë¬¼ë¦¬/ì• ë‹ˆë©”ì´ì…˜/AI ìƒíƒœë¥¼ ê°•ì œë¡œ í† ê¸€(On/Off)í•©ë‹ˆë‹¤.
     /// </summary>
-    private void ActivateDefaultTimeToggle(GameObject target)
+    private void ActivateDefaultTimeToggle(GameObject target, Vector3 hitPoint)
     {
-        // 1. ¹°¸® Åä±Û (Rigidbody)
-        // (GetComponent: ÀÌ ¿ÀºêÁ§Æ®ÀÇ Rigidbody¸¸ Á¦¾î)
+        // 1. ë¬¼ë¦¬ í† ê¸€ (Rigidbody) + Explode íŠ¸ë¦¬ê±°
         Rigidbody rb = target.GetComponent<Rigidbody>();
+
         if (rb != null)
         {
-            rb.isKinematic = !rb.isKinematic;
-            rb.useGravity = !rb.isKinematic; // KinematicÀÌ Ç®¸± ¶§(false)¸¸ Áß·Â »ç¿ë(true)
-            Debug.Log(target.name + ": Rigidbody Åä±Û -> isKinematic: " + rb.isKinematic, target);
+            // [ìˆ˜ì •ëœ ë¶€ë¶„] Explode ì»´í¬ë„ŒíŠ¸ë¥¼ ë¶€ëª¨ì—ì„œ ì°¾ìŠµë‹ˆë‹¤ (ìì‹ ì½œë¼ì´ë” í”¼ê²© ëŒ€ë¹„)
+            Explode explode = target.GetComponentInParent<Explode>();
+
+            if (rb.isKinematic)
+            {
+                // [ìƒíƒœ: ì •ì§€ -> í™œì„±]
+                rb.isKinematic = false;
+                rb.useGravity = true;
+                Debug.Log(target.name + ": Rigidbody í™œì„±í™”ë¨", target);
+
+                // [Explode ì²˜ë¦¬] Explode ì»´í¬ë„ŒíŠ¸ê°€ ìˆê³  'ì¤€ë¹„(prepared)'ëœ ìƒíƒœë¼ë©´ í­ë°œ
+                if (explode != null && explode.IsPrepared)
+                {
+                    Debug.Log(target.name + ": Explode.cs ê°ì§€ ë° ì›ê²© í­ë°œ ì‹¤í–‰", target);
+                    explode.TriggerExplosionByTimeGun(hitPoint);
+                }
+            }
+            else
+            {
+                // [ìƒíƒœ: í™œì„± -> ì •ì§€]
+                rb.isKinematic = true;
+                rb.useGravity = false;
+                Debug.Log(target.name + ": Rigidbody ë¹„í™œì„±í™”ë¨", target);
+            }
         }
 
-        // 2. ¾Ö´Ï¸ŞÀÌ¼Ç Åä±Û (Animator)
+        // 2. ì• ë‹ˆë©”ì´ì…˜ í† ê¸€ (Animator)
         Animator animator = target.GetComponent<Animator>();
         if (animator != null)
         {
             float newSpeed = (animator.speed == 0f) ? 1f : 0f;
             animator.speed = newSpeed;
-            Debug.Log(target.name + ": Animator Åä±Û -> Speed: " + animator.speed, target);
+            Debug.Log(target.name + ": Animator í† ê¸€ -> Speed: " + animator.speed, target);
         }
 
-        // 3. AI Åä±Û (NavMeshAgent)
+        // 3. AI í† ê¸€ (NavMeshAgent)
         NavMeshAgent agent = target.GetComponent<NavMeshAgent>();
         if (agent != null)
         {
             agent.isStopped = !agent.isStopped;
-            Debug.Log(target.name + ": NavMeshAgent Åä±Û -> isStopped: " + agent.isStopped, target);
-        }
-    }
-    private void ActivateTimeForObject(GameObject target, Vector3 hitPoint)
-    {
-        ActivateAnimation(target);
-        ActivateAI(target);
-        ActivatePhysics(target, hitPoint);
-    }
-
-    private void ActivatePhysics(GameObject target, Vector3 hitPoint)
-    {
-        Rigidbody hitRb = target.GetComponent<Rigidbody>();
-        Explode explode = target.GetComponent<Explode>();
-
-        if (hitRb == null) return;
-
-        // ¹°¸®·ÂÀÌ ²¨Á® ÀÖ´Â »óÅÂ¶ó¸é ¡æ ÄÒ´Ù
-        if (hitRb.isKinematic)
-        {
-            hitRb.isKinematic = false;
-            hitRb.useGravity = true;
-            Debug.Log(target.name + ": ¹°¸® È°¼ºÈ­µÊ", target);
-
-            // Explode°¡ Á¸ÀçÇÏ°í, 'ÁØºñ(prepared)'µÈ »óÅÂÀÏ ¶§¸¸ Æø¹ß
-            if (explode != null && explode.IsPrepared)
-            {
-                explode.TriggerExplosionByTimeGun(hitPoint);
-            }
-        }
-        else
-        {
-            // ÀÌ¹Ì È°¼ºÈ­µÈ °æ¿ì ¡æ ºñÈ°¼ºÈ­
-            hitRb.isKinematic = true;
-            hitRb.useGravity = false;
-            Debug.Log(target.name + ": ¹°¸® ºñÈ°¼ºÈ­µÊ", target);
-        }
-    }
-
-    private void ActivateAnimation(GameObject target)
-    {
-        Animator animator = target.GetComponent<Animator>();
-        if (animator != null && animator.speed == 0)
-        {
-            animator.speed = 1f;
-            Debug.Log(target.name + ": ¾Ö´Ï¸ŞÀÌ¼Ç È°¼ºÈ­µÊ", target);
-        }
-    }
-
-    private void ActivateAI(GameObject target)
-    {
-        NavMeshAgent agent = target.GetComponent<NavMeshAgent>();
-        if (agent != null && agent.isStopped)
-        {
-            agent.isStopped = false;
-            Debug.Log(target.name + ": AI È°¼ºÈ­µÊ", target);
+            Debug.Log(target.name + ": NavMeshAgent í† ê¸€ -> isStopped: " + agent.isStopped, target);
         }
     }
 }
