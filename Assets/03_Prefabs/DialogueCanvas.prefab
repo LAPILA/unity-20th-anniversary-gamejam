@@ -916,7 +916,7 @@ MonoBehaviour:
   choiceContainer: {fileID: 1960241388731244841}
   choiceButtonPrefab: {fileID: 4191543048178423836, guid: 9f6987cd3ceccb5478dac2ce89951235, type: 3}
   audioSource: {fileID: 3275365855329888265}
-  defaultTypingSound: {fileID: 8300000, guid: 0fe455473679d4d6a85db8a2f9330cbf, type: 3}
+  defaultTypingSound: {fileID: 8300000, guid: 7b27863d254b64b43a78a2b21773bad2, type: 3}
   typeSpeed: 0.03
   slideDuration: 0.4
   offscreenY: -1000
