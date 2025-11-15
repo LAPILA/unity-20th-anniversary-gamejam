@@ -1,7 +1,7 @@
 <h1 align="center">🌀 TIME PASSING 🚀</h1>
 
 <p align="center">
-  <img src="https://img.itch.zone/aW1nLzE2NTk0OTMzLnBuZw==/original/k4iS%2BV.png" alt="TIME PASSING Main Art" width="80%">
+  <img src="https://github.com/user-attachments/assets/499138b7-d2b7-4e9c-8509-f625eb696add" alt="TimeGun Gameplay" width="80%">
 </p>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 ### 🔫 핵심 메커니즘: 타임건 (The TimeGun)
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/499138b7-d2b7-4e9c-8509-f625eb696add" alt="TimeGun Gameplay" width="80%">
+  <img src="https://github.com/user-attachments/assets/19122e43-0ae9-4e8a-987f-27bdd3ffc28a" width="80%">
   <i><p align="center">멈춰버린 사물의 시간을 '타임건'으로 다시 흐르게 합니다.</p></i>
 </div>
 <br>
@@ -45,7 +45,6 @@
   <i><p align="center">카툰 형식의 컷신을 통해 스토리가 진행됩니다.</p></i>
 </div>
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/19122e43-0ae9-4e8a-987f-27bdd3ffc28a" alt="Starting Comic 1" width="40%">
   <img src="https://github.com/user-attachments/assets/59d6545b-1798-4c97-9427-daaf966803ac" alt="Starting Comic 2" width="40%">
   <i><p align="center">미스터리한 로봇 'Orion'과의 대화.</p></i>
 </div>
